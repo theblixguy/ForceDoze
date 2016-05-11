@@ -1,20 +1,26 @@
 package com.suyashsrijan.forcedoze;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+
+import java.io.IOException;
 
 import eu.chainfire.libsuperuser.Shell;
 
 public class ForceDozeService extends Service {
 
     boolean isDozing = false;
+    boolean isSuAvailable = false;
     Handler localHandler;
     Runnable enterDozeRunnable;
     DozeReceiver localDozeReceiver;
@@ -31,7 +37,12 @@ public class ForceDozeService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         this.registerReceiver(localDozeReceiver, filter);
-        grantDumpPermission();
+        isSuAvailable = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("isSuAvailable", false);
+        if (getApplicationContext().checkCallingOrSelfPermission(Manifest.permission.DUMP) != PackageManager.PERMISSION_GRANTED) {
+            if (isSuAvailable) {
+                grantDumpPermission();
+            }
+        }
     }
 
     @Override
@@ -60,15 +71,27 @@ public class ForceDozeService extends Service {
     public void enterDoze() {
         isDozing = true;
         Log.i(TAG, "Entering Doze and disabling motion sensors");
-        Shell.SU.run("dumpsys deviceidle force-idle");
-        Shell.SU.run("dumpsys sensorservice restrict null");
+        executeCommand("dumpsys deviceidle force-idle");
+        executeCommand("dumpsys sensorservice restrict null");
     }
 
     public void exitDoze() {
         isDozing = false;
         Log.i(TAG, "Exiting Doze and re-enabling motion sensors");
-        Shell.SU.run("dumpsys deviceidle step");
-        Shell.SU.run("dumpsys sensorservice enable");
+        executeCommand("dumpsys deviceidle step");
+        executeCommand("dumpsys sensorservice enable");
+    }
+
+    public void executeCommand(String command) {
+        if (isSuAvailable) {
+            Shell.SU.run(command);
+        } else {
+            try {
+                Runtime.getRuntime().exec(command);
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
     }
 
     class DozeReceiver extends BroadcastReceiver {
