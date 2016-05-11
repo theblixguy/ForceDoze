@@ -8,7 +8,7 @@ android {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 2
+        versionCode 3
         versionName "1.0"
     }
     buildTypes {
@@ -25,4 +25,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'eu.chainfire:libsuperuser:1.0.0.+'
     compile 'com.fabiendevos:nanotasks:1.1.0'
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') {
+        transitive = true
+    }
+
 }

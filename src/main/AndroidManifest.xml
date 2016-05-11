@@ -4,7 +4,8 @@
     package="com.suyashsrijan.forcedoze">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.DUMP"
+    <uses-permission
+        android:name="android.permission.DUMP"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -30,9 +31,10 @@
         <service
             android:name=".ForceDozeService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".DozeBatteryConsumption"></activity>
+        <activity android:name=".DozeBatteryConsumption" />
+        <activity android:name=".WhitelistApps" android:label="Whitelist"></activity>
     </application>
 
 </manifest>

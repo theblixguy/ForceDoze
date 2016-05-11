@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_donate_dev"
+        android:orderInCategory="100"
+        android:title="Donate"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_toggle_doze"
+        android:orderInCategory="100"
+        android:title="Force Enable Doze"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_whitelist_apps"
+        android:orderInCategory="100"
+        android:title="Whitelist apps"
+        app:showAsAction="never"/>
+</menu>

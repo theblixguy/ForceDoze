@@ -36,28 +36,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Disable Doze"
-        android:id="@+id/textView4"
-        android:textStyle="bold"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/switch1"
-        android:layout_alignStart="@+id/textView2" />
-
-    <android.support.v7.widget.SwitchCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOff="Inactive "
-        android:textOn="Active "
-        android:id="@+id/switch2"
-        android:textStyle="bold"
-        android:layout_alignTop="@+id/textView4"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_marginEnd="28dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="ForceDoze Service"
         android:id="@+id/textView2"
         android:textStyle="bold"

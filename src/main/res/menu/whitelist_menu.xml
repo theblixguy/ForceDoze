@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_whitelist"
+        android:orderInCategory="100"
+        android:title="Add"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_remove_whitelist"
+        android:orderInCategory="100"
+        android:title="Remove"
+        app:showAsAction="always"/>
+</menu>
