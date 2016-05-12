@@ -1,12 +1,9 @@
 package com.suyashsrijan.forcedoze;
 
-import android.Manifest;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.nanotasks.BackgroundWork;
 import com.nanotasks.Completion;
 import com.nanotasks.Tasks;
@@ -29,7 +27,6 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
     public static String TAG = "ForceDoze";
-    Menu appMenu;
     SharedPreferences settings;
     SharedPreferences.Editor editor;
     Boolean isSuAvailable = false;
@@ -48,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         isDozeDisabled = settings.getBoolean("isDozeDisabled", false);
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
         toggleForceDozeSwitch = (SwitchCompat) findViewById(R.id.switch1);
-        isDumpPermGranted = isDumpPermissionGranted();
+        isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
 
         toggleForceDozeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     editor = settings.edit();
                     editor.putBoolean("serviceEnabled", true);
                     editor.apply();
-                    if (!isMyServiceRunning(ForceDozeService.class)) {
+                    if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                         startService(new Intent(MainActivity.this, ForceDozeService.class));
                     }
                 } else {
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     editor = settings.edit();
                     editor.putBoolean("serviceEnabled", false);
                     editor.apply();
-                    if (isMyServiceRunning(ForceDozeService.class)) {
+                    if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                         stopService(new Intent(MainActivity.this, ForceDozeService.class));
                     }
                 }
@@ -77,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "android.permission.DUMP already granted, skipping SU check");
             if (serviceEnabled) {
                 toggleForceDozeSwitch.setChecked(true);
-                if (!isMyServiceRunning(ForceDozeService.class)) {
+                if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                     Log.i(TAG, "Starting ForceDozeService");
                     startService(new Intent(this, ForceDozeService.class));
                 } else {
@@ -103,9 +100,15 @@ public class MainActivity extends AppCompatActivity {
                         editor = settings.edit();
                         editor.putBoolean("isSuAvailable", true);
                         editor.apply();
+                        if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
+                            if (isSuAvailable) {
+                                Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
+                                Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
+                            }
+                        }
                         if (serviceEnabled) {
                             toggleForceDozeSwitch.setChecked(true);
-                            if (!isMyServiceRunning(ForceDozeService.class)) {
+                            if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                                 Log.i(TAG, "Starting ForceDozeService");
                                 startService(new Intent(context, ForceDozeService.class));
                             } else {
@@ -142,18 +145,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
+        if (!isDumpPermGranted) {
+            menu.getItem(1).setEnabled(false);
+            menu.getItem(2).setEnabled(false);
+            menu.getItem(3).setEnabled(false);
+        } else {
+            menu.getItem(1).setEnabled(true);
+            menu.getItem(2).setEnabled(true);
+            menu.getItem(3).setEnabled(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        isDumpPermGranted = isDumpPermissionGranted();
-        if (!isDumpPermGranted) {
-            menu.getItem(1).setEnabled(false);
-            menu.getItem(2).setEnabled(false);
-        } else {
-            menu.getItem(1).setEnabled(true);
-            menu.getItem(2).setEnabled(true);
-        }
         return true;
     }
 
@@ -163,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_toggle_doze:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-                builder.setTitle("Force Enable Doze (experimental)");
+                builder.setTitle("Enable Doze on unsupported device (experimental)");
                 builder.setMessage("Some devices have Doze mode disabled by the OEM. " +
                         "This option can enable Doze mode on devices which do not have it enabled by default.");
                 builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
@@ -175,11 +184,11 @@ public class MainActivity extends AppCompatActivity {
                 builder.setNegativeButton("Enable Doze mode", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
                         executeCommand("setprop persist.sys.doze_powersave true");
                         executeCommand("dumpsys deviceidle disable");
                         executeCommand("dumpsys deviceidle enable");
-                        Toast.makeText(MainActivity.this, "Please restart your device now!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Please restart your device now!", Toast.LENGTH_LONG).show();
+                        dialogInterface.dismiss();
                     }
                 });
                 builder.show();
@@ -190,18 +199,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_donate_dev:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.me/suyashsrijan")));
                 break;
+            case R.id.action_reset_forcedoze:
+                resetForceDoze();
+                break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void showRootWorkaroundInstructions() {
@@ -226,11 +228,36 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public boolean isDumpPermissionGranted() {
-        if (getApplicationContext().checkCallingOrSelfPermission(Manifest.permission.DUMP) == PackageManager.PERMISSION_GRANTED)
-            return true;
-        else return false;
-
+    public void resetForceDoze() {
+        Log.i(TAG, "Starting ForceDoze reset procedure");
+        if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
+            Log.i(TAG, "Stopping ForceDozeService");
+            startService(new Intent(this, ForceDozeService.class));
+        }
+        Log.i(TAG, "Enabling sensors, just in case they are disabled");
+        executeCommand("dumpsys sensorservice enable");
+        Log.i(TAG, "Disabling and re-enabling Doze mode");
+        executeCommand("dumpsys deviceidle disable");
+        executeCommand("dumpsys deviceidle enable");
+        Log.i(TAG, "Resetting app preferences");
+        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
+        Log.i(TAG, "Trying to revoke android.permission.DUMP");
+        executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DUMP");
+        Log.i(TAG, "ForceDoze reset procedure complete");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("Reset complete");
+        builder.setMessage("ForceDoze has resetted itself. The following changes were made: \n\n1) Stop " +
+                "ForceDoze service\n2) Re-enable sensors, just in case they are disabled\n3) Disable and " +
+                "re-enable Doze mode, to ensure Doze mode is turned on properly\n4) Reset app preferences\n5) " +
+                "Revoke DUMP permission\n\nIt is recommended that you restart your device. The app will restart now!");
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                ProcessPhoenix.triggerRebirth(MainActivity.this);
+            }
+        });
+        builder.show();
     }
 
     public void executeCommand(String command) {

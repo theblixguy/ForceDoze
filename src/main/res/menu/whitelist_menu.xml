@@ -5,10 +5,18 @@
         android:id="@+id/action_add_whitelist"
         android:orderInCategory="100"
         android:title="Add"
+        android:icon="@drawable/ic_add_white_48dp"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_remove_whitelist"
         android:orderInCategory="100"
         android:title="Remove"
+        android:icon="@drawable/ic_remove_white_48dp"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_add_whitelist_sensor"
+        android:orderInCategory="100"
+        android:title="Whitelist app from sensorservice"
+        android:icon="@drawable/ic_add_white_48dp"
+        app:showAsAction="never"/>
 </menu>

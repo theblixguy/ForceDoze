@@ -1,12 +1,10 @@
 package com.suyashsrijan.forcedoze;
 
-import android.Manifest;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -23,7 +21,9 @@ public class ForceDozeService extends Service {
     boolean isSuAvailable = false;
     Handler localHandler;
     Runnable enterDozeRunnable;
+    Runnable disableSensorsRunnable;
     DozeReceiver localDozeReceiver;
+    String sensorWhitelistPackage = "";
     public static String TAG = "ForceDozeService";
     public ForceDozeService() {
     }
@@ -37,8 +37,9 @@ public class ForceDozeService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         this.registerReceiver(localDozeReceiver, filter);
+        sensorWhitelistPackage = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
         isSuAvailable = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("isSuAvailable", false);
-        if (getApplicationContext().checkCallingOrSelfPermission(Manifest.permission.DUMP) != PackageManager.PERMISSION_GRANTED) {
+        if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
             if (isSuAvailable) {
                 grantDumpPermission();
             }
@@ -53,8 +54,9 @@ public class ForceDozeService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "Stopping service");
+        Log.i(TAG, "Stopping service and enabling sensors");
         this.unregisterReceiver(localDozeReceiver);
+        executeCommand("dumpsys sensorservice enable");
     }
 
     @Override
@@ -70,9 +72,22 @@ public class ForceDozeService extends Service {
 
     public void enterDoze() {
         isDozing = true;
-        Log.i(TAG, "Entering Doze and disabling motion sensors");
+        Log.i(TAG, "Entering Doze");
         executeCommand("dumpsys deviceidle force-idle");
-        executeCommand("dumpsys sensorservice restrict null");
+
+        disableSensorsRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "Disabling motion sensors");
+                if (sensorWhitelistPackage.equals("")) {
+                    executeCommand("dumpsys sensorservice restrict null");
+                } else {
+                    Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
+                    executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                }
+            }
+        };
+        localHandler.postDelayed(disableSensorsRunnable, 2000);
     }
 
     public void exitDoze() {
@@ -98,6 +113,7 @@ public class ForceDozeService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            // This is to prevent Doze from kicking before the OS locks the screen
             int time = Settings.Secure.getInt(getContentResolver(), "lock_screen_lock_after_timeout", 5000);
 
             enterDozeRunnable = new Runnable() {

@@ -9,11 +9,16 @@
     <item
         android:id="@+id/action_toggle_doze"
         android:orderInCategory="100"
-        android:title="Force Enable Doze"
+        android:title="Enable Doze on unsupported device"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_whitelist_apps"
         android:orderInCategory="100"
         android:title="Whitelist apps"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_reset_forcedoze"
+        android:orderInCategory="100"
+        android:title="Reset ForceDoze"
         app:showAsAction="never"/>
 </menu>
