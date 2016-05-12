@@ -1,13 +1,25 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference android:title="Enable sensors"
+    <CheckBoxPreference
         android:defaultValue="false"
+        android:key="enableSensors"
         android:summary="Enable sensor access to apps when ForceDoze is active (service restart required)"
-        android:key="enableSensors" />
-    <CheckBoxPreference android:title="Turn off while charging"
+        android:title="Enable sensors" />
+    <CheckBoxPreference
         android:defaultValue="true"
+        android:key="disableWhenCharging"
         android:summary="Turn off ForceDoze when device is plugged in to a charger (service restart required)"
-        android:key="disableWhenCharging" />
-    <Preference android:title="Reset ForceDoze"
+        android:title="Turn off while charging" />
+    <Preference
+        android:key="whitelistAppsFromDozeMode"
+        android:summary="Whitelist apps from Doze mode"
+        android:title="Whitelist apps">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.suyashsrijan.forcedoze.WhitelistApps"
+            android:targetPackage="com.suyashsrijan.forcedoze" />
+    </Preference>
+    <Preference
         android:key="resetForceDoze"
-        android:summary="Reset ForceDoze to the default state"/>
+        android:summary="Reset ForceDoze to the default state"
+        android:title="Reset ForceDoze" />
 </PreferenceScreen>

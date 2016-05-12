@@ -28,9 +28,9 @@
         android:textOn="Active "
         android:id="@+id/switch1"
         android:textStyle="bold"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_marginEnd="28dp" />
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,10 +39,9 @@
         android:text="ForceDoze Service"
         android:id="@+id/textView2"
         android:textStyle="bold"
-        android:layout_marginStart="44dp"
+        android:layout_marginTop="46dp"
         android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="69dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,4 +52,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="version 1.0.7"
+        android:id="@+id/textView4"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
 </RelativeLayout>

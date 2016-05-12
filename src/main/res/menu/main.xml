@@ -17,11 +17,6 @@
         android:title="Enable Doze on unsupported device"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_whitelist_apps"
-        android:orderInCategory="100"
-        android:title="Whitelist apps"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/action_doze_batterystats"
         android:orderInCategory="100"
         android:title="Doze Battery stats"

@@ -74,6 +74,7 @@ public class ForceDozeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        Log.i(TAG, "Service has now started");
         return START_STICKY;
     }
 

@@ -3,9 +3,8 @@ package com.suyashsrijan.forcedoze;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.BatteryManager;
 
 import java.text.DateFormat;
@@ -30,24 +29,20 @@ public class Utils {
     }
 
     public static boolean isConnectedToCharger(Context context) {
-        Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        return plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
+        BatteryManager mBatteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+        return mBatteryManager.isCharging();
     }
 
     public static String getDateCurrentTimeZone(long timestamp) {
        return DateFormat.getDateTimeInstance().format(new Date(timestamp));
     }
 
-    public static float getBatteryLevel(Context context) {
-        Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+    public static int getBatteryLevel(Context context) {
+        BatteryManager mBatteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+        return mBatteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+    }
 
-        if(level == -1 || scale == -1) {
-            return 50.0f;
-        }
-
-        return ((float)level / (float)scale) * 100.0f;
+    public static boolean checkForAutoPowerModesFlag() {
+        return Resources.getSystem().getBoolean(Resources.getSystem().getIdentifier("config_enableAutoPowerModes","bool", "android"));
     }
 }

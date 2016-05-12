@@ -23,12 +23,14 @@ import com.nanotasks.Tasks;
 
 import java.io.IOException;
 
+import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
     public static String TAG = "ForceDoze";
     SharedPreferences settings;
     SharedPreferences.Editor editor;
+    Boolean isDozeEnabledByOEM = true;
     Boolean isSuAvailable = false;
     Boolean isDozeDisabled = false;
     Boolean serviceEnabled = false;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
         isDozeDisabled = settings.getBoolean("isDozeDisabled", false);
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
@@ -142,20 +145,29 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Error querying SU: " + e.getMessage());
                 }
             });
+
+            ChangeLog cl = new ChangeLog(this);
+            if (cl.isFirstRun()) {
+                cl.getFullLogDialog().show();
+            }
         }
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
+
+        if (isDozeEnabledByOEM) {
+            menu.getItem(2).setVisible(false);
+        }
         if (!isDumpPermGranted) {
+            menu.getItem(0).setEnabled(false);
             menu.getItem(2).setEnabled(false);
             menu.getItem(3).setEnabled(false);
-            menu.getItem(4).setEnabled(false);
         } else {
+            menu.getItem(0).setEnabled(true);
             menu.getItem(2).setEnabled(true);
             menu.getItem(3).setEnabled(true);
-            menu.getItem(4).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -192,9 +204,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
-                break;
-            case R.id.action_whitelist_apps:
-                startActivity(new Intent(this, WhitelistApps.class));
                 break;
             case R.id.action_donate_dev:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.me/suyashsrijan")));
