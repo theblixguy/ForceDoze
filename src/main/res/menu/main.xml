@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_app_settings"
+        android:orderInCategory="100"
+        android:title="Settings"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_donate_dev"
         android:orderInCategory="100"
         android:title="Donate"
@@ -17,8 +22,8 @@
         android:title="Whitelist apps"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_reset_forcedoze"
+        android:id="@+id/action_doze_batterystats"
         android:orderInCategory="100"
-        android:title="Reset ForceDoze"
+        android:title="Doze Battery stats"
         app:showAsAction="never"/>
 </menu>

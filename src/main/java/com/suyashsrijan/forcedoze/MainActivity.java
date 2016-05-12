@@ -149,13 +149,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
         if (!isDumpPermGranted) {
-            menu.getItem(1).setEnabled(false);
             menu.getItem(2).setEnabled(false);
             menu.getItem(3).setEnabled(false);
+            menu.getItem(4).setEnabled(false);
         } else {
-            menu.getItem(1).setEnabled(true);
             menu.getItem(2).setEnabled(true);
             menu.getItem(3).setEnabled(true);
+            menu.getItem(4).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -199,8 +199,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_donate_dev:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.me/suyashsrijan")));
                 break;
-            case R.id.action_reset_forcedoze:
-                resetForceDoze();
+            case R.id.action_doze_batterystats:
+                startActivity(new Intent(MainActivity.this, DozeBatteryConsumption.class));
+                break;
+            case R.id.action_app_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -232,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Starting ForceDoze reset procedure");
         if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
             Log.i(TAG, "Stopping ForceDozeService");
-            startService(new Intent(this, ForceDozeService.class));
+            stopService(new Intent(this, ForceDozeService.class));
         }
         Log.i(TAG, "Enabling sensors, just in case they are disabled");
         executeCommand("dumpsys sensorservice enable");
