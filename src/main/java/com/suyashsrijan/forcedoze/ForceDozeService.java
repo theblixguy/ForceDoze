@@ -6,14 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -24,6 +25,8 @@ public class ForceDozeService extends Service {
     boolean isSuAvailable = false;
     boolean disableWhenCharging = true;
     boolean enableSensors = false;
+    boolean useAutoRotateAndBrightnessFix = false;
+    boolean useNightMode = false;
     Handler localHandler;
     Runnable enterDozeRunnable;
     Runnable disableSensorsRunnable;
@@ -32,6 +35,7 @@ public class ForceDozeService extends Service {
     Set<String> dozeUsageData;
     String sensorWhitelistPackage = "";
     public static String TAG = "ForceDozeService";
+
     public ForceDozeService() {
     }
 
@@ -44,6 +48,7 @@ public class ForceDozeService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         this.registerReceiver(localDozeReceiver, filter);
+        useAutoRotateAndBrightnessFix = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
         sensorWhitelistPackage = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
         enableSensors = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
         disableWhenCharging = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("disableWhenCharging", true);
@@ -118,6 +123,7 @@ public class ForceDozeService extends Service {
             public void run() {
                 Log.i(TAG, "Re-enabling motion sensors");
                 executeCommand("dumpsys sensorservice enable");
+                autoRotateBrightnessFix();
             }
         };
         if (!enableSensors) {
@@ -126,14 +132,38 @@ public class ForceDozeService extends Service {
 
     }
 
-    public void executeCommand(String command) {
+    public void executeCommand(final String command) {
         if (isSuAvailable) {
-            Shell.SU.run(command);
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<String> output = Shell.SU.run(command);
+                    if (output != null) {
+                        printShellOutput(output);
+                    } else {
+                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                    }
+                }
+            });
         } else {
-            try {
-                Runtime.getRuntime().exec(command);
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<String> output = Shell.SH.run(command);
+                    if (output != null) {
+                        printShellOutput(output);
+                    } else {
+                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                    }
+                }
+            });
+        }
+    }
+
+    public void printShellOutput(List<String> output) {
+        if (!output.isEmpty()) {
+            for (String s : output) {
+                Log.i(TAG, s);
             }
         }
     }
@@ -145,6 +175,39 @@ public class ForceDozeService extends Service {
         editor.apply();
         editor.putStringSet("dozeUsageData", dozeUsageData);
         editor.apply();
+    }
+
+    public void autoRotateBrightnessFix() {
+        if (useAutoRotateAndBrightnessFix) {
+            Log.i(TAG, "Executing auto-rotate fix by doing a toggle");
+            Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoRotateEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoRotateEnabled(getApplicationContext())));
+            Utils.setAutoRotateEnabled(getApplicationContext(), !Utils.isAutoRotateEnabled(getApplicationContext()));
+            try {
+                Log.i(TAG, "Sleeping for 200ms");
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+            Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoRotateEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoRotateEnabled(getApplicationContext())));
+            Utils.setAutoRotateEnabled(getApplicationContext(), !Utils.isAutoRotateEnabled(getApplicationContext()));
+            try {
+                Log.i(TAG, "Sleeping for 200ms");
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+            Log.i(TAG, "Executing auto-brightness fix by doing a toggle");
+            Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoBrightnessEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoBrightnessEnabled(getApplicationContext())));
+            Utils.setAutoBrightnessEnabled(getApplicationContext(), !Utils.isAutoBrightnessEnabled(getApplicationContext()));
+            try {
+                Log.i(TAG, "Sleeping for 200ms");
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+            Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoBrightnessEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoBrightnessEnabled(getApplicationContext())));
+            Utils.setAutoBrightnessEnabled(getApplicationContext(), !Utils.isAutoBrightnessEnabled(getApplicationContext()));
+        }
     }
 
     class DozeReceiver extends BroadcastReceiver {
@@ -169,8 +232,7 @@ public class ForceDozeService extends Service {
                     Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed or disableWhenCharging=true");
                     localHandler.removeCallbacks(enterDozeRunnable);
                 }
-            }
-            else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+            } else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 Log.i(TAG, "Screen OFF received");
                 if (Utils.isConnectedToCharger(getApplicationContext()) && disableWhenCharging) {
                     Log.i(TAG, "Connected to charger and disableWhenCharging=true, skip entering Doze");

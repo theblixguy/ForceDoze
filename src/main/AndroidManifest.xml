@@ -4,9 +4,11 @@
     package="com.suyashsrijan.forcedoze">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission
         android:name="android.permission.DUMP"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -33,11 +36,16 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".DozeBatteryConsumption" android:label="Doze battery stats" />
+        <activity
+            android:name=".DozeBatteryConsumption"
+            android:label="Doze battery stats" />
         <activity
             android:name=".WhitelistApps"
             android:label="Whitelist" />
-        <activity android:name=".SettingsActivity" android:label="Settings"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings" />
+        <activity android:name=".LogActivity" android:label="Debug log"></activity>
     </application>
 
 </manifest>

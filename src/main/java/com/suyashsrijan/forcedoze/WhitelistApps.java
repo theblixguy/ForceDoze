@@ -3,6 +3,7 @@ package com.suyashsrijan.forcedoze;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -15,7 +16,6 @@ import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -78,7 +78,10 @@ public class WhitelistApps extends AppCompatActivity {
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (whitelistedPackages.contains(input.toString())) {
                                     displayDialog("Info", "The app you're trying to add is already whitelisted");
-                                } else {
+                                } else if (!Utils.doesPackageExist(input.toString(), WhitelistApps.this)) {
+                                    displayDialog("Info", "The app you're trying to add isn't installed on your device");
+                                }
+                                else{
                                     WhitelistAppsItem appItem = new WhitelistAppsItem();
                                     appItem.setAppPackageName(input.toString());
                                     whitelistedPackages.add(input.toString());
@@ -114,11 +117,15 @@ public class WhitelistApps extends AppCompatActivity {
                                     appItem.setAppPackageName(input.toString());
                                     try {
                                         appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(input.toString(), PackageManager.GET_META_DATA)).toString());
+                                        ArrayList<WhitelistAppsItem> listDataClone = new ArrayList<>(listData);
                                         for (WhitelistAppsItem item : listData) {
                                             if (item.getAppPackageName().equals(input.toString())) {
-                                                listData.remove(item);
+                                                listDataClone.remove(item);
                                             }
                                         }
+                                        listData.clear();
+                                        listData.addAll(listDataClone);
+                                        listDataClone.clear();
                                         whitelistAppsAdapter.notifyDataSetChanged();
                                         whitelistedPackages.remove(input.toString());
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -163,7 +170,7 @@ public class WhitelistApps extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void modifyWhitelist(String packageName, boolean remove){
+    public void modifyWhitelist(String packageName, boolean remove) {
         if (remove) {
             Log.i(TAG, "Removing app " + packageName + " from Doze whitelist");
             executeCommand("dumpsys deviceidle whitelist -" + packageName);
@@ -181,15 +188,21 @@ public class WhitelistApps extends AppCompatActivity {
         builder.show();
     }
 
-    public void executeCommand(String command) {
+    public void executeCommand(final String command) {
         if (isSuAvailable) {
-            Shell.SU.run(command);
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Shell.SU.run(command);
+                }
+            });
         } else {
-            try {
-                Runtime.getRuntime().exec(command);
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
-            }
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Shell.SH.run(command);
+                }
+            });
         }
     }
 }

@@ -1,43 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.0.7" versioncode="7">
-        <change>New: Changelog dialog added</change>
-        <change>New: Version number added to the bottom of main UI</change>
-        <change>Changed: Main UI and other items looks much nicer now</change>
-        <change>Changed: Moved whitelist apps to Settings</change>
-        <change>Changed: 'Enable Doze on unsupported device' option only shows up if Doze is actually disabled by the OEM on your device</change>
-        <change>Fixed: Battery percentage shows as empty on some devices</change>
-        <change>Fixed: Doze usage stats are not chronological</change>
-    </release>
-    <release version="1.0.6" versioncode="6">
-        <change>Fixed: Service starts on boot even when it's not enabled</change>
-    </release>
-    <release version="1.0.5" versioncode="5">
-        <change>New: You can now let motion sensors stay active for all apps when Doze mode is active</change>
-        <change>New: Disable Doze on charging: You can now disable Doze mode when the device is charging. This is turned on by default</change>
-        <change>New: You can now see at what times the device has entered/exited Doze mode and the battery percentage at that time</change>
-        <change>Changed: ForceDoze will now ask for confirmation when resetting</change>
-        <change>Fixed: Reset ForceDoze does not disable service</change>
-        <change>Fixed: Sensors not enabling properly after screen on</change>
-    </release>
-    <release version="1.0.4" versioncode="4">
-        <change>New: Whitelist app from sensorservice</change>
-        <change>New: Reset ForceDoze</change>
-        <change>Changed: Language clarity</change>
-        <change>Fixed: Auto-rotate disabled on some devices</change>
-        <change>Fixed: Some menu options disabled until app restart</change>
-    </release>
-    <release version="1.0.3" versioncode="3">
-        <change>New: Whitelist apps: You can now whitelist specific apps so they do not get suspended or disabled while Doze is active</change>
-        <change>New: Force Enable Doze: On some devices, Doze mode is disabled by the OEM, you can now enable Doze on such devices (experimental)</change>
-        <change>Changed: Disable Doze feature has been removed because it was not important</change>
-        <change>Changed: Non-root workaround dialog now shows a Share option so you can share the ADB command to Pushbullet, etc</change>
-        <change>Fixed: Some bugs</change>
-    </release>
-    <release version="1.0.2" versioncode="2">
-        <change>New: No-root mode</change>
-    </release>
-    <release version="1.0" versioncode="1">
-        <change>First release</change>
+    <release version="1.0.8" versioncode="8">
+        <change>New: Auto Rotate and Adaptive Brightness fix for those who are experiencing auto-rotate and auto-brightness not working after turning on screen. You may have to give auto-rotate/brightness a few seconds to adjust. Go to Menu > Settings > Auto-rotate/brightness fix and enable</change>
+        <change>New: View Debug logs (requires root) - You can now view application logs for debug purposes (ex: see if the app's working properly or not) and share the app log or full logcat. Go to Menu > Settings > Debug logs to view</change>
+        <change>Changed: Improvements to non-root mode</change>
+        <change>Changed: Improvements to debug logging</change>
+        <change>Changed: Improvements to UI feedback</change>
+        <change>Fixed: Crash when removing an item from whitelist</change>
     </release>
 </changelog>

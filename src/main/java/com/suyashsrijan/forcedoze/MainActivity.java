@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -16,12 +17,12 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.nanotasks.BackgroundWork;
 import com.nanotasks.Completion;
 import com.nanotasks.Tasks;
 
-import java.io.IOException;
+import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
@@ -36,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
     Boolean serviceEnabled = false;
     Boolean isDumpPermGranted = false;
     SwitchCompat toggleForceDozeSwitch;
+    MaterialDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
@@ -87,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Service not enabled");
             }
         } else {
+            progressDialog = new MaterialDialog.Builder(this)
+                    .title("Please wait")
+                    .content("Requesting SU access...")
+                    .progress(true, 0)
+                    .show();
             Log.i(TAG, "Check if SU is available, and request SU permission if it is");
             Tasks.executeInBackground(MainActivity.this, new BackgroundWork<Boolean>() {
                 @Override
@@ -96,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
             }, new Completion<Boolean>() {
                 @Override
                 public void onSuccess(Context context, Boolean result) {
+                    if (progressDialog != null) {
+                        progressDialog.cancel();
+                    }
                     isSuAvailable = result;
                     Log.i(TAG, "SU available: " + Boolean.toString(result));
                     if (isSuAvailable) {
@@ -106,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
                             if (isSuAvailable) {
                                 Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
-                                Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
+                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
                             }
                         }
                         if (serviceEnabled) {
@@ -240,46 +249,38 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void resetForceDoze() {
-        Log.i(TAG, "Starting ForceDoze reset procedure");
-        if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
-            Log.i(TAG, "Stopping ForceDozeService");
-            stopService(new Intent(this, ForceDozeService.class));
+    public void executeCommand(final String command) {
+        if (isSuAvailable) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<String> output = Shell.SU.run(command);
+                    if (output != null) {
+                        printShellOutput(output);
+                    } else {
+                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                    }
+                }
+            });
+        } else {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<String> output = Shell.SH.run(command);
+                    if (output != null) {
+                        printShellOutput(output);
+                    } else {
+                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                    }
+                }
+            });
         }
-        Log.i(TAG, "Enabling sensors, just in case they are disabled");
-        executeCommand("dumpsys sensorservice enable");
-        Log.i(TAG, "Disabling and re-enabling Doze mode");
-        executeCommand("dumpsys deviceidle disable");
-        executeCommand("dumpsys deviceidle enable");
-        Log.i(TAG, "Resetting app preferences");
-        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
-        Log.i(TAG, "Trying to revoke android.permission.DUMP");
-        executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DUMP");
-        Log.i(TAG, "ForceDoze reset procedure complete");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Reset complete");
-        builder.setMessage("ForceDoze has resetted itself. The following changes were made: \n\n1) Stop " +
-                "ForceDoze service\n2) Re-enable sensors, just in case they are disabled\n3) Disable and " +
-                "re-enable Doze mode, to ensure Doze mode is turned on properly\n4) Reset app preferences\n5) " +
-                "Revoke DUMP permission\n\nIt is recommended that you restart your device. The app will restart now!");
-        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                ProcessPhoenix.triggerRebirth(MainActivity.this);
-            }
-        });
-        builder.show();
     }
 
-    public void executeCommand(String command) {
-        if (isSuAvailable) {
-            Shell.SU.run(command);
-        } else {
-            try {
-                Runtime.getRuntime().exec(command);
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
+    public void printShellOutput(List<String> output) {
+        if (!output.isEmpty()) {
+            for (String s : output) {
+                Log.i(TAG, s);
             }
         }
     }

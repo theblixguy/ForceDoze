@@ -2,13 +2,18 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="enableSensors"
-        android:summary="Enable sensor access to apps when ForceDoze is active (service restart required)"
-        android:title="Enable sensors" />
+        android:summary="Let all apps access motion sensors when the device is in Doze mode (service restart required)"
+        android:title="Enable motion sensors for all apps" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="disableWhenCharging"
         android:summary="Turn off ForceDoze when device is plugged in to a charger (service restart required)"
         android:title="Turn off while charging" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="autoRotateAndBrightnessFix"
+        android:summary="Workaround for auto-rotate and auto-brightness not working after screen on (service restart required)"
+        android:title="Auto-rotate/brightness fix" />
     <Preference
         android:key="whitelistAppsFromDozeMode"
         android:summary="Whitelist apps from Doze mode"
@@ -22,4 +27,13 @@
         android:key="resetForceDoze"
         android:summary="Reset ForceDoze to the default state"
         android:title="Reset ForceDoze" />
+    <Preference
+        android:key="debugLogs"
+        android:summary="Show application debug logs"
+        android:title="Debug logs">
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:targetClass="com.suyashsrijan.forcedoze.LogActivity"
+        android:targetPackage="com.suyashsrijan.forcedoze" />
+    </Preference>
 </PreferenceScreen>
