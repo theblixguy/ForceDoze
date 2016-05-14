@@ -21,11 +21,11 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class ForceDozeService extends Service {
 
-    boolean isDozing = false;
     boolean isSuAvailable = false;
     boolean disableWhenCharging = true;
     boolean enableSensors = false;
     boolean useAutoRotateAndBrightnessFix = false;
+    int dozeEnterDelay = 0;
     Handler localHandler;
     Runnable enterDozeRunnable;
     Runnable disableSensorsRunnable;
@@ -47,6 +47,7 @@ public class ForceDozeService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         this.registerReceiver(localDozeReceiver, filter);
+        dozeEnterDelay = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         useAutoRotateAndBrightnessFix = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
         sensorWhitelistPackage = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
         enableSensors = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
@@ -87,32 +88,34 @@ public class ForceDozeService extends Service {
         Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
     }
 
-    public void enterDoze() {
-        isDozing = true;
-        Log.i(TAG, "Entering Doze");
-        executeCommand("dumpsys deviceidle force-idle");
-        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
-        saveDozeDataStats();
-        disableSensorsRunnable = new Runnable() {
-            @Override
-            public void run() {
-                Log.i(TAG, "Disabling motion sensors");
-                if (sensorWhitelistPackage.equals("")) {
-                    executeCommand("dumpsys sensorservice restrict null");
-                } else {
-                    Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
-                    Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
-                    executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+    public void enterDoze(Context context) {
+        if (!Utils.isDeviceDozing(context)) {
+            Log.i(TAG, "Entering Doze");
+            executeCommand("dumpsys deviceidle force-idle");
+            dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
+            saveDozeDataStats();
+            disableSensorsRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    Log.i(TAG, "Disabling motion sensors");
+                    if (sensorWhitelistPackage.equals("")) {
+                        executeCommand("dumpsys sensorservice restrict null");
+                    } else {
+                        Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
+                        Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
+                        executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                    }
                 }
+            };
+            if (!enableSensors) {
+                localHandler.postDelayed(disableSensorsRunnable, 2000);
             }
-        };
-        if (!enableSensors) {
-            localHandler.postDelayed(disableSensorsRunnable, 2000);
+        } else {
+            Log.i(TAG, "enterDoze() received but skipping because device is already Dozing");
         }
     }
 
     public void exitDoze() {
-        isDozing = false;
         Log.i(TAG, "Exiting Doze");
         executeCommand("dumpsys deviceidle step");
         dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT"));
@@ -132,17 +135,17 @@ public class ForceDozeService extends Service {
     }
 
     public void executeCommand(final String command) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<String> output = Shell.SH.run(command);
-                    if (output != null) {
-                        printShellOutput(output);
-                    } else {
-                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
-                    }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<String> output = Shell.SH.run(command);
+                if (output != null) {
+                    printShellOutput(output);
+                } else {
+                    Log.i(TAG, "Error occurred while executing command (" + command + ")");
                 }
-            });
+            }
+        });
     }
 
     public void printShellOutput(List<String> output) {
@@ -198,20 +201,21 @@ public class ForceDozeService extends Service {
     class DozeReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, Intent intent) {
             // This is to prevent Doze from kicking before the OS locks the screen
             int time = Settings.Secure.getInt(getContentResolver(), "lock_screen_lock_after_timeout", 5000);
-
+            int delay = dozeEnterDelay * 60 * 1000;
+            Log.i(TAG, "Doze delay: " + dozeEnterDelay + "ms");
+            time = time + delay;
             enterDozeRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    enterDoze();
+                    enterDoze(context);
                 }
             };
-
             if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                 Log.i(TAG, "Screen ON received");
-                if (isDozing) {
+                if (Utils.isDeviceDozing(context)) {
                     exitDoze();
                 } else {
                     Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed or disableWhenCharging=true");
@@ -221,6 +225,8 @@ public class ForceDozeService extends Service {
                 Log.i(TAG, "Screen OFF received");
                 if (Utils.isConnectedToCharger(getApplicationContext()) && disableWhenCharging) {
                     Log.i(TAG, "Connected to charger and disableWhenCharging=true, skip entering Doze");
+                } else if (Utils.isUserInCommunicationCall(context)) {
+                    Log.i(TAG, "User is in a phone call, VOIP call or an audio/video chat, skip entering Doze");
                 } else {
                     Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
                     localHandler.postDelayed(enterDozeRunnable, time);

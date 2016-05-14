@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
                     builder.setMessage("Resetting ForceDoze will make the following changes: \n\n1) Stop " +
                             "ForceDoze service\n2) Re-enable sensors, just in case they are disabled\n3) Disable and " +
                             "re-enable Doze mode, to ensure Doze mode is turned on properly\n4) Reset app preferences\n5) " +
-                            "Revoke DUMP permission\n\nDo you want to continue?");
+                            "Revoke DUMP and READ_LOGS (if granted) permission\n\nDo you want to continue?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -80,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             boolean isSuAvailable = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("isSuAvailable", false);
             if (!isSuAvailable) {
-                debugLogPref.setSummary("Disabled because READ_LOGS permission hasn't been granted");
+                debugLogPref.setSummary("Disabled because this feature requires root");
                 debugLogPref.setEnabled(false);
             }
         }
@@ -122,13 +122,14 @@ public class SettingsActivity extends AppCompatActivity {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().apply();
             Log.i(TAG, "Trying to revoke android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DUMP");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_LOGS");
             Log.i(TAG, "ForceDoze reset procedure complete");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
             builder.setTitle("Reset complete");
             builder.setMessage("ForceDoze has resetted itself. The following changes were made: \n\n1) Stop " +
                     "ForceDoze service\n2) Re-enable sensors, just in case they are disabled\n3) Disable and " +
                     "re-enable Doze mode, to ensure Doze mode is turned on properly\n4) Reset app preferences\n5) " +
-                    "Revoke DUMP permission\n\nIt is recommended that you restart your device. The app will restart now!");
+                    "Revoke DUMP and READ_LOGS (if granted) permission\n\nIt is recommended that you restart your device. The app will restart now!");
             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

@@ -1,8 +1,9 @@
 package com.suyashsrijan.forcedoze;
 
-import java.io.Serializable;
+public class BatteryConsumptionItem {
 
-public class BatteryConsumptionItem implements Serializable {
+    private String timestampPercCombo;
+
     public String getTimestampPercCombo() {
         return timestampPercCombo;
     }
@@ -10,7 +11,5 @@ public class BatteryConsumptionItem implements Serializable {
     public void setTimestampPercCombo(String timestampPercCombo) {
         this.timestampPercCombo = timestampPercCombo;
     }
-
-    private String timestampPercCombo;
 
 }

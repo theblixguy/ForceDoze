@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <receiver android:name=".BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -35,11 +34,21 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.EnableForceDozeService">
+            <intent-filter>
+                <action android:name="com.suyashsrijan.forcedoze.ENABLE_FORCEDOZE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.DisableForceDozeService">
+            <intent-filter>
+                <action android:name="com.suyashsrijan.forcedoze.DISABLE_FORCEDOZE"/>
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".ForceDozeService"
             android:enabled="true"
             android:exported="false" />
-
         <activity
             android:name=".DozeBatteryConsumption"
             android:label="Doze battery stats" />

@@ -2,17 +2,21 @@ package com.suyashsrijan.forcedoze;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.os.BatteryManager;
+import android.os.PowerManager;
 import android.provider.Settings;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
 
@@ -44,7 +48,7 @@ public class Utils {
     }
 
     public static String getDateCurrentTimeZone(long timestamp) {
-        return DateFormat.getDateTimeInstance().format(new Date(timestamp));
+        return DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.UK).format(new Date(timestamp));
     }
 
     public static int getBatteryLevel2(Context context) {
@@ -90,6 +94,15 @@ public class Utils {
 
     public static void setAutoBrightnessEnabled(Context context, boolean enabled) {
         Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, enabled ? Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC : Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+    }
+
+    public static boolean isDeviceDozing(Context context) {
+        return ((PowerManager) context.getSystemService(Service.POWER_SERVICE)).isDeviceIdleMode();
+    }
+
+    public static boolean isUserInCommunicationCall(Context context){
+        AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        return manager.getMode() == AudioManager.MODE_IN_CALL || manager.getMode() == AudioManager.MODE_IN_COMMUNICATION;
     }
 
     public static boolean doesPackageExist(String targetPackage, Context context) {

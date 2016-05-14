@@ -14,6 +14,15 @@
         android:key="autoRotateAndBrightnessFix"
         android:summary="Workaround for auto-rotate and auto-brightness not working after screen on (service restart required)"
         android:title="Auto-rotate/brightness fix" />
+    <com.suyashsrijan.forcedoze.NumberPickerPreference
+        android:title="Doze delay"
+        android:key="dozeEnterDelay"
+        android:summary="Add a delay before Doze mode kicks in after screen-off (service restart required)"
+        android:defaultValue="0"
+        bindSummary="false"
+        max="30"
+        min="0"
+        step="1" />
     <Preference
         android:key="whitelistAppsFromDozeMode"
         android:summary="Whitelist apps from Doze mode"

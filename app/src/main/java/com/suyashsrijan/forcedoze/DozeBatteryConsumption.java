@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class DozeBatteryConsumption extends AppCompatActivity {
     ArrayList<BatteryConsumptionItem> batteryConsumptionItems;
@@ -35,8 +36,10 @@ public class DozeBatteryConsumption extends AppCompatActivity {
             }
         }
         if (!dozeUsageStats.isEmpty()) {
-            ArrayList<String> sortedList = new ArrayList(new TreeSet(dozeUsageStats));
+            ArrayList<String> sortedList = new ArrayList(dozeUsageStats);
+            Collections.sort(sortedList);
             for (int i = 0; i < dozeUsageStats.size(); i++) {
+                Log.i("ForceDoze", sortedList.get(i));
                 BatteryConsumptionItem item = new BatteryConsumptionItem();
                 item.setTimestampPercCombo(sortedList.get(i));
                 batteryConsumptionItems.add(item);

@@ -2001,9 +2001,9 @@ containing a value of this type.
     }
     public static final class id {
         public static final int action0=0x7f0d006f;
-        public static final int action_add_whitelist=0x7f0d0082;
-        public static final int action_add_whitelist_sensor=0x7f0d0084;
-        public static final int action_app_settings=0x7f0d007e;
+        public static final int action_add_whitelist=0x7f0d0084;
+        public static final int action_add_whitelist_sensor=0x7f0d0086;
+        public static final int action_app_settings=0x7f0d0080;
         public static final int action_bar=0x7f0d0047;
         public static final int action_bar_activity_content=0x7f0d0000;
         public static final int action_bar_container=0x7f0d0046;
@@ -2013,17 +2013,17 @@ containing a value of this type.
         public static final int action_bar_title=0x7f0d0027;
         public static final int action_context_bar=0x7f0d0048;
         public static final int action_divider=0x7f0d0073;
-        public static final int action_donate_dev=0x7f0d007f;
-        public static final int action_doze_batterystats=0x7f0d0081;
+        public static final int action_donate_dev=0x7f0d0081;
+        public static final int action_doze_batterystats=0x7f0d0083;
         public static final int action_menu_divider=0x7f0d0002;
         public static final int action_menu_presenter=0x7f0d0003;
         public static final int action_mode_bar=0x7f0d0044;
         public static final int action_mode_bar_stub=0x7f0d0043;
         public static final int action_mode_close_button=0x7f0d0029;
-        public static final int action_remove_whitelist=0x7f0d0083;
-        public static final int action_share_fulllog=0x7f0d007d;
-        public static final int action_share_log=0x7f0d007c;
-        public static final int action_toggle_doze=0x7f0d0080;
+        public static final int action_remove_whitelist=0x7f0d0085;
+        public static final int action_share_fulllog=0x7f0d007f;
+        public static final int action_share_log=0x7f0d007e;
+        public static final int action_toggle_doze=0x7f0d0082;
         public static final int activity_chooser_view_content=0x7f0d002a;
         public static final int add=0x7f0d0021;
         public static final int alertTitle=0x7f0d0036;
@@ -2032,6 +2032,7 @@ containing a value of this type.
         public static final int appPackageName=0x7f0d005f;
         public static final int batteryLevel=0x7f0d0061;
         public static final int beginning=0x7f0d001d;
+        public static final int btn_save=0x7f0d007d;
         public static final int buttonDefaultNegative=0x7f0d006b;
         public static final int buttonDefaultNeutral=0x7f0d006a;
         public static final int buttonDefaultPositive=0x7f0d006c;
@@ -2083,6 +2084,7 @@ containing a value of this type.
         public static final int never=0x7f0d0025;
         public static final int none=0x7f0d0012;
         public static final int normal=0x7f0d000e;
+        public static final int number_picker=0x7f0d007c;
         public static final int parentPanel=0x7f0d0033;
         public static final int progress_circular=0x7f0d0006;
         public static final int progress_horizontal=0x7f0d0007;
@@ -2202,6 +2204,7 @@ containing a value of this type.
         public static final int select_dialog_multichoice_material=0x7f040039;
         public static final int select_dialog_singlechoice_material=0x7f04003a;
         public static final int support_simple_spinner_dropdown_item=0x7f04003b;
+        public static final int view_number_picker_dialog=0x7f04003c;
     }
     public static final class menu {
         public static final int debug_logs_menu=0x7f0e0000;
