@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+-->
+<manifest
+    package="me.zhanghai.android.materialprogressbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="9"
+    android:versionName="1.1.5" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="23" />
+
+</manifest>

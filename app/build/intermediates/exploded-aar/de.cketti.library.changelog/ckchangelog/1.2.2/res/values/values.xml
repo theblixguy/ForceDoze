@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/cketti/dev/ckChangeLog/ckChangeLog/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="changelog_full_title">Change Log</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">More…</string>
+    <string name="changelog_title">What\'s New</string>
+    <string name="changelog_version_format">Version <ns1:g id="version_name">%s</ns1:g></string>
+    <!-- From: file:/home/cketti/dev/ckChangeLog/ckChangeLog/src/main/res/values/ckChangeLog_strings.xml -->
+    <eat-comment/>
+    <string name="define_ckChangeLog"/>
+    <string name="library_ckChangeLog_author">cketti</string>
+    <string name="library_ckChangeLog_authorWebsite">http://cketti.de/</string>
+    <string name="library_ckChangeLog_isOpenSource">true</string>
+    <string name="library_ckChangeLog_libraryDescription">An Android Library to display a Change Log</string>
+    <string name="library_ckChangeLog_libraryName">ckChangeLog</string>
+    <string name="library_ckChangeLog_libraryVersion">1.2.2</string>
+    <string name="library_ckChangeLog_libraryWebsite">https://github.com/cketti/ckChangeLog</string>
+    <string name="library_ckChangeLog_licenseId">apache_2_0</string>
+    <string name="library_ckChangeLog_licenseVersion">Apache Version 2.0</string>
+    <string name="library_ckChangeLog_repositoryLink">https://github.com/cketti/ckChangeLog</string>
+</resources>

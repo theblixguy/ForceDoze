@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.suyashsrijan.forcedoze"
+    android:versionCode="9"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.DUMP" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name="com.suyashsrijan.forcedoze.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.suyashsrijan.forcedoze.BootCompleteReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.suyashsrijan.forcedoze.AutoRestartOnUpdate" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.suyashsrijan.forcedoze.ForceDozeService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name="com.suyashsrijan.forcedoze.DozeBatteryConsumption"
+            android:label="Doze battery stats" />
+        <activity
+            android:name="com.suyashsrijan.forcedoze.WhitelistApps"
+            android:label="Whitelist" />
+        <activity
+            android:name="com.suyashsrijan.forcedoze.SettingsActivity"
+            android:label="Settings" />
+        <activity
+            android:name="com.suyashsrijan.forcedoze.LogActivity"
+            android:label="Debug log" />
+        <activity
+            android:name="com.jakewharton.processphoenix.ProcessPhoenix"
+            android:process=":phoenix"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    </application>
+
+</manifest>

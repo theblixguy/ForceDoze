@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/cketti/dev/ckChangeLog/ckChangeLog/src/main/res/values-sk/strings.xml -->
+    <eat-comment/>
+    <string name="changelog_full_title">Zoznam zmien</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">Viac…</string>
+    <string name="changelog_title">Čo je nové</string>
+    <string name="changelog_version_format">Verzia <ns1:g id="version_name">%s</ns1:g></string>
+</resources>
