@@ -55,19 +55,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i(TAG, "Enabling ForceDoze");
                     editor = settings.edit();
                     editor.putBoolean("serviceEnabled", true);
                     editor.apply();
                     if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
+                        Log.i(TAG, "Enabling ForceDoze");
                         startService(new Intent(MainActivity.this, ForceDozeService.class));
                     }
                 } else {
-                    Log.i(TAG, "Disabling ForceDoze");
                     editor = settings.edit();
                     editor.putBoolean("serviceEnabled", false);
                     editor.apply();
                     if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
+                        Log.i(TAG, "Disabling ForceDoze");
                         stopService(new Intent(MainActivity.this, ForceDozeService.class));
                     }
                 }

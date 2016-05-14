@@ -36,10 +36,10 @@ public class BatteryConsumptionAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.list_row_layout, null);
+            convertView = layoutInflater.inflate(R.layout.list_row_layout_stats, null);
             holder = new ViewHolder();
-            holder.timestamp = (TextView) convertView.findViewById(R.id.appName);
-            holder.batteryPerc = (TextView) convertView.findViewById(R.id.appPackageName);
+            holder.timestamp = (TextView) convertView.findViewById(R.id.dozeStateTimestamp);
+            holder.batteryPerc = (TextView) convertView.findViewById(R.id.batteryLevel);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -47,11 +47,11 @@ public class BatteryConsumptionAdapter extends BaseAdapter {
 
         String[] data = listData.get(position).getTimestampPercCombo().split(",");
         if (data[2].equals("EXIT")) {
-            holder.timestamp.setText("Exited Doze mode at " + data[0]);
+            holder.timestamp.setText("Exited Doze mode at ".concat(data[0]));
         } else if (data[2].equals("ENTER")) {
-            holder.timestamp.setText("Entered Doze mode at " + data[0]);
+            holder.timestamp.setText("Entered Doze mode at ".concat(data[0]));
         }
-        holder.batteryPerc.setText("Battery level: " + data[1] + "%");
+        holder.batteryPerc.setText("Battery level: ".concat(data[1]).concat("%"));
         return convertView;
     }
 

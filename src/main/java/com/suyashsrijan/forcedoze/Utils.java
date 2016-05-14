@@ -3,6 +3,8 @@ package com.suyashsrijan.forcedoze;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -45,9 +47,25 @@ public class Utils {
         return DateFormat.getDateTimeInstance().format(new Date(timestamp));
     }
 
-    public static int getBatteryLevel(Context context) {
-        BatteryManager mBatteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
-        return mBatteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+    public static int getBatteryLevel2(Context context) {
+
+        final Intent batteryIntent = context
+                .registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+        if (batteryIntent == null) {
+            return Math.round(50.0f);
+        }
+
+        final int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        final int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        if (level == -1 || scale == -1) {
+            return Math.round(50.0f);
+        }
+
+        float battery_level = ((float)level / (float)scale) * 100.0f;
+        return Math.round(battery_level);
+
     }
 
     public static boolean checkForAutoPowerModesFlag() {

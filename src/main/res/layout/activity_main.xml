@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="version 1.0.8"
+        android:text="version 1.0.9"
         android:id="@+id/textView4"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

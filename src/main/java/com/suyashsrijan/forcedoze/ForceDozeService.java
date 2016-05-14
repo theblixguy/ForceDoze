@@ -26,7 +26,6 @@ public class ForceDozeService extends Service {
     boolean disableWhenCharging = true;
     boolean enableSensors = false;
     boolean useAutoRotateAndBrightnessFix = false;
-    boolean useNightMode = false;
     Handler localHandler;
     Runnable enterDozeRunnable;
     Runnable disableSensorsRunnable;
@@ -92,7 +91,7 @@ public class ForceDozeService extends Service {
         isDozing = true;
         Log.i(TAG, "Entering Doze");
         executeCommand("dumpsys deviceidle force-idle");
-        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel(getApplicationContext()))).concat(",").concat("ENTER"));
+        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
         saveDozeDataStats();
         disableSensorsRunnable = new Runnable() {
             @Override
@@ -116,7 +115,7 @@ public class ForceDozeService extends Service {
         isDozing = false;
         Log.i(TAG, "Exiting Doze");
         executeCommand("dumpsys deviceidle step");
-        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel(getApplicationContext()))).concat(",").concat("EXIT"));
+        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT"));
         saveDozeDataStats();
         enableSensorsRunnable = new Runnable() {
             @Override
@@ -133,19 +132,6 @@ public class ForceDozeService extends Service {
     }
 
     public void executeCommand(final String command) {
-        if (isSuAvailable) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<String> output = Shell.SU.run(command);
-                    if (output != null) {
-                        printShellOutput(output);
-                    } else {
-                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
-                    }
-                }
-            });
-        } else {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -157,7 +143,6 @@ public class ForceDozeService extends Service {
                     }
                 }
             });
-        }
     }
 
     public void printShellOutput(List<String> output) {
