@@ -1982,28 +1982,29 @@ containing a value of this type.
         public static final int abc_textfield_search_activated_mtrl_alpha=0x7f020048;
         public static final int abc_textfield_search_default_mtrl_alpha=0x7f020049;
         public static final int abc_textfield_search_material=0x7f02004a;
-        public static final int ic_add_white_48dp=0x7f02004b;
-        public static final int ic_remove_white_48dp=0x7f02004c;
-        public static final int md_btn_selected=0x7f02004d;
-        public static final int md_btn_selected_dark=0x7f02004e;
-        public static final int md_btn_selector=0x7f02004f;
-        public static final int md_btn_selector_dark=0x7f020050;
-        public static final int md_btn_selector_ripple=0x7f020051;
-        public static final int md_btn_selector_ripple_dark=0x7f020052;
-        public static final int md_btn_shape=0x7f020053;
-        public static final int md_item_selected=0x7f020054;
-        public static final int md_item_selected_dark=0x7f020055;
-        public static final int md_nav_back=0x7f020056;
-        public static final int md_selector=0x7f020057;
-        public static final int md_selector_dark=0x7f020058;
-        public static final int md_transparent=0x7f020059;
-        public static final int notification_template_icon_bg=0x7f02005a;
+        public static final int ic_add_white_24dp=0x7f02004b;
+        public static final int ic_info_outline_white_24dp=0x7f02004c;
+        public static final int ic_remove_white_24dp=0x7f02004d;
+        public static final int md_btn_selected=0x7f02004e;
+        public static final int md_btn_selected_dark=0x7f02004f;
+        public static final int md_btn_selector=0x7f020050;
+        public static final int md_btn_selector_dark=0x7f020051;
+        public static final int md_btn_selector_ripple=0x7f020052;
+        public static final int md_btn_selector_ripple_dark=0x7f020053;
+        public static final int md_btn_shape=0x7f020054;
+        public static final int md_item_selected=0x7f020055;
+        public static final int md_item_selected_dark=0x7f020056;
+        public static final int md_nav_back=0x7f020057;
+        public static final int md_selector=0x7f020058;
+        public static final int md_selector_dark=0x7f020059;
+        public static final int md_transparent=0x7f02005a;
+        public static final int notification_template_icon_bg=0x7f02005b;
     }
     public static final class id {
         public static final int action0=0x7f0d006f;
-        public static final int action_add_whitelist=0x7f0d0084;
-        public static final int action_add_whitelist_sensor=0x7f0d0086;
-        public static final int action_app_settings=0x7f0d0080;
+        public static final int action_add_whitelist=0x7f0d0086;
+        public static final int action_add_whitelist_sensor=0x7f0d0088;
+        public static final int action_app_settings=0x7f0d0081;
         public static final int action_bar=0x7f0d0047;
         public static final int action_bar_activity_content=0x7f0d0000;
         public static final int action_bar_container=0x7f0d0046;
@@ -2011,19 +2012,21 @@ containing a value of this type.
         public static final int action_bar_spinner=0x7f0d0001;
         public static final int action_bar_subtitle=0x7f0d0028;
         public static final int action_bar_title=0x7f0d0027;
+        public static final int action_clear_stats=0x7f0d0080;
         public static final int action_context_bar=0x7f0d0048;
         public static final int action_divider=0x7f0d0073;
-        public static final int action_donate_dev=0x7f0d0081;
-        public static final int action_doze_batterystats=0x7f0d0083;
+        public static final int action_donate_dev=0x7f0d0082;
+        public static final int action_doze_batterystats=0x7f0d0084;
+        public static final int action_doze_more_info=0x7f0d0085;
         public static final int action_menu_divider=0x7f0d0002;
         public static final int action_menu_presenter=0x7f0d0003;
         public static final int action_mode_bar=0x7f0d0044;
         public static final int action_mode_bar_stub=0x7f0d0043;
         public static final int action_mode_close_button=0x7f0d0029;
-        public static final int action_remove_whitelist=0x7f0d0085;
+        public static final int action_remove_whitelist=0x7f0d0087;
         public static final int action_share_fulllog=0x7f0d007f;
         public static final int action_share_log=0x7f0d007e;
-        public static final int action_toggle_doze=0x7f0d0082;
+        public static final int action_toggle_doze=0x7f0d0083;
         public static final int activity_chooser_view_content=0x7f0d002a;
         public static final int add=0x7f0d0021;
         public static final int alertTitle=0x7f0d0036;
@@ -2210,8 +2213,9 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int debug_logs_menu=0x7f0e0000;
-        public static final int main=0x7f0e0001;
-        public static final int whitelist_menu=0x7f0e0002;
+        public static final int doze_stats_menu=0x7f0e0001;
+        public static final int main=0x7f0e0002;
+        public static final int whitelist_menu=0x7f0e0003;
     }
     public static final class mipmap {
         public static final int ic_launcher=0x7f030000;

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView android:id="@+id/icon"
-        android:background="@drawable/ic_add_white_48dp"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
@@ -20,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/icon"
         android:textSize="18sp"
-        android:text="Google Play Store"
         android:paddingTop="13dp"
         android:paddingLeft="15dp"
         android:paddingBottom="2dp"

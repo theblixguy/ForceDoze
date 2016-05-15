@@ -7,19 +7,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.suyashsrijan.forcedoze.MainActivity">
+    tools:context="com.suyashsrijan.forcedoze.MainActivity"
+    android:background="#232937">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="ForceDoze enables Doze the moment you turn off your screen. It also disables motion sensing so Doze doesn&apos;t accidentally activate unless there&apos;s it&apos;s time to execute maintainence jobs, making battery savings much higher than standard Doze functionality"
+        android:text="ForceDoze enables Doze the moment you turn off your screen. It also disables motion sensing so Doze doesn&apos;t accidentally activate unless it&apos;s time to execute maintenance jobs, making battery savings much higher than standard Doze functionality"
         android:id="@+id/textView"
         android:layout_marginTop="28dp"
         android:gravity="center_vertical|center_horizontal"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#656973" />
 
     <android.support.v7.widget.SwitchCompat
         android:layout_width="wrap_content"
@@ -41,23 +43,28 @@
         android:textStyle="bold"
         android:layout_marginTop="46dp"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#656973" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="What is ForceDoze?"
+        android:text="Hi!"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="32dp"
+        android:textSize="70sp"
+        android:textColor="#ffffff"
+        android:fontFamily="sans-serif-light" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="version 1.1"
+        android:text="version 1.2"
+        android:textColor="#ffffff"
         android:id="@+id/textView4"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

@@ -21,4 +21,10 @@
         android:orderInCategory="100"
         android:title="Doze Battery stats"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_doze_more_info"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:orderInCategory="100"
+        android:title="More info"
+        app:showAsAction="always"/>
 </menu>

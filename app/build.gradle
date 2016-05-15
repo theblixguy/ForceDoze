@@ -8,8 +8,8 @@ android {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.1"
+        versionCode 12
+        versionName "1.2"
     }
     buildTypes {
         release {
@@ -25,9 +25,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'eu.chainfire:libsuperuser:1.0.0.+'
     compile 'com.fabiendevos:nanotasks:1.1.0'
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') {
-        transitive = true
-    }
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') { transitive = true }
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    compile 'io.github.eliseomartelli:simple-custom-tabs:1.2.0'
 }

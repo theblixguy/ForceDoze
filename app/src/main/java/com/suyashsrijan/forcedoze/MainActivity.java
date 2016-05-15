@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,6 +25,7 @@ import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
+import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class MainActivity extends AppCompatActivity {
     public static String TAG = "ForceDoze";
@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0.0f);
+        }
+        CustomTabs.with(getApplicationContext()).warm();
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
@@ -215,13 +219,21 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
                 break;
             case R.id.action_donate_dev:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.me/suyashsrijan")));
+                CustomTabs.with(getApplicationContext())
+                        .setStyle(new CustomTabs.Style(getApplicationContext())
+                                .setShowTitle(true)
+                                .setExitAnimation(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                                .setToolbarColor(R.color.colorPrimary))
+                        .openUrl("https://www.paypal.me/suyashsrijan", this);
                 break;
             case R.id.action_doze_batterystats:
                 startActivity(new Intent(MainActivity.this, DozeBatteryConsumption.class));
                 break;
             case R.id.action_app_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.action_doze_more_info:
+                showMoreInfoDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -244,6 +256,32 @@ public class MainActivity extends AppCompatActivity {
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
 
+            }
+        });
+        builder.show();
+    }
+
+    public void showMoreInfoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("More info");
+        builder.setMessage("How Doze mode works on your device:\n\nIf a user leaves a device unplugged and stationary for a period of time (30 mins), with the screen off, " +
+                "the device enters Doze mode. In Doze mode, the system attempts to conserve battery by restricting apps' " +
+                "access to network and CPU-intensive services. It also prevents apps from accessing the network and defers " +
+                "their jobs, syncs, and standard alarms\n\nPeriodically, the system exits Doze for a brief time to let apps complete " +
+                "their deferred activities. During this maintenance window, the system runs all pending syncs, jobs, and alarms, and " +
+                "lets apps access the network\n\nAt the conclusion of each maintenance window, the system again enters Doze, suspending " +
+                "network access and deferring jobs, syncs, and alarms. Over time, the system schedules maintenance windows less and less " +
+                "frequently, helping to reduce battery consumption in cases of longer-term inactivity when the device is not connected " +
+                "to a charger.\n\nAs soon as the user wakes the device by moving it, turning on the screen, or connecting a charger, " +
+                "the system exits Doze and all apps return to normal activity\n\nHow ForceDoze works:\n\nForceDoze makes the device enter Doze mode immediately " +
+                "after screen off (or after a user specificed delay), instead of waiting for 30 mins for the device to become stationary. On top of that, ForceDoze " +
+                "also turns of the device's motion sensors, so Doze doesn't deactivate if you move your device. Doze will only deactivate during a maintainance window " +
+                "(as explained above) or when you turn on your screen, which means your device will stay in Doze mode for a much longer time even if the device's screen " +
+                "is off and the device is not stationary, which means the battery savings will be a lot higher than normal Doze.");
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
             }
         });
         builder.show();
