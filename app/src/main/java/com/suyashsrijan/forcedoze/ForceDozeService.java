@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.LinkedHashSet;
@@ -31,6 +32,7 @@ public class ForceDozeService extends Service {
     Runnable disableSensorsRunnable;
     Runnable enableSensorsRunnable;
     DozeReceiver localDozeReceiver;
+    ReloadSettingsReceiver reloadSettingsReceiver;
     Set<String> dozeUsageData;
     String sensorWhitelistPackage = "";
     public static String TAG = "ForceDozeService";
@@ -42,10 +44,12 @@ public class ForceDozeService extends Service {
     public void onCreate() {
         super.onCreate();
         localDozeReceiver = new DozeReceiver();
+        reloadSettingsReceiver = new ReloadSettingsReceiver();
         localHandler = new Handler();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
+        LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
         this.registerReceiver(localDozeReceiver, filter);
         dozeEnterDelay = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         useAutoRotateAndBrightnessFix = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
@@ -61,6 +65,7 @@ public class ForceDozeService extends Service {
         }
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -71,6 +76,7 @@ public class ForceDozeService extends Service {
         super.onDestroy();
         Log.i(TAG, "Stopping service and enabling sensors");
         this.unregisterReceiver(localDozeReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(reloadSettingsReceiver);
         if (!enableSensors) {
             executeCommand("dumpsys sensorservice enable");
         }
@@ -81,6 +87,14 @@ public class ForceDozeService extends Service {
         super.onStartCommand(intent, flags, startId);
         Log.i(TAG, "Service has now started");
         return START_STICKY;
+    }
+
+    public void reloadSettings() {
+        dozeEnterDelay = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
+        useAutoRotateAndBrightnessFix = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
+        sensorWhitelistPackage = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
+        enableSensors = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
+        disableWhenCharging = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("disableWhenCharging", true);
     }
 
     public void grantDumpPermission() {
@@ -129,7 +143,7 @@ public class ForceDozeService extends Service {
             }
         };
         if (!enableSensors) {
-            localHandler.postDelayed(enableSensorsRunnable, 2000);
+            localHandler.postDelayed(enableSensorsRunnable, 1000);
         }
 
     }
@@ -195,6 +209,15 @@ public class ForceDozeService extends Service {
             }
             Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoBrightnessEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoBrightnessEnabled(getApplicationContext())));
             Utils.setAutoBrightnessEnabled(getApplicationContext(), !Utils.isAutoBrightnessEnabled(getApplicationContext()));
+        }
+    }
+
+
+    class ReloadSettingsReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "User changed a setting, loading new settings into service");
+            reloadSettings();
         }
     }
 

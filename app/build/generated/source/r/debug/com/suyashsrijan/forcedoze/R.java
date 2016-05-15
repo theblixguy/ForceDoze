@@ -2200,11 +2200,13 @@ containing a value of this type.
         public static final int notification_template_media=0x7f040035;
         public static final int notification_template_part_chronometer=0x7f040036;
         public static final int notification_template_part_time=0x7f040037;
-        public static final int select_dialog_item_material=0x7f040038;
-        public static final int select_dialog_multichoice_material=0x7f040039;
-        public static final int select_dialog_singlechoice_material=0x7f04003a;
-        public static final int support_simple_spinner_dropdown_item=0x7f04003b;
-        public static final int view_number_picker_dialog=0x7f04003c;
+        public static final int package_chooser_layout=0x7f040038;
+        public static final int package_chooser_row=0x7f040039;
+        public static final int select_dialog_item_material=0x7f04003a;
+        public static final int select_dialog_multichoice_material=0x7f04003b;
+        public static final int select_dialog_singlechoice_material=0x7f04003c;
+        public static final int support_simple_spinner_dropdown_item=0x7f04003d;
+        public static final int view_number_picker_dialog=0x7f04003e;
     }
     public static final class menu {
         public static final int debug_logs_menu=0x7f0e0000;

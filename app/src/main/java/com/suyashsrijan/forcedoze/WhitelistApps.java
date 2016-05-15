@@ -30,6 +30,7 @@ public class WhitelistApps extends AppCompatActivity {
     String sensorWhitelistPackage = "";
     public ArrayList<WhitelistAppsItem> listData = new ArrayList<>();
     public static String TAG = "ForceDoze";
+    boolean showDozeWhitelistWarning = true;
     Boolean isSuAvailable = false;
 
     @Override
@@ -56,6 +57,19 @@ public class WhitelistApps extends AppCompatActivity {
         listView.setAdapter(whitelistAppsAdapter);
         isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
         sensorWhitelistPackage = sharedPreferences.getString("sensorWhitelistPackage", "");
+        showDozeWhitelistWarning = sharedPreferences.getBoolean("showDozeWhitelistWarning", true);
+
+        if (showDozeWhitelistWarning) {
+            displayDialog("Whitelisting", "An app that is whitelisted can use the network and hold " +
+                    "partial wake locks during Doze and App Standby. However, other restrictions " +
+                    "still apply to the whitelisted app, just as they do to other apps. For example, " +
+                    "the whitelisted app’s jobs and syncs are deferred, and its regular AlarmManager " +
+                    "alarms do not fire. ");
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("whitelistApps");
+            editor.putBoolean("showDozeWhitelistWarning", false);
+            editor.apply();
+        }
     }
 
     @Override
@@ -69,77 +83,10 @@ public class WhitelistApps extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_add_whitelist:
-                new MaterialDialog.Builder(this)
-                        .title("Whitelist app")
-                        .content("Please enter the package name of the app you want to whitelist from Doze")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("com.spotify.music", "", false, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (whitelistedPackages.contains(input.toString())) {
-                                    displayDialog("Info", "The app you're trying to add is already whitelisted");
-                                } else if (!Utils.doesPackageExist(input.toString(), WhitelistApps.this)) {
-                                    displayDialog("Info", "The app you're trying to add isn't installed on your device");
-                                }
-                                else{
-                                    WhitelistAppsItem appItem = new WhitelistAppsItem();
-                                    appItem.setAppPackageName(input.toString());
-                                    whitelistedPackages.add(input.toString());
-                                    try {
-                                        appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(input.toString(), PackageManager.GET_META_DATA)).toString());
-                                        listData.add(appItem);
-                                        whitelistAppsAdapter.notifyDataSetChanged();
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.remove("whitelistApps");
-                                        editor.apply();
-                                        editor.putStringSet("whitelistApps", whitelistedPackages);
-                                        editor.apply();
-                                        modifyWhitelist(input.toString(), false);
-                                    } catch (PackageManager.NameNotFoundException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }).show();
+                startActivityForResult(new Intent(WhitelistApps.this, PackageChooser.class), 999);
                 break;
             case R.id.action_remove_whitelist:
-                new MaterialDialog.Builder(this)
-                        .title("Whitelist app")
-                        .content("Please enter the package name of the app you want to remove from the whitelist")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("com.spotify.music", "", false, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (!whitelistedPackages.contains(input.toString())) {
-                                    displayDialog("Info", "The app you're trying to remove does not exist in the whitelist");
-                                } else {
-                                    WhitelistAppsItem appItem = new WhitelistAppsItem();
-                                    appItem.setAppPackageName(input.toString());
-                                    try {
-                                        appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(input.toString(), PackageManager.GET_META_DATA)).toString());
-                                        ArrayList<WhitelistAppsItem> listDataClone = new ArrayList<>(listData);
-                                        for (WhitelistAppsItem item : listData) {
-                                            if (item.getAppPackageName().equals(input.toString())) {
-                                                listDataClone.remove(item);
-                                            }
-                                        }
-                                        listData.clear();
-                                        listData.addAll(listDataClone);
-                                        listDataClone.clear();
-                                        whitelistAppsAdapter.notifyDataSetChanged();
-                                        whitelistedPackages.remove(input.toString());
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.remove("whitelistApps");
-                                        editor.apply();
-                                        editor.putStringSet("whitelistApps", whitelistedPackages);
-                                        editor.apply();
-                                        modifyWhitelist(input.toString(), true);
-                                    } catch (PackageManager.NameNotFoundException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }).show();
+                startActivityForResult(new Intent(WhitelistApps.this, PackageChooser.class), 998);
                 break;
             case R.id.action_add_whitelist_sensor:
                 new MaterialDialog.Builder(this)
@@ -158,16 +105,72 @@ public class WhitelistApps extends AppCompatActivity {
                                     editor.apply();
                                     displayDialog("Success", "The app (" + sensorWhitelistPackage + ") was successfully set to be whitelisted from sensorservice." +
                                             "This app will be able to access sensors, even when motion sensing is disabled.");
-                                    if (Utils.isMyServiceRunning(ForceDozeService.class, WhitelistApps.this)) {
-                                        stopService(new Intent(WhitelistApps.this, ForceDozeService.class));
-                                        startService(new Intent(WhitelistApps.this, ForceDozeService.class));
-                                    }
                                 }
                             }
                         }).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null != data) {
+            if (requestCode == 999) {
+                String message = data.getStringExtra("package_name");
+                if (whitelistedPackages.contains(message)) {
+                    displayDialog("Info", "The app you're trying to add is already whitelisted!");
+                } else {
+                    WhitelistAppsItem appItem = new WhitelistAppsItem();
+                    appItem.setAppPackageName(message);
+                    whitelistedPackages.add(message);
+                    try {
+                        appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(message, PackageManager.GET_META_DATA)).toString());
+                        listData.add(appItem);
+                        whitelistAppsAdapter.notifyDataSetChanged();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("whitelistApps");
+                        editor.apply();
+                        editor.putStringSet("whitelistApps", whitelistedPackages);
+                        editor.apply();
+                        modifyWhitelist(message, false);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (requestCode == 998) {
+                String message = data.getStringExtra("package_name");
+                if (!whitelistedPackages.contains(message)) {
+                    displayDialog("Info", "The app you're trying to remove does not exist in the whitelist");
+                } else {
+                    WhitelistAppsItem appItem = new WhitelistAppsItem();
+                    appItem.setAppPackageName(message);
+                    try {
+                        appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(message, PackageManager.GET_META_DATA)).toString());
+                        ArrayList<WhitelistAppsItem> listDataClone = new ArrayList<>(listData);
+                        for (WhitelistAppsItem item : listData) {
+                            if (item.getAppPackageName().equals(message)) {
+                                listDataClone.remove(item);
+                            }
+                        }
+                        listData.clear();
+                        listData.addAll(listDataClone);
+                        listDataClone.clear();
+                        whitelistAppsAdapter.notifyDataSetChanged();
+                        whitelistedPackages.remove(message);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("whitelistApps");
+                        editor.apply();
+                        editor.putStringSet("whitelistApps", whitelistedPackages);
+                        editor.apply();
+                        modifyWhitelist(message, true);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     public void modifyWhitelist(String packageName, boolean remove) {

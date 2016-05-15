@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.0.10" versioncode="10">
-        <change>New: Doze delay - Now you can add a delay before Doze mode activates after screen off</change>
-        <change>New: Tasker support - You can now send "com.suyashsrijan.forcedoze.DISABLE_FORCEDOZE" broadcast intent to disable the ForceDoze service, or "com.suyashsrijan.forcedoze.ENABLE_FORCEDOZE" to enable the ForceDoze service</change>
-        <change>Changed: Improvements to ForceDoze service so it works more reliably now</change>
-        <change>Fixed: Motion sensors (like proximity) get disabled while on-call</change>
-        <change>Fixed: Doze battery stats doesn't display data correctly</change>
+    <release version="1.1" versioncode="11">
+        <change>Changed: Whitelisting apps is now much easier, you can now select an app from a list of installed apps instead of manually typing the package name</change>
+        <change>Changed: There is no need to restart the ForceDoze service after changing a setting, the service reloads the settings automatically</change>
     </release>
 </changelog>

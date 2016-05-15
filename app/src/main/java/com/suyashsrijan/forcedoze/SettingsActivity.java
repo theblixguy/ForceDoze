@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,7 +33,14 @@ public class SettingsActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent("reload-settings");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    public static class SettingsFragment extends PreferenceFragment{
 
         @Override
         public void onCreate(Bundle savedInstanceState) {

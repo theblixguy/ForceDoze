@@ -59,6 +59,7 @@
             android:name=".SettingsActivity"
             android:label="Settings" />
         <activity android:name=".LogActivity" android:label="Debug log"></activity>
+        <activity android:name=".PackageChooser" android:label="Package chooser"></activity>
     </application>
 
 </manifest>
