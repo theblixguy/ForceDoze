@@ -105,25 +105,29 @@ public class ForceDozeService extends Service {
 
     public void enterDoze(Context context) {
         if (!Utils.isDeviceDozing(context)) {
-            Log.i(TAG, "Entering Doze");
-            executeCommand("dumpsys deviceidle force-idle");
-            dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
-            saveDozeDataStats();
-            disableSensorsRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "Disabling motion sensors");
-                    if (sensorWhitelistPackage.equals("")) {
-                        executeCommand("dumpsys sensorservice restrict null");
-                    } else {
-                        Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
-                        Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
-                        executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+            if (!Utils.isScreenOn(context)) {
+                Log.i(TAG, "Entering Doze");
+                executeCommand("dumpsys deviceidle force-idle");
+                dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
+                saveDozeDataStats();
+                disableSensorsRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "Disabling motion sensors");
+                        if (sensorWhitelistPackage.equals("")) {
+                            executeCommand("dumpsys sensorservice restrict null");
+                        } else {
+                            Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
+                            Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
+                            executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                        }
                     }
+                };
+                if (!enableSensors) {
+                    localHandler.postDelayed(disableSensorsRunnable, 2000);
                 }
-            };
-            if (!enableSensors) {
-                localHandler.postDelayed(disableSensorsRunnable, 2000);
+            } else {
+                Log.i(TAG, "Screen is on, skip entering Doze");
             }
         } else {
             Log.i(TAG, "enterDoze() received but skipping because device is already Dozing");

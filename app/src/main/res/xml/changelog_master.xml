@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2" versioncode="12">
-        <change>New: UI overhaul</change>
-        <change>New: Added a clear button in Doze battery stats</change>
-        <change>New: More info button on main UI that shows more information about how Doze and ForceDoze works</change>
-        <change>Changed: More improvements to whitelisting</change>
-        <change>Changed: Whitelist activity now shows a dialog box (one-time only) with more info about Whitelisting</change>
-        <change>Changed: Normalized icon sizes</change>
-        <change>Changed: Donate button now uses Chrome Custom Tabs to show the donation page</change>
+    <release version="1.2" versioncode="13">
+        <change>Fixed: Doze incorrectly turning on when the screen is on. This should hopefully fix weird issues like Play Store complaining about background data and clock not getting updated</change>
     </release>
 </changelog>

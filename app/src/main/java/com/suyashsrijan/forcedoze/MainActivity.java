@@ -274,8 +274,8 @@ public class MainActivity extends AppCompatActivity {
                 "frequently, helping to reduce battery consumption in cases of longer-term inactivity when the device is not connected " +
                 "to a charger.\n\nAs soon as the user wakes the device by moving it, turning on the screen, or connecting a charger, " +
                 "the system exits Doze and all apps return to normal activity\n\nHow ForceDoze works:\n\nForceDoze makes the device enter Doze mode immediately " +
-                "after screen off (or after a user specificed delay), instead of waiting for 30 mins for the device to become stationary. On top of that, ForceDoze " +
-                "also turns of the device's motion sensors, so Doze doesn't deactivate if you move your device. Doze will only deactivate during a maintainance window " +
+                "after screen off (or after a user specified delay), instead of waiting for 30 mins for the device to become stationary. On top of that, ForceDoze " +
+                "also turns of the device's motion sensors, so Doze doesn't deactivate if you move your device. Doze will only deactivate during a maintenance window " +
                 "(as explained above) or when you turn on your screen, which means your device will stay in Doze mode for a much longer time even if the device's screen " +
                 "is off and the device is not stationary, which means the battery savings will be a lot higher than normal Doze.");
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {

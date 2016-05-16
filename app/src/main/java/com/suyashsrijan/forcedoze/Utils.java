@@ -6,13 +6,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.hardware.display.DisplayManager;
 import android.media.AudioManager;
 import android.os.BatteryManager;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.view.Display;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -105,13 +106,14 @@ public class Utils {
         return manager.getMode() == AudioManager.MODE_IN_CALL || manager.getMode() == AudioManager.MODE_IN_COMMUNICATION;
     }
 
-    public static boolean doesPackageExist(String targetPackage, Context context) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            PackageInfo info = pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
+    public static boolean isScreenOn(Context context) {
+        DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
+        for (Display display : dm.getDisplays()) {
+            if (display.getState() == Display.STATE_ON
+                    || display.getState () == Display.STATE_UNKNOWN) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 }
