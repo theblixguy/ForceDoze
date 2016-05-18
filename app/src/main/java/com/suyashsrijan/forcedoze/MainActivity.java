@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean isDumpPermGranted = false;
     SwitchCompat toggleForceDozeSwitch;
     MaterialDialog progressDialog = null;
+    TextView textViewStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
         toggleForceDozeSwitch = (SwitchCompat) findViewById(R.id.switch1);
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
-
+        textViewStatus = (TextView)findViewById(R.id.textView2);
         toggleForceDozeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "android.permission.DUMP already granted, skipping SU check");
             if (serviceEnabled) {
                 toggleForceDozeSwitch.setChecked(true);
+                textViewStatus.setText("ForceDoze service is active");
                 if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                     Log.i(TAG, "Starting ForceDozeService");
                     startService(new Intent(this, ForceDozeService.class));
@@ -89,7 +92,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Service already running");
                 }
             } else {
+                textViewStatus.setText("ForceDoze service is inactive");
                 Log.i(TAG, "Service not enabled");
+            }
+            ChangeLog cl = new ChangeLog(this);
+            if (cl.isFirstRun()) {
+                cl.getFullLogDialog().show();
             }
         } else {
             progressDialog = new MaterialDialog.Builder(this)
@@ -137,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG, "SU permission denied or not available");
                         toggleForceDozeSwitch.setChecked(false);
                         toggleForceDozeSwitch.setEnabled(false);
+                        textViewStatus.setText("ForceDoze service is disabled");
+                        editor = settings.edit();
+                        editor.putBoolean("isSuAvailable", false);
+                        editor.apply();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
                         builder.setTitle("Error");
                         builder.setMessage("SU permission denied or not available! If you don't have root, " +
@@ -151,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
                         });
                         builder.show();
                     }
+
+                    ChangeLog cl = new ChangeLog(MainActivity.this);
+                    if (cl.isFirstRun()) {
+                        cl.getFullLogDialog().show();
+                    }
                 }
 
                 @Override
@@ -158,12 +175,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Error querying SU: " + e.getMessage());
                 }
             });
-
-            ChangeLog cl = new ChangeLog(this);
-            if (cl.isFirstRun()) {
-                cl.getFullLogDialog().show();
-            }
         }
+
     }
 
     @Override
@@ -173,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         if (isDozeEnabledByOEM) {
             menu.getItem(2).setVisible(false);
         }
-        if (!isDumpPermGranted) {
+       /* if (!isDumpPermGranted) {
             menu.getItem(0).setEnabled(false);
             menu.getItem(2).setEnabled(false);
             menu.getItem(3).setEnabled(false);
@@ -181,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             menu.getItem(0).setEnabled(true);
             menu.getItem(2).setEnabled(true);
             menu.getItem(3).setEnabled(true);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
 

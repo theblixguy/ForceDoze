@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -33,8 +32,7 @@ public class DozeBatteryConsumption extends AppCompatActivity {
             if (Utils.isMyServiceRunning(ForceDozeService.class, this)) {
                 stopService(new Intent(this, ForceDozeService.class));
             }
-            dozeUsageStats.clear();
-            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putStringSet("dozeUsageData", new LinkedHashSet<String>()).apply();
+            clearStats();
             if (!Utils.isMyServiceRunning(ForceDozeService.class, this)) {
                 startService(new Intent(this, ForceDozeService.class));
             }
@@ -43,7 +41,6 @@ public class DozeBatteryConsumption extends AppCompatActivity {
             ArrayList<String> sortedList = new ArrayList(dozeUsageStats);
             Collections.sort(sortedList);
             for (int i = 0; i < dozeUsageStats.size(); i++) {
-                Log.i("ForceDoze", sortedList.get(i));
                 BatteryConsumptionItem item = new BatteryConsumptionItem();
                 item.setTimestampPercCombo(sortedList.get(i));
                 batteryConsumptionItems.add(item);
@@ -75,8 +72,10 @@ public class DozeBatteryConsumption extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("dozeUsageData");
         editor.apply();
-        Intent intent = new Intent("reload-settings");
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        if (Utils.isMyServiceRunning(ForceDozeService.class, DozeBatteryConsumption.this)) {
+            Intent intent = new Intent("reload-settings");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
         batteryConsumptionItems.clear();
         batteryConsumptionAdapter.notifyDataSetChanged();
     }

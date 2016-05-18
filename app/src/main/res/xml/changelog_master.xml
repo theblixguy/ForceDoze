@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2" versioncode="13">
-        <change>Fixed: Doze incorrectly turning on when the screen is on. This should hopefully fix weird issues like Play Store complaining about background data and clock not getting updated</change>
+    <release version="1.2.2" versioncode="14">
+        <change>Changed: UI improvements</change>
+        <change>Changed: Settings, Debug log and Doze stats no longer gets incorrectly disabled</change>
+        <change>Fixed: Doze mode incorrectly activating during outgoing calls</change>
+        <change>Fixed: Some other bugs</change>
     </release>
 </changelog>

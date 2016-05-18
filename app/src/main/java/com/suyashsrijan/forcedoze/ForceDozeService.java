@@ -47,6 +47,7 @@ public class ForceDozeService extends Service {
         reloadSettingsReceiver = new ReloadSettingsReceiver();
         localHandler = new Handler();
         IntentFilter filter = new IntentFilter();
+        IntentFilter filter1 = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
@@ -113,14 +114,19 @@ public class ForceDozeService extends Service {
                 disableSensorsRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        Log.i(TAG, "Disabling motion sensors");
-                        if (sensorWhitelistPackage.equals("")) {
-                            executeCommand("dumpsys sensorservice restrict null");
-                        } else {
-                            Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
-                            Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
-                            executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
-                        }
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i(TAG, "Disabling motion sensors");
+                                if (sensorWhitelistPackage.equals("")) {
+                                    executeCommand("dumpsys sensorservice restrict null");
+                                } else {
+                                    Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
+                                    Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
+                                    executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                                }
+                            }
+                        }).start();
                     }
                 };
                 if (!enableSensors) {
@@ -142,9 +148,14 @@ public class ForceDozeService extends Service {
         enableSensorsRunnable = new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "Re-enabling motion sensors");
-                executeCommand("dumpsys sensorservice enable");
-                autoRotateBrightnessFix();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "Re-enabling motion sensors");
+                        executeCommand("dumpsys sensorservice enable");
+                        autoRotateBrightnessFix();
+                    }
+                }).start();
             }
         };
         if (!enableSensors) {
@@ -233,18 +244,29 @@ public class ForceDozeService extends Service {
             // This is to prevent Doze from kicking before the OS locks the screen
             int time = Settings.Secure.getInt(getContentResolver(), "lock_screen_lock_after_timeout", 5000);
             int delay = dozeEnterDelay * 60 * 1000;
-            Log.i(TAG, "Doze delay: " + dozeEnterDelay + "ms");
+            Log.i(TAG, "Doze delay: " + delay + "ms");
             time = time + delay;
             enterDozeRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    enterDoze(context);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            enterDoze(context);
+                        }
+                    }).start();
                 }
             };
+
             if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                 Log.i(TAG, "Screen ON received");
                 if (Utils.isDeviceDozing(context)) {
-                    exitDoze();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            exitDoze();
+                        }
+                    }).start();
                 } else {
                     Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed or disableWhenCharging=true");
                     localHandler.removeCallbacks(enterDozeRunnable);
@@ -254,7 +276,9 @@ public class ForceDozeService extends Service {
                 if (Utils.isConnectedToCharger(getApplicationContext()) && disableWhenCharging) {
                     Log.i(TAG, "Connected to charger and disableWhenCharging=true, skip entering Doze");
                 } else if (Utils.isUserInCommunicationCall(context)) {
-                    Log.i(TAG, "User is in a phone call, VOIP call or an audio/video chat, skip entering Doze");
+                    Log.i(TAG, "User is in a VOIP call or an audio/video chat, skip entering Doze");
+                } else if (Utils.isUserInCall(context)) {
+                    Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
                     Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
                     localHandler.postDelayed(enterDozeRunnable, time);

@@ -1,5 +1,6 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,7 +16,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.nanotasks.BackgroundWork;
+import com.nanotasks.Completion;
+import com.nanotasks.Tasks;
 
 import java.util.List;
 
@@ -23,6 +28,8 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class SettingsActivity extends AppCompatActivity {
     public static String TAG = "ForceDoze";
+    static MaterialDialog progressDialog1 = null;
+    static boolean isSuAvailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,10 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent("reload-settings");
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        if (Utils.isMyServiceRunning(ForceDozeService.class, SettingsActivity.this)) {
+            Intent intent = new Intent("reload-settings");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
     }
 
     public static class SettingsFragment extends PreferenceFragment{
@@ -86,11 +95,56 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            boolean isSuAvailable = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("isSuAvailable", false);
-            if (!isSuAvailable) {
-                debugLogPref.setSummary("Disabled because this feature requires root");
-                debugLogPref.setEnabled(false);
-            }
+            debugLogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    progressDialog1 = new MaterialDialog.Builder(getActivity())
+                            .title("Please wait")
+                            .content("Requesting SU access...")
+                            .progress(true, 0)
+                            .show();
+                    Log.i(TAG, "Check if SU is available, and request SU permission if it is");
+                    Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
+                        @Override
+                        public Boolean doInBackground() throws Exception {
+                            return Shell.SU.available();
+                        }
+                    }, new Completion<Boolean>() {
+                        @Override
+                        public void onSuccess(Context context, Boolean result) {
+                            if (progressDialog1 != null) {
+                                progressDialog1.cancel();
+                            }
+                            isSuAvailable = result;
+                            Log.i(TAG, "SU available: " + Boolean.toString(result));
+                            if (isSuAvailable) {
+                                Log.i(TAG, "Phone is rooted and SU permission granted");
+                               startActivity(new Intent(getActivity(), LogActivity.class));
+                            } else {
+                                Log.i(TAG, "SU permission denied or not available");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+                                builder.setTitle("Error");
+                                builder.setMessage("SU permission denied or not available!");
+                                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.show();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Context context, Exception e) {
+                            Log.e(TAG, "Error querying SU: " + e.getMessage());
+                        }
+                    });
+
+                    return true;
+                }
+            });
+
         }
 
         public void requestWriteSettingsPermission() {
@@ -149,7 +203,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         public void executeCommand(final String command) {
-            boolean isSuAvailable = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("isSuAvailable", false);
             if (isSuAvailable) {
                 AsyncTask.execute(new Runnable() {
                     @Override

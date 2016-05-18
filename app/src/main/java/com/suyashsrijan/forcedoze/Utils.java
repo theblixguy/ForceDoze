@@ -2,7 +2,6 @@ package com.suyashsrijan.forcedoze;
 
 import android.Manifest;
 import android.app.ActivityManager;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,6 +12,7 @@ import android.media.AudioManager;
 import android.os.BatteryManager;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.view.Display;
 
 import java.text.DateFormat;
@@ -98,12 +98,18 @@ public class Utils {
     }
 
     public static boolean isDeviceDozing(Context context) {
-        return ((PowerManager) context.getSystemService(Service.POWER_SERVICE)).isDeviceIdleMode();
+        PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+        return powerManager.isDeviceIdleMode();
     }
 
     public static boolean isUserInCommunicationCall(Context context){
         AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
         return manager.getMode() == AudioManager.MODE_IN_CALL || manager.getMode() == AudioManager.MODE_IN_COMMUNICATION;
+    }
+
+    public static boolean isUserInCall(Context context) {
+        TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+        return manager.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK || manager.getCallState() == TelephonyManager.CALL_STATE_RINGING;
     }
 
     public static boolean isScreenOn(Context context) {
