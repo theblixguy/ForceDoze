@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2.2" versioncode="14">
-        <change>Changed: UI improvements</change>
-        <change>Changed: Settings, Debug log and Doze stats no longer gets incorrectly disabled</change>
-        <change>Fixed: Doze mode incorrectly activating during outgoing calls</change>
-        <change>Fixed: Some other bugs</change>
+    <release version="1.2.3" versioncode="15">
+        <change>New: Tasker support for ADD_WHITELIST and REMOVE_WHITELIST to add or remove apps from Doze whitelist via Intent.
+            Please check the Play Store description for more info</change>
+        <change>Fixed: ForceDoze status text not updating when toggling the switch on/off</change>
     </release>
 </changelog>

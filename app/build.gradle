@@ -8,8 +8,8 @@ android {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 14
-        versionName "1.2.2"
+        versionCode 15
+        versionName "1.2.3"
     }
     buildTypes {
         release {

@@ -8,6 +8,7 @@ import android.util.Log;
 
 public class AutoRestartOnUpdate extends BroadcastReceiver {
     public static String TAG = "ForceDoze";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_REPLACED) && intent.getDataString().contains(context.getPackageName())) {
@@ -17,7 +18,7 @@ public class AutoRestartOnUpdate extends BroadcastReceiver {
                 if (Utils.isMyServiceRunning(ForceDozeService.class, context)) {
                     context.stopService(new Intent(context, ForceDozeService.class));
                     context.startService(new Intent(context, ForceDozeService.class));
-                } else if (!Utils.isMyServiceRunning(ForceDozeService.class, context)){
+                } else if (!Utils.isMyServiceRunning(ForceDozeService.class, context)) {
                     context.startService(new Intent(context, ForceDozeService.class));
                 }
             } else {

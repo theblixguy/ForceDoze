@@ -44,7 +44,16 @@
                 <action android:name="com.suyashsrijan.forcedoze.DISABLE_FORCEDOZE"/>
             </intent-filter>
         </receiver>
-
+        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.AddWhiteListReceiver">
+            <intent-filter>
+                <action android:name="com.suyashsrijan.forcedoze.ADD_WHITELIST"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.RemoveWhiteListReceiver">
+            <intent-filter>
+                <action android:name="com.suyashsrijan.forcedoze.REMOVE_WHITELIST"/>
+            </intent-filter>
+        </receiver>
         <service
             android:name=".ForceDozeService"
             android:enabled="true"

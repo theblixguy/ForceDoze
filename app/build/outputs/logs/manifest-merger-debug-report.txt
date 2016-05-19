@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:2:1-65:12
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:2:1-74:12
 	package
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:4:5-41
 		INJECTED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml
@@ -34,7 +34,7 @@ ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidM
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:11:22-65
 application
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:13:5-63:19
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:13:5-72:19
 MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
@@ -140,44 +140,68 @@ action#com.suyashsrijan.forcedoze.DISABLE_FORCEDOZE
 ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:44:17-86
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:44:25-84
-service#com.suyashsrijan.forcedoze.ForceDozeService
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:48:9-51:40
+receiver#com.suyashsrijan.forcedoze.AddWhiteListReceiver
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:47:9-51:20
 	android:enabled
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:50:13-35
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:47:19-41
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:47:42-104
+intent-filter#com.suyashsrijan.forcedoze.ADD_WHITELIST
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:48:13-50:29
+action#com.suyashsrijan.forcedoze.ADD_WHITELIST
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:49:17-82
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:49:25-80
+receiver#com.suyashsrijan.forcedoze.RemoveWhiteListReceiver
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:52:9-56:20
+	android:enabled
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:52:19-41
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:52:42-107
+intent-filter#com.suyashsrijan.forcedoze.REMOVE_WHITELIST
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:53:13-55:29
+action#com.suyashsrijan.forcedoze.REMOVE_WHITELIST
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:54:17-85
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:54:25-83
+service#com.suyashsrijan.forcedoze.ForceDozeService
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:57:9-60:40
+	android:enabled
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:59:13-35
 	android:exported
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:51:13-37
-	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:49:13-45
-activity#com.suyashsrijan.forcedoze.DozeBatteryConsumption
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:52:9-54:50
-	android:label
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:54:13-47
-	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:53:13-51
-activity#com.suyashsrijan.forcedoze.WhitelistApps
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:55:9-57:41
-	android:label
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:57:13-38
-	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:56:13-42
-activity#com.suyashsrijan.forcedoze.SettingsActivity
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:58:9-60:40
-	android:label
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:60:13-37
 	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:59:13-45
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:58:13-45
+activity#com.suyashsrijan.forcedoze.DozeBatteryConsumption
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:61:9-63:50
+	android:label
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:63:13-47
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:62:13-51
+activity#com.suyashsrijan.forcedoze.WhitelistApps
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:64:9-66:41
+	android:label
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:66:13-38
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:65:13-42
+activity#com.suyashsrijan.forcedoze.SettingsActivity
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:67:9-69:40
+	android:label
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:69:13-37
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:68:13-45
 activity#com.suyashsrijan.forcedoze.LogActivity
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:61:9-84
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:70:9-84
 	android:label
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:61:47-72
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:70:47-72
 	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:61:19-46
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:70:19-46
 activity#com.suyashsrijan.forcedoze.PackageChooser
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:62:9-93
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:9-93
 	android:label
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:62:50-81
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:50-81
 	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:62:19-49
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:19-49
 uses-sdk
 INJECTED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:21:5-23:78

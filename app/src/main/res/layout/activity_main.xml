@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="version 1.2.2"
+        android:text="version 1.2.3"
         android:textColor="#ffffff"
         android:id="@+id/textView4"
         android:layout_alignParentBottom="true"

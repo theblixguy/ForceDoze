@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     editor = settings.edit();
                     editor.putBoolean("serviceEnabled", true);
                     editor.apply();
+                    textViewStatus.setText("ForceDoze service is active");
                     if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                         Log.i(TAG, "Enabling ForceDoze");
                         startService(new Intent(MainActivity.this, ForceDozeService.class));
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     editor = settings.edit();
                     editor.putBoolean("serviceEnabled", false);
                     editor.apply();
+                    textViewStatus.setText("ForceDoze service is inactive");
                     if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                         Log.i(TAG, "Disabling ForceDoze");
                         stopService(new Intent(MainActivity.this, ForceDozeService.class));
