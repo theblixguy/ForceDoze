@@ -136,6 +136,7 @@ public class ForceDozeService extends Service {
                 saveDozeDataStats();
 
                 if (!enableSensors) {
+                    disableSensorsTimer = new Timer();
                     disableSensorsTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -172,6 +173,7 @@ public class ForceDozeService extends Service {
             updatePersistentNotification(false, lastScreenOff, Utils.diffInMins(timeEnterDoze, timeExitDoze));
         }
         if (!enableSensors) {
+            enableSensorsTimer = new Timer();
             enableSensorsTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -302,6 +304,7 @@ public class ForceDozeService extends Service {
                     Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
                     Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
+                    enterDozeTimer = new Timer();
                     enterDozeTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
