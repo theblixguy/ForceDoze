@@ -15,7 +15,7 @@ public class RemoveWhiteListReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(TAG, "com.suyashsrijan.forcedoze.ADD_WHITELIST broadcast intent received");
+        Log.i(TAG, "com.suyashsrijan.forcedoze.REMOVE_WHITELIST broadcast intent received");
         final String packageName = intent.getStringExtra("packageName");
         Log.i(TAG, "Package name received: " + packageName);
         if (packageName != null) {

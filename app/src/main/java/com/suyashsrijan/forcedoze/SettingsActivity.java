@@ -178,8 +178,13 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i(TAG, "Enabling sensors, just in case they are disabled");
             executeCommand("dumpsys sensorservice enable");
             Log.i(TAG, "Disabling and re-enabling Doze mode");
-            executeCommand("dumpsys deviceidle disable");
-            executeCommand("dumpsys deviceidle enable");
+            if (Utils.isDeviceRunningOnNPreview()) {
+                executeCommand("dumpsys deviceidle disable all");
+                executeCommand("dumpsys deviceidle enable all");
+            } else {
+                executeCommand("dumpsys deviceidle disable");
+                executeCommand("dumpsys deviceidle enable");
+            }
             Log.i(TAG, "Resetting app preferences");
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().apply();
             Log.i(TAG, "Trying to revoke android.permission.DUMP");

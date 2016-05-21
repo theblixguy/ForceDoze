@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.hardware.display.DisplayManager;
 import android.media.AudioManager;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -75,6 +76,15 @@ public class Utils {
 
     public static boolean checkForAutoPowerModesFlag() {
         return Resources.getSystem().getBoolean(Resources.getSystem().getIdentifier("config_enableAutoPowerModes", "bool", "android"));
+    }
+
+    public static boolean isDeviceRunningOnNPreview() {
+        return("N".equals(Build.VERSION.CODENAME));
+    }
+
+    public static int diffInMins(long start, long end) {
+        int diff = (int) ((end - start) / 1000) / 60;
+        return diff;
     }
 
     public static void setAutoRotateEnabled(Context context, boolean enabled) {

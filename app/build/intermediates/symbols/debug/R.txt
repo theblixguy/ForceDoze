@@ -554,7 +554,6 @@ int drawable md_transparent 0x7f02005a
 int drawable notification_template_icon_bg 0x7f02005b
 int id action0 0x7f0d006f
 int id action_add_whitelist 0x7f0d0086
-int id action_add_whitelist_sensor 0x7f0d0088
 int id action_app_settings 0x7f0d0081
 int id action_bar 0x7f0d0047
 int id action_bar_activity_content 0x7f0d0000

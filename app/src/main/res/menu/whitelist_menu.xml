@@ -13,9 +13,4 @@
         android:title="Remove"
         android:icon="@drawable/ic_remove_white_24dp"
         app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_add_whitelist_sensor"
-        android:orderInCategory="100"
-        android:title="Whitelist app from sensorservice"
-        app:showAsAction="never"/>
 </menu>

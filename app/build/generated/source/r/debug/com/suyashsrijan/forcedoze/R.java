@@ -2003,7 +2003,6 @@ containing a value of this type.
     public static final class id {
         public static final int action0=0x7f0d006f;
         public static final int action_add_whitelist=0x7f0d0086;
-        public static final int action_add_whitelist_sensor=0x7f0d0088;
         public static final int action_app_settings=0x7f0d0081;
         public static final int action_bar=0x7f0d0047;
         public static final int action_bar_activity_content=0x7f0d0000;

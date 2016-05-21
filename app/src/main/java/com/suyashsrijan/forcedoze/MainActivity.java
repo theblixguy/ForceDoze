@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             progressDialog = new MaterialDialog.Builder(this)
                     .title("Please wait")
+                    .autoDismiss(false)
+                    .cancelable(false)
                     .content("Requesting SU access...")
                     .progress(true, 0)
                     .show();
@@ -225,8 +227,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         executeCommand("setprop persist.sys.doze_powersave true");
-                        executeCommand("dumpsys deviceidle disable");
-                        executeCommand("dumpsys deviceidle enable");
+                        if (Utils.isDeviceRunningOnNPreview()) {
+                            executeCommand("dumpsys deviceidle disable all");
+                            executeCommand("dumpsys deviceidle enable all");
+                        } else {
+                            executeCommand("dumpsys deviceidle disable");
+                            executeCommand("dumpsys deviceidle enable");
+                        }
                         Toast.makeText(MainActivity.this, "Please restart your device now!", Toast.LENGTH_LONG).show();
                         dialogInterface.dismiss();
                     }

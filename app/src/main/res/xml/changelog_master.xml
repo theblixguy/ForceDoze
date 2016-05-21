@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2.3" versioncode="15">
-        <change>New: Tasker support for ADD_WHITELIST and REMOVE_WHITELIST to add or remove apps from Doze whitelist via Intent.
-            Please check the Play Store description for more info</change>
-        <change>Fixed: ForceDoze status text not updating when toggling the switch on/off</change>
+    <release version="1.2.4" versioncode="16">
+        <change>New: Android N Preview Support - ForceDoze now correctly works on N Preview</change>
+        <change>New: Persistent Notification - Persistent Notification to show Doze stats (Is currently Dozing, Last Screen Off, and Time spent dozing)</change>
+        <change>Changed: Removed sensorservice whitelist because most apps don't support it</change>
+        <change>Fixed: "Checking for SU" progress dialog can be dismissed on touching outside of the dialog</change>
+        <change>Fixed: Some bugs</change>
     </release>
 </changelog>

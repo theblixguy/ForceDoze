@@ -40,6 +40,8 @@ public class LogActivity extends AppCompatActivity {
         grantLogsPermissionAndPrintLog();
         progressDialog = new MaterialDialog.Builder(this)
                 .title("Please wait")
+                .cancelable(false)
+                .autoDismiss(false)
                 .content("Requesting SU access and fetching log")
                 .progress(true, 0)
                 .show();

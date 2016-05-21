@@ -8,13 +8,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -88,7 +85,7 @@ public class WhitelistApps extends AppCompatActivity {
             case R.id.action_remove_whitelist:
                 startActivityForResult(new Intent(WhitelistApps.this, PackageChooser.class), 998);
                 break;
-            case R.id.action_add_whitelist_sensor:
+            /*case R.id.action_add_whitelist_sensor:
                 new MaterialDialog.Builder(this)
                         .title("Whitelist app from sensorservice")
                         .content("Please enter the package name of the app you want to be excluded from " +
@@ -108,7 +105,7 @@ public class WhitelistApps extends AppCompatActivity {
                                 }
                             }
                         }).show();
-                break;
+                break;*/
         }
         return super.onOptionsItemSelected(item);
     }
