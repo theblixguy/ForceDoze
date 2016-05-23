@@ -3,6 +3,7 @@ package com.suyashsrijan.forcedoze;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,14 +50,15 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public static class SettingsFragment extends PreferenceFragment{
+    public static class SettingsFragment extends PreferenceFragment {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.prefs);
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
-            Preference debugLogPref = (Preference)findPreference("debugLogs");
+            Preference debugLogPref = (Preference) findPreference("debugLogs");
+            Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -119,7 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Log.i(TAG, "SU available: " + Boolean.toString(result));
                             if (isSuAvailable) {
                                 Log.i(TAG, "Phone is rooted and SU permission granted");
-                               startActivity(new Intent(getActivity(), LogActivity.class));
+                                startActivity(new Intent(getActivity(), LogActivity.class));
                             } else {
                                 Log.i(TAG, "SU permission denied or not available");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
@@ -140,7 +142,31 @@ public class SettingsActivity extends AppCompatActivity {
                             Log.e(TAG, "Error querying SU: " + e.getMessage());
                         }
                     });
+                    return true;
+                }
+            });
 
+            clearDozeStats.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("dozeUsageData");
+                    editor.apply();
+                    if (Utils.isMyServiceRunning(ForceDozeService.class, getActivity())) {
+                        Intent intent = new Intent("reload-settings");
+                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+                    builder.setTitle("Cleared");
+                    builder.setMessage("Doze battery stats was successfully cleared!");
+                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
                     return true;
                 }
             });

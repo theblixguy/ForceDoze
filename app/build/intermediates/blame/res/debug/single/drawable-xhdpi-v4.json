@@ -172,6 +172,10 @@
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-xhdpi-v4\\abc_ic_star_half_black_16dp.png"
     },
     {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_add_white_48dp.png",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\drawable-xhdpi\\ic_add_white_48dp.png"
+    },
+    {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_remove_white_24dp.png",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\drawable-xhdpi\\ic_remove_white_24dp.png"
     },
@@ -194,6 +198,10 @@
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_remove_white_48dp.png",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\drawable-xhdpi\\ic_remove_white_48dp.png"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\abc_popup_background_mtrl_mult.9.png",

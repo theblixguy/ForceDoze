@@ -24,6 +24,10 @@
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_info_outline_white_24dp.png"
     },
     {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_remove_white_48dp.png",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_remove_white_48dp.png"
+    },
+    {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-xxxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
     },
@@ -74,6 +78,10 @@
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\md_nav_back.png",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\drawable-xxxhdpi-v4\\md_nav_back.png"
+    },
+    {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_add_white_48dp.png",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_add_white_48dp.png"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_ic_ab_back_mtrl_am_alpha.png",

@@ -204,12 +204,12 @@
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_activity_chooser_view.xml"
     },
     {
-        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple.xml"
-    },
-    {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_row_layout.xml",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\layout\\list_row_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple.xml"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",

@@ -169,9 +169,6 @@ public class ForceDozeService extends Service {
         }
         dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT"));
         saveDozeDataStats();
-        if (showPersistentNotif) {
-            updatePersistentNotification(false, lastScreenOff, Utils.diffInMins(timeEnterDoze, timeExitDoze));
-        }
         if (!enableSensors) {
             enableSensorsTimer = new Timer();
             enableSensorsTimer.schedule(new TimerTask() {
@@ -183,7 +180,15 @@ public class ForceDozeService extends Service {
                 }
             }, 2000);
         }
-
+        Timer updateNotif = new Timer();
+        updateNotif.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (showPersistentNotif) {
+                    updatePersistentNotification(lastScreenOff, Utils.diffInMins(timeEnterDoze, timeExitDoze));
+                }
+            }
+        }, 2000);
     }
 
     public void executeCommand(final String command) {
@@ -251,19 +256,21 @@ public class ForceDozeService extends Service {
     }
 
     public void showPersistentNotification() {
-        Notification n  = mBuilder
+        Notification n = mBuilder
                 .setContentTitle("ForceDoze")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Dozing: " + Boolean.toString(Utils.isDeviceDozing(getApplicationContext())) + "\nLast Screen off: " + "No data" + "\nTime spent dozing: " + "No data"))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(Utils.isDeviceDozing(getApplicationContext())) + "\nLast Screen off: " + "No data" + "\nTime spent dozing: " + "No data"))
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(-2)
                 .setOngoing(true).build();
         startForeground(1234, n);
     }
 
-    public void updatePersistentNotification(boolean isDozing, String lastScreenOff, int timeSpentDozing) {
+    public void updatePersistentNotification(String lastScreenOff, int timeSpentDozing) {
         Notification n  = mBuilder
                 .setContentTitle("ForceDoze")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Dozing: " + Boolean.toString(isDozing) + "\nLast Screen off: " + lastScreenOff + "\nTime spent dozing: " + Integer.toString(timeSpentDozing) + "mins"))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(Utils.isDeviceDozing(getApplicationContext())) + "\nLast Screen off: " + lastScreenOff + "\nTime spent dozing: " + Integer.toString(timeSpentDozing) + "mins"))
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(-2)
                 .setOngoing(true).build();
         startForeground(1234, n);
     }
@@ -282,6 +289,9 @@ public class ForceDozeService extends Service {
         public void onReceive(final Context context, Intent intent) {
             // This is to prevent Doze from kicking before the OS locks the screen
             int time = Settings.Secure.getInt(getContentResolver(), "lock_screen_lock_after_timeout", 5000);
+            if (time == 0) {
+                time = 1000;
+            }
             int delay = dozeEnterDelay * 60 * 1000;
             Log.i(TAG, "Doze delay: " + delay + "ms");
             time = time + delay;

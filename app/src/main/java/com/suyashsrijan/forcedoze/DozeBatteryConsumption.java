@@ -28,15 +28,6 @@ public class DozeBatteryConsumption extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         batteryConsumptionItems = new ArrayList<>();
         dozeUsageStats = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageData", new LinkedHashSet<String>());
-        if (dozeUsageStats.size() > 150) {
-            if (Utils.isMyServiceRunning(ForceDozeService.class, this)) {
-                stopService(new Intent(this, ForceDozeService.class));
-            }
-            clearStats();
-            if (!Utils.isMyServiceRunning(ForceDozeService.class, this)) {
-                startService(new Intent(this, ForceDozeService.class));
-            }
-        }
         if (!dozeUsageStats.isEmpty()) {
             ArrayList<String> sortedList = new ArrayList(dozeUsageStats);
             Collections.sort(sortedList);

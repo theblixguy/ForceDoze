@@ -42,6 +42,10 @@
         android:summary="Reset ForceDoze to the default state"
         android:title="Reset ForceDoze" />
     <Preference
+        android:key="resetDozeStats"
+        android:summary="Clear Doze battery stats"
+        android:title="Clear stats" />
+    <Preference
         android:key="debugLogs"
         android:summary="Show application debug logs"
         android:title="Debug logs">
