@@ -128,7 +128,7 @@ public class ForceDozeService extends Service {
     }
 
     public void grantDevicePowerPermission() {
-        Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
+        Log.i(TAG, "Granting android.permission.DEVICE_POWER to com.suyashsrijan.forcedoze");
         Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
     }
 
