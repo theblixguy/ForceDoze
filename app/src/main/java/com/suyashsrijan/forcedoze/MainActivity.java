@@ -134,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
                                 executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
                             }
                         }
+                        if (!Utils.isDevicePowerPermissionGranted(getApplicationContext())) {
+                            if (Utils.isDeviceRunningOnNPreview()) {
+                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
+                            }
+                        }
                         if (serviceEnabled) {
                             toggleForceDozeSwitch.setChecked(true);
                             if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {

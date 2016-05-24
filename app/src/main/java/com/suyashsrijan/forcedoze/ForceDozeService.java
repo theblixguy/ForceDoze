@@ -76,6 +76,13 @@ public class ForceDozeService extends Service {
                 grantDumpPermission();
             }
         }
+        if (Utils.isDeviceRunningOnNPreview()) {
+            if (!Utils.isDevicePowerPermissionGranted(getApplicationContext())) {
+                if (isSuAvailable) {
+                    grantDevicePowerPermission();
+                }
+            }
+        }
     }
 
 
@@ -118,6 +125,11 @@ public class ForceDozeService extends Service {
     public void grantDumpPermission() {
         Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
         Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
+    }
+
+    public void grantDevicePowerPermission() {
+        Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
+        Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
     }
 
     public void enterDoze(Context context) {

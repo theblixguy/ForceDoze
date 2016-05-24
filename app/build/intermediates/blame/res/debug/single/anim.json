@@ -36,12 +36,12 @@
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
     },
     {
-        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_in_top.xml"
-    },
-    {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_in_top.xml"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",

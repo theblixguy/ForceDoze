@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
     <release version="1.2.5" versioncode="20">
-        <change>Changed: Persistent notification icon is hidden from status bar</change>
-        <change>Changed: Moved the 'Clear stats' option from Doze battery stats to Settings</change>
-        <change>Changed: There is now a delay of 1 second if lockscreen timeout is set to 'Immediately', to fix some rare cases of Doze not activating</change>
-        <change>Fixed: Crash when opening Doze battery stats</change>
-        <change>Fixed: A few bugs</change>
+        <change>New: android.permission.DEVICE_POWER is now required to change Doze state on Android N Preview devices.
+            This will be done automatically if you're rooted, if you're not, then you will have to grant it manually via ADB, just like
+        you granted the DUMP permission</change>
     </release>
 </changelog>

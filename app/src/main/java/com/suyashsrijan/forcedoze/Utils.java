@@ -44,6 +44,12 @@ public class Utils {
         else return false;
     }
 
+    public static boolean isDevicePowerPermissionGranted(Context context) {
+        if (context.checkCallingOrSelfPermission("android.permission.DEVICE_POWER") == PackageManager.PERMISSION_GRANTED)
+            return true;
+        else return false;
+    }
+
     public static boolean isConnectedToCharger(Context context) {
         BatteryManager mBatteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
         return mBatteryManager.isCharging();
