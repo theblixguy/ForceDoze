@@ -31,6 +31,7 @@ public class DozeBatteryConsumption extends AppCompatActivity {
         if (!dozeUsageStats.isEmpty()) {
             ArrayList<String> sortedList = new ArrayList(dozeUsageStats);
             Collections.sort(sortedList);
+            Collections.reverse(sortedList);
             for (int i = 0; i < dozeUsageStats.size(); i++) {
                 BatteryConsumptionItem item = new BatteryConsumptionItem();
                 item.setTimestampPercCombo(sortedList.get(i));

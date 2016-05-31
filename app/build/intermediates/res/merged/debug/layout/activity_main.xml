@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -62,10 +70,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="version 1.2.5 (21)"
+        android:text="version 1.2.6 (22)"
         android:textColor="#ffffff"
         android:id="@+id/textView4"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textStyle="bold" />
 </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package com.suyashsrijan.forcedoze;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -126,6 +127,14 @@ public class Utils {
     public static boolean isUserInCall(Context context) {
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         return manager.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK || manager.getCallState() == TelephonyManager.CALL_STATE_RINGING;
+    }
+
+    public static boolean isLockscreenTimeoutValueTooHigh(ContentResolver contentResolver) {
+        return Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) >= 900000;
+    }
+
+    public static int getLockscreenTimeoutValue(ContentResolver contentResolver) {
+        return ((Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) / 1000) / 60);
     }
 
     public static boolean isScreenOn(Context context) {

@@ -59,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
             Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
+            Preference dozeDelay = (Preference)findPreference("dozeEnterDelay");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -83,6 +84,27 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     });
                     builder.show();
+                    return true;
+                }
+            });
+
+            dozeDelay.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    int delay = (int)o;
+                    if (delay >= 15) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+                        builder.setTitle("Warning");
+                        builder.setMessage("Doze Delay value is currently too high and may have a negative effect on battery life. Make sure " +
+                                "to test the effects of the delay on battery life and consider reducing the delay if there is a noticeable drop in battery life.");
+                        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
                     return true;
                 }
             });

@@ -13,17 +13,17 @@ public final class R {
 		public static final int changelog_show_full = 0x7f070016;
 		public static final int changelog_title = 0x7f070017;
 		public static final int changelog_version_format = 0x7f070018;
-		public static final int define_ckChangeLog = 0x7f07001a;
-		public static final int library_ckChangeLog_author = 0x7f07001b;
-		public static final int library_ckChangeLog_authorWebsite = 0x7f07001c;
-		public static final int library_ckChangeLog_isOpenSource = 0x7f07001d;
-		public static final int library_ckChangeLog_libraryDescription = 0x7f07001e;
-		public static final int library_ckChangeLog_libraryName = 0x7f07001f;
-		public static final int library_ckChangeLog_libraryVersion = 0x7f070020;
-		public static final int library_ckChangeLog_libraryWebsite = 0x7f070021;
-		public static final int library_ckChangeLog_licenseId = 0x7f070022;
-		public static final int library_ckChangeLog_licenseVersion = 0x7f070023;
-		public static final int library_ckChangeLog_repositoryLink = 0x7f070024;
+		public static final int define_ckChangeLog = 0x7f07001d;
+		public static final int library_ckChangeLog_author = 0x7f07001e;
+		public static final int library_ckChangeLog_authorWebsite = 0x7f07001f;
+		public static final int library_ckChangeLog_isOpenSource = 0x7f070020;
+		public static final int library_ckChangeLog_libraryDescription = 0x7f070021;
+		public static final int library_ckChangeLog_libraryName = 0x7f070022;
+		public static final int library_ckChangeLog_libraryVersion = 0x7f070023;
+		public static final int library_ckChangeLog_libraryWebsite = 0x7f070024;
+		public static final int library_ckChangeLog_licenseId = 0x7f070025;
+		public static final int library_ckChangeLog_licenseVersion = 0x7f070026;
+		public static final int library_ckChangeLog_repositoryLink = 0x7f070027;
 	}
 	public static final class xml {
 		public static final int changelog = 0x7f060000;

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.suyashsrijan.forcedoze"
-    android:versionCode="21"
-    android:versionName="1.2.5" >
+    android:versionCode="22"
+    android:versionName="1.2.6" >
 
     <uses-sdk
         android:minSdkVersion="23"
         android:targetSdkVersion="23" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.DUMP" />

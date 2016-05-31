@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -38,12 +39,14 @@ public class ForceDozeService extends Service {
     Timer enableSensorsTimer;
     DozeReceiver localDozeReceiver;
     ReloadSettingsReceiver reloadSettingsReceiver;
-    private NotificationCompat.Builder mBuilder;
+    NotificationCompat.Builder mBuilder;
+    PowerManager pm;
+    PowerManager.WakeLock tempWakeLock;
     Set<String> dozeUsageData;
     String sensorWhitelistPackage = "";
-    Long timeEnterDoze;
-    Long timeExitDoze;
-    String lastScreenOff;
+    Long timeEnterDoze = 0L;
+    Long timeExitDoze = 0L;
+    String lastScreenOff = "Unknown";
     public static String TAG = "ForceDozeService";
 
     public ForceDozeService() {
@@ -58,6 +61,7 @@ public class ForceDozeService extends Service {
         enableSensorsTimer = new Timer();
         disableSensorsTimer = new Timer();
         mBuilder = new NotificationCompat.Builder(this);
+        pm = (PowerManager) getSystemService(POWER_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -135,6 +139,14 @@ public class ForceDozeService extends Service {
     public void enterDoze(Context context) {
         if (!Utils.isDeviceDozing(context)) {
             if (!Utils.isScreenOn(context)) {
+
+                if (tempWakeLock != null) {
+                    if (tempWakeLock.isHeld()) {
+                        Log.i(TAG, "Releasing ForceDozeTempWakelock");
+                        tempWakeLock.release();
+                    }
+                }
+
                 timeEnterDoze = System.currentTimeMillis();
                 Log.i(TAG, "Entering Doze");
                 if (Utils.isDeviceRunningOnNPreview()) {
@@ -299,7 +311,6 @@ public class ForceDozeService extends Service {
 
         @Override
         public void onReceive(final Context context, Intent intent) {
-            // This is to prevent Doze from kicking before the OS locks the screen
             int time = Settings.Secure.getInt(getContentResolver(), "lock_screen_lock_after_timeout", 5000);
             if (time == 0) {
                 time = 1000;
@@ -310,6 +321,13 @@ public class ForceDozeService extends Service {
 
             if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                 Log.i(TAG, "Screen ON received");
+
+                if (tempWakeLock != null) {
+                    if (tempWakeLock.isHeld()) {
+                        Log.i(TAG, "Releasing ForceDozeTempWakelock");
+                        tempWakeLock.release();
+                    }
+                }
                 if (Utils.isDeviceDozing(context)) {
                    exitDoze();
                 } else {
@@ -326,6 +344,9 @@ public class ForceDozeService extends Service {
                     Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
                     Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
+                    tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
+                    Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
+                    tempWakeLock.acquire();
                     enterDozeTimer = new Timer();
                     enterDozeTimer.schedule(new TimerTask() {
                         @Override

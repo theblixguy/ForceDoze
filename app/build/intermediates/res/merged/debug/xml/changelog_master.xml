@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2.5" versioncode="20">
-        <change>New: android.permission.DEVICE_POWER is now required to change Doze state on Android N Preview devices.
-            This will be done automatically if you're rooted, if you're not, then you will have to grant it manually via ADB, just like
-        you granted the DUMP permission</change>
+    <release version="1.2.6" versioncode="22">
+        <change>New: A partial wakelock is now acquired when the screen turns off to make sure the timers responsible for delaying Doze are correctly fired.
+            The wakelock is automatically released after the timers fire. To make sure the wakelock has minimal impact on battery life, ensure neither Doze Delay nor
+        Lockscreen timeout has a high value (> 15 minutes)</change>
+        <change>New: Doze Delay now warns you about the possibility of a drop in battery life if the delay is set to a very high value (> 15 minutes)</change>
+        <change>Changed: Doze battery stats are now sorted from recent to oldest (instead of oldest to recent)</change>
     </release>
 </changelog>

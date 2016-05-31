@@ -4,15 +4,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     SwitchCompat toggleForceDozeSwitch;
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +191,19 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
+            coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+            Snackbar.make(coordinatorLayout, "The lockscreen timeout value on your device is too high!", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("More info", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showLockScreenTimeoutInfoDialog();
+                        }
+                    })
+                    .setActionTextColor(Color.RED)
+                    .show();
+        }
+
     }
 
     @Override
@@ -282,6 +300,27 @@ public class MainActivity extends AppCompatActivity {
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "adb -d shell pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
+
+            }
+        });
+        builder.show();
+    }
+
+    public void showLockScreenTimeoutInfoDialog() {
+        int lockscreenTimeout = Utils.getLockscreenTimeoutValue(getContentResolver());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("Lockscreen timeout");
+        builder.setMessage("The lockscreen timeout value on your device is too high (" + lockscreenTimeout + " mins). This means your device does not " +
+                "automatically lock itself after the screen turns off until " + lockscreenTimeout + " mins have passed. This also means ForceDoze will wait " +
+                "for " + lockscreenTimeout + " mins before making your device enter Doze mode. If you want ForceDoze to make the device enter Doze mode faster, " +
+                "consider reducing the lockscreen timeout to a lower value (1 minute or less) in your device's Security Settings.");
+        builder.setPositiveButton("Okay", null);
+        builder.setNegativeButton("Open Security Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent securitySettingsIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS);
+                startActivity(securitySettingsIntent);
 
             }
         });
