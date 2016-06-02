@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2.8" versioncode="24">
+    <release version="1.2.8" versioncode="25">
         <change>New: Xposed module to permanently enable Doze on unsupported device, so you don't have to enable Doze every time after device restart </change>
         <change>New: 'Ignore Lockscreen timeout' option to put the device into Doze mode regardless of the Lockscreen timeout value. This is EXPERIMENTAL,
         so beware</change>
         <change>Changed: Lockscreen timeout warning is now enforced if the lockscreen timeout is anything other than 'Immediately'. If you don't want the app
         to use wakelock, please change the Lockscreen timeout to 'Immediately'</change>
+        <change>Fixed: Crash when opening Whitelist activity</change>
     </release>
 </changelog>

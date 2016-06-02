@@ -39,7 +39,7 @@
         android:title="Whitelist apps">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.suyashsrijan.forcedoze.WhitelistApps"
+            android:targetClass="com.suyashsrijan.forcedoze.WhitelistAppsActivity"
             android:targetPackage="com.suyashsrijan.forcedoze" />
     </Preference>
     <Preference
