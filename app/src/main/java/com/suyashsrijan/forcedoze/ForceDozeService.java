@@ -33,6 +33,7 @@ public class ForceDozeService extends Service {
     boolean enableSensors = false;
     boolean useAutoRotateAndBrightnessFix = false;
     boolean showPersistentNotif = false;
+    boolean ignoreLockscreenTimeout = false;
     int dozeEnterDelay = 0;
     Timer enterDozeTimer;
     Timer disableSensorsTimer;
@@ -67,6 +68,7 @@ public class ForceDozeService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
         this.registerReceiver(localDozeReceiver, filter);
+        ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", false);
         dozeEnterDelay = getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
         sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
@@ -117,6 +119,7 @@ public class ForceDozeService extends Service {
     }
 
     public void reloadSettings() {
+        ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", false);
         dozeEnterDelay = getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
         sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
@@ -132,7 +135,7 @@ public class ForceDozeService extends Service {
     }
 
     public void grantDevicePowerPermission() {
-        Log.i(TAG, "Granting android.permission.DEVICE_POWER to com.suyashsrijan.forcedoze");
+        Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
         Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
     }
 
@@ -290,7 +293,7 @@ public class ForceDozeService extends Service {
     }
 
     public void updatePersistentNotification(String lastScreenOff, int timeSpentDozing) {
-        Notification n  = mBuilder
+        Notification n = mBuilder
                 .setContentTitle("ForceDoze")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(Utils.isDeviceDozing(getApplicationContext())) + "\nLast Screen off: " + lastScreenOff + "\nTime spent dozing: " + Integer.toString(timeSpentDozing) + "mins"))
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -329,7 +332,7 @@ public class ForceDozeService extends Service {
                     }
                 }
                 if (Utils.isDeviceDozing(context)) {
-                   exitDoze();
+                    exitDoze();
                 } else {
                     Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed OR disableWhenCharging=true");
                     enterDozeTimer.cancel();
@@ -343,17 +346,25 @@ public class ForceDozeService extends Service {
                 } else if (Utils.isUserInCall(context)) {
                     Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
-                    Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
-                    tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
-                    Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
-                    tempWakeLock.acquire();
-                    enterDozeTimer = new Timer();
-                    enterDozeTimer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                              enterDoze(context);
+                    if (ignoreLockscreenTimeout) {
+                        Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
+                        enterDoze(context);
+                    } else {
+                        Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
+                        if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
+                            tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
+                            Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
+                            tempWakeLock.acquire();
                         }
-                    }, time);
+                        enterDozeTimer = new Timer();
+                        enterDozeTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                enterDoze(context);
+                            }
+                        }, time);
+                    }
+
                 }
             }
         }

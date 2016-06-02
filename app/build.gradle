@@ -8,8 +8,8 @@ android {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 22
-        versionName "1.2.6"
+        versionCode 23
+        versionName "1.2.7"
     }
     buildTypes {
         release {
@@ -30,4 +30,5 @@ dependencies {
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'io.github.eliseomartelli:simple-custom-tabs:1.2.0'
+    provided 'de.robv.android.xposed:api:82'
 }

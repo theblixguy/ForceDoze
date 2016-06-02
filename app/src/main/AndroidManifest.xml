@@ -69,6 +69,15 @@
             android:label="Settings" />
         <activity android:name=".LogActivity" android:label="Debug log"></activity>
         <activity android:name=".PackageChooser" android:label="Package chooser"></activity>
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Permanently enable Doze on a unsupported device" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="72" />
     </application>
 
 </manifest>

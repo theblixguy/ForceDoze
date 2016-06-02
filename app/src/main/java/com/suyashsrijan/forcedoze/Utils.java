@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.display.DisplayManager;
@@ -19,6 +20,7 @@ import android.view.Display;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Utils {
@@ -76,7 +78,7 @@ public class Utils {
             return Math.round(50.0f);
         }
 
-        float battery_level = ((float)level / (float)scale) * 100.0f;
+        float battery_level = ((float) level / (float) scale) * 100.0f;
         return Math.round(battery_level);
 
     }
@@ -86,7 +88,7 @@ public class Utils {
     }
 
     public static boolean isDeviceRunningOnNPreview() {
-        return("N".equals(Build.VERSION.CODENAME));
+        return ("N".equals(Build.VERSION.CODENAME));
     }
 
     public static int diffInMins(long start, long end) {
@@ -115,33 +117,44 @@ public class Utils {
     }
 
     public static boolean isDeviceDozing(Context context) {
-        PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return powerManager.isDeviceIdleMode();
     }
 
-    public static boolean isUserInCommunicationCall(Context context){
-        AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+    public static boolean isUserInCommunicationCall(Context context) {
+        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         return manager.getMode() == AudioManager.MODE_IN_CALL || manager.getMode() == AudioManager.MODE_IN_COMMUNICATION;
     }
 
     public static boolean isUserInCall(Context context) {
-        TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return manager.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK || manager.getCallState() == TelephonyManager.CALL_STATE_RINGING;
     }
 
     public static boolean isLockscreenTimeoutValueTooHigh(ContentResolver contentResolver) {
-        return Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) >= 900000;
+        return Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) >= 5000;
     }
 
-    public static int getLockscreenTimeoutValue(ContentResolver contentResolver) {
-        return ((Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) / 1000) / 60);
+    public static float getLockscreenTimeoutValue(ContentResolver contentResolver) {
+        return ((float) (Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) / 1000f) / 60f);
+    }
+
+    public static boolean isXposedInstalled(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ApplicationInfo> applicationInfoList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        for (ApplicationInfo applicationInfo : applicationInfoList) {
+            if (applicationInfo.packageName.equals("de.robv.android.xposed.installer")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isScreenOn(Context context) {
         DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
         for (Display display : dm.getDisplays()) {
             if (display.getState() == Display.STATE_ON
-                    || display.getState () == Display.STATE_UNKNOWN) {
+                    || display.getState() == Display.STATE_UNKNOWN) {
                 return true;
             }
         }

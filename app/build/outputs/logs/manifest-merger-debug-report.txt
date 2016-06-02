@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:2:1-74:12
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:2:1-83:12
 	package
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:4:5-41
 		INJECTED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml
@@ -44,7 +44,7 @@ ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidM
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:11:22-65
 application
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:13:5-72:19
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:13:5-81:19
 MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
@@ -222,6 +222,24 @@ ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidM
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:50-81
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:19-49
+meta-data#xposedmodule
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:72:9-74:36
+	android:value
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:74:13-33
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:73:13-40
+meta-data#xposeddescription
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:75:9-77:79
+	android:value
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:77:13-76
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:76:13-45
+meta-data#xposedminversion
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:78:9-80:34
+	android:value
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:80:13-31
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:79:13-44
 uses-sdk
 INJECTED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:21:5-23:78

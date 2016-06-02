@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nanotasks.BackgroundWork;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
         toggleForceDozeSwitch = (SwitchCompat) findViewById(R.id.switch1);
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
-        textViewStatus = (TextView)findViewById(R.id.textView2);
+        textViewStatus = (TextView) findViewById(R.id.textView2);
         toggleForceDozeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -192,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
-            coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+            coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
             Snackbar.make(coordinatorLayout, "The lockscreen timeout value on your device is too high!", Snackbar.LENGTH_INDEFINITE)
                     .setAction("More info", new View.OnClickListener() {
                         @Override
@@ -236,32 +235,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_toggle_doze:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-                builder.setTitle("Enable Doze on unsupported device (experimental)");
-                builder.setMessage("Some devices have Doze mode disabled by the OEM. " +
-                        "This option can enable Doze mode on devices which do not have it enabled by default.");
-                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.setNegativeButton("Enable Doze mode", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        executeCommand("setprop persist.sys.doze_powersave true");
-                        if (Utils.isDeviceRunningOnNPreview()) {
-                            executeCommand("dumpsys deviceidle disable all");
-                            executeCommand("dumpsys deviceidle enable all");
-                        } else {
-                            executeCommand("dumpsys deviceidle disable");
-                            executeCommand("dumpsys deviceidle enable");
-                        }
-                        Toast.makeText(MainActivity.this, "Please restart your device now!", Toast.LENGTH_LONG).show();
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.show();
+                showEnableDozeOnUnsupportedDeviceDialog();
                 break;
             case R.id.action_donate_dev:
                 CustomTabs.with(getApplicationContext())
@@ -282,6 +256,54 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showEnableDozeOnUnsupportedDeviceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("Enable Doze on unsupported device (experimental)");
+        builder.setMessage("Some devices have Doze mode disabled by the OEM. " +
+                "This option can enable Doze mode on devices which do not have it enabled by default.\n\nNote: You need to turn " +
+                "on the ForceDoze module in Xposed in order to permanently enable Doze. If you don't have Xposed installed, you will " +
+                "have to turn this option on every time you restart your phone.");
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("Enable Doze mode", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                executeCommand("setprop persist.sys.doze_powersave true");
+                if (Utils.isDeviceRunningOnNPreview()) {
+                    executeCommand("dumpsys deviceidle disable all");
+                    executeCommand("dumpsys deviceidle enable all");
+                } else {
+                    executeCommand("dumpsys deviceidle disable");
+                    executeCommand("dumpsys deviceidle enable");
+                }
+                if (Utils.isXposedInstalled(getApplicationContext())) {
+                    showEnableXposedModuleDialog();
+                }
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    public void showEnableXposedModuleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("Xposed detected");
+        builder.setMessage("ForceDoze has detected that Xposed is installed on your device. In order to make Doze permanently " +
+                "enabled on your device, you need to turn on the ForceDoze module in Xposed and restart your device. If you don't turn " +
+                "on the module, you will lose Doze functionality on device restart and will have to manually enable Doze again. ");
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 
     public void showRootWorkaroundInstructions() {
@@ -307,13 +329,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showLockScreenTimeoutInfoDialog() {
-        int lockscreenTimeout = Utils.getLockscreenTimeoutValue(getContentResolver());
+        float lockscreenTimeout = Utils.getLockscreenTimeoutValue(getContentResolver());
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
         builder.setTitle("Lockscreen timeout");
         builder.setMessage("The lockscreen timeout value on your device is too high (" + lockscreenTimeout + " mins). This means your device does not " +
                 "automatically lock itself after the screen turns off until " + lockscreenTimeout + " mins have passed. This also means ForceDoze will wait " +
-                "for " + lockscreenTimeout + " mins before making your device enter Doze mode. If you want ForceDoze to make the device enter Doze mode faster, " +
-                "consider reducing the lockscreen timeout to a lower value (1 minute or less) in your device's Security Settings.");
+                "for " + lockscreenTimeout + " mins before making your device enter Doze mode by using a temporary wake lock. If you want ForceDoze to make " +
+                "the device enter Doze mode faster, consider reducing the lockscreen timeout to Immediately in your device's Security Settings.");
         builder.setPositiveButton("Okay", null);
         builder.setNegativeButton("Open Security Settings", new DialogInterface.OnClickListener() {
             @Override
