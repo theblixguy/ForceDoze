@@ -135,7 +135,7 @@ public class ForceDozeService extends Service {
     }
 
     public void grantDevicePowerPermission() {
-        Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
+        Log.i(TAG, "Granting android.permission.DEVICE_POWER to com.suyashsrijan.forcedoze");
         Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
     }
 
@@ -347,8 +347,22 @@ public class ForceDozeService extends Service {
                     Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
                     if (ignoreLockscreenTimeout) {
-                        Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
-                        enterDoze(context);
+                        if (dozeEnterDelay == 0) {
+                            Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
+                            enterDoze(context);
+                        } else {
+                            Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
+                            tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
+                            Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
+                            tempWakeLock.acquire();
+                            enterDozeTimer = new Timer();
+                            enterDozeTimer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    enterDoze(context);
+                                }
+                            }, time);
+                        }
                     } else {
                         Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
                         if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {

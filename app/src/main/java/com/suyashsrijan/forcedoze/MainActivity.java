@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Context context, Boolean result) {
                     if (progressDialog != null) {
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
                     }
                     isSuAvailable = result;
                     Log.i(TAG, "SU available: " + Boolean.toString(result));
@@ -212,15 +212,7 @@ public class MainActivity extends AppCompatActivity {
         if (isDozeEnabledByOEM) {
             menu.getItem(2).setVisible(false);
         }
-       /* if (!isDumpPermGranted) {
-            menu.getItem(0).setEnabled(false);
-            menu.getItem(2).setEnabled(false);
-            menu.getItem(3).setEnabled(false);
-        } else {
-            menu.getItem(0).setEnabled(true);
-            menu.getItem(2).setEnabled(true);
-            menu.getItem(3).setEnabled(true);
-        }*/
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -246,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                         .openUrl("https://www.paypal.me/suyashsrijan", this);
                 break;
             case R.id.action_doze_batterystats:
-                startActivity(new Intent(MainActivity.this, DozeBatteryConsumption.class));
+                startActivity(new Intent(MainActivity.this, DozeStatsActivity.class));
                 break;
             case R.id.action_app_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));

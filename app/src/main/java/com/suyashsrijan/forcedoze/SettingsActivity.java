@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
             Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
-            Preference dozeDelay = (Preference)findPreference("dozeEnterDelay");
+            Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -91,8 +91,8 @@ public class SettingsActivity extends AppCompatActivity {
             dozeDelay.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    int delay = (int)o;
-                    if (delay >= 15) {
+                    int delay = (int) o;
+                    if (delay >= 5) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
                         builder.setTitle("Warning");
                         builder.setMessage("Doze Delay value is currently too high and may have a negative effect on battery life. Make sure " +
@@ -124,6 +124,8 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     progressDialog1 = new MaterialDialog.Builder(getActivity())
                             .title("Please wait")
+                            .cancelable(false)
+                            .autoDismiss(false)
                             .content("Requesting SU access...")
                             .progress(true, 0)
                             .show();
@@ -137,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Context context, Boolean result) {
                             if (progressDialog1 != null) {
-                                progressDialog1.cancel();
+                                progressDialog1.dismiss();
                             }
                             isSuAvailable = result;
                             Log.i(TAG, "SU available: " + Boolean.toString(result));
