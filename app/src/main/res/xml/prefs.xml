@@ -21,9 +21,9 @@
             android:summary="Show Doze stats in persistent notification"
             android:title="Show persistent notification" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="ignoreLockscreenTimeout"
-            android:summary="Ignore lockscreen timeout and enable Doze immediately after screen off (experimental)"
+            android:summary="Ignore lockscreen timeout and enable Doze immediately after screen off"
             android:title="Ignore lockscreen timeout" />
         <com.suyashsrijan.forcedoze.NumberPickerPreference
             bindSummary="false"

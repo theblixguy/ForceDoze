@@ -94,6 +94,8 @@ MERGED from [com.android.support:support-v4:23.4.0] C:\Users\Suyash\AndroidStudi
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:15:9-43
 	android:theme
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:18:9-40
+	android:name
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:13:18-47
 activity#com.suyashsrijan.forcedoze.MainActivity
 ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:19:9-25:20
 	android:name

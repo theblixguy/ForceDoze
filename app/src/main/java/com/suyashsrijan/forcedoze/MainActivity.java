@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean isDozeDisabled = false;
     Boolean serviceEnabled = false;
     Boolean isDumpPermGranted = false;
+    Boolean ignoreLockscreenTimeout = true;
     SwitchCompat toggleForceDozeSwitch;
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
         isDozeDisabled = settings.getBoolean("isDozeDisabled", false);
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
+        ignoreLockscreenTimeout = settings.getBoolean("ignoreLockscreenTimeout", true);
         toggleForceDozeSwitch = (SwitchCompat) findViewById(R.id.switch1);
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
         textViewStatus = (TextView) findViewById(R.id.textView2);
@@ -85,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
+        executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
         if (isDumpPermGranted) {
             Log.i(TAG, "android.permission.DUMP already granted, skipping SU check");
             if (serviceEnabled) {
@@ -191,16 +194,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
-            coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-            Snackbar.make(coordinatorLayout, "The lockscreen timeout value on your device is too high!", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("More info", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showLockScreenTimeoutInfoDialog();
-                        }
-                    })
-                    .setActionTextColor(Color.RED)
-                    .show();
+            if (!ignoreLockscreenTimeout) {
+                coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar.make(coordinatorLayout, "The lockscreen timeout value on your device is too high!", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("More info", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                showLockScreenTimeoutInfoDialog();
+                            }
+                        })
+                        .setActionTextColor(Color.RED)
+                        .show();
+            }
         }
 
     }
@@ -329,7 +334,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage("The lockscreen timeout value on your device is too high (" + lockscreenTimeout + " mins). This means your device does not " +
                 "automatically lock itself after the screen turns off until " + lockscreenTimeout + " mins have passed. This also means ForceDoze will wait " +
                 "for " + lockscreenTimeout + " mins before making your device enter Doze mode by using a temporary wake lock. If you want ForceDoze to make " +
-                "the device enter Doze mode faster, consider reducing the lockscreen timeout to Immediately in your device's Security Settings.");
+                "the device enter Doze mode faster, consider reducing the lockscreen timeout to Immediately in your device's Security Settings. If you want " +
+                "ForceDoze to make the device enter Doze mode regardless of the lockscreen timeout, turn on 'Ignore lockscreen timeout' option in ForceDoze " +
+                "Settings.");
         builder.setPositiveButton("Okay", null);
         builder.setNegativeButton("Open Security Settings", new DialogInterface.OnClickListener() {
             @Override
