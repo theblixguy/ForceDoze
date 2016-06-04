@@ -87,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
-        executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
+
         if (isDumpPermGranted) {
             Log.i(TAG, "android.permission.DUMP already granted, skipping SU check");
             if (serviceEnabled) {

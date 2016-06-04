@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.2.9" versioncode="26">
+    <release version="1.2.9" versioncode="27">
         <change>New: Option to disable motion sensing for Doze, without disabling device motion sensors. This feature is EXPERIMENTAL and requires Xposed. Please
         let me know if this option works as intended or not. To activate, turn on the Xposed module and the option in Settings.</change>
         <change>Changed: ForceDoze now ignores lockscreen timeout value by default, so a wake lock is no longer required. If this has unwanted effects, please

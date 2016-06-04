@@ -61,11 +61,15 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.prefs);
             PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
             PreferenceCategory xposedSettings = (PreferenceCategory) findPreference("xposedSettings");
+            PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
             Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
+            Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
+            Preference enableSensors = (Preference) findPreference("enableSensors");
+            Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -201,8 +205,66 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            xposedSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    progressDialog1 = new MaterialDialog.Builder(getActivity())
+                            .title("Please wait")
+                            .cancelable(false)
+                            .autoDismiss(false)
+                            .content("Requesting SU access...")
+                            .progress(true, 0)
+                            .show();
+                    Log.i(TAG, "Check if SU is available, and request SU permission if it is");
+                    Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
+                        @Override
+                        public Boolean doInBackground() throws Exception {
+                            return Shell.SU.available();
+                        }
+                    }, new Completion<Boolean>() {
+                        @Override
+                        public void onSuccess(Context context, Boolean result) {
+                            if (progressDialog1 != null) {
+                                progressDialog1.dismiss();
+                            }
+                            isSuAvailable = result;
+                            Log.i(TAG, "SU available: " + Boolean.toString(result));
+                            if (isSuAvailable) {
+                                Log.i(TAG, "Phone is rooted and SU permission granted");
+                                executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
+                                executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
+                            } else {
+                                Log.i(TAG, "SU permission denied or not available");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+                                builder.setTitle("Error");
+                                builder.setMessage("SU permission denied or not available!");
+                                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.show();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Context context, Exception e) {
+                            Log.e(TAG, "Error querying SU: " + e.getMessage());
+                        }
+                    });
+                    return true;
+                }
+            });
+
             if (!Utils.isXposedInstalled(getContext())) {
                 preferenceScreen.removePreference(xposedSettings);
+            }
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            if (sharedPreferences.getBoolean("useXposedSensorWorkaround", false)) {
+                mainSettings.removePreference(enableSensors);
+                mainSettings.removePreference(autoRotateBrightnessFix);
             }
 
             if (Utils.isXposedInstalled(getContext())) {

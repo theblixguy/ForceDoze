@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="preferenceScreen">
-    <PreferenceCategory android:title="Main">
+    <PreferenceCategory android:title="Main" android:key="mainSettings">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enableSensors"

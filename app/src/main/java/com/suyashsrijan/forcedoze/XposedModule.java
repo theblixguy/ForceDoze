@@ -18,32 +18,14 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
-        if (usePermanentDoze) {
             XResources.setSystemWideReplacement("android", "bool", "config_enableAutoPowerModes", true);
-        }
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        /*if (loadPackageParam.packageName.equals("com.suyashsrijan.forcedoze")) {
-            XposedBridge.log("ForceDozeXposed: Module found");
+       if (loadPackageParam.packageName.equals("android")) {
             prefs = new XSharedPreferences("com.suyashsrijan.forcedoze");
-            XposedBridge.log("ForceDozeXposed: Pref file readable -> " + prefs.getFile().canRead());
-            if (!prefs.getFile().canRead()) {
-                XposedBridge.log("ForceDozeXposed: Making Pref file readable");
-                prefs.getFile().setReadable(true, false);
-                XposedBridge.log("ForceDozeXposed: Pref file readable -> " + prefs.getFile().canRead());
-            }
-            XposedBridge.log("ForceDozeXposed: Reloading prefs");
-            prefs.reload();
-            XposedBridge.log("ForceDozeXposed: Populating prefs");
             usePermanentDoze = prefs.getBoolean("usePermanentDoze", false);
-            useXposedSensorWorkaround = prefs.getBoolean("useXposedSensorWorkaround", false);
-            serviceEnabled = prefs.getBoolean("serviceEnabled", false);
-            XposedBridge.log("ForceDozeXposed: usePermanentDoze: " + usePermanentDoze + ", useXposedSensorWorkaround: " +
-                    useXposedSensorWorkaround + ", serviceEnabled: " + serviceEnabled);
-        } else*/ if (loadPackageParam.packageName.equals("android")) {
-            prefs = new XSharedPreferences("com.suyashsrijan.forcedoze");
             useXposedSensorWorkaround = prefs.getBoolean("useXposedSensorWorkaround", false);
             serviceEnabled = prefs.getBoolean("serviceEnabled", false);
             XposedBridge.log("ForceDozeXposed: usePermanentDoze: " + usePermanentDoze + ", useXposedSensorWorkaround: " +

@@ -206,16 +206,20 @@ public class ForceDozeService extends Service {
         }
         dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT"));
         saveDozeDataStats();
-        if (!enableSensors) {
-            enableSensorsTimer = new Timer();
-            enableSensorsTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "Re-enabling motion sensors");
-                    executeCommand("dumpsys sensorservice enable");
-                    autoRotateBrightnessFix();
-                }
-            }, 2000);
+        if (!useXposedSensorWorkaround) {
+            if (!enableSensors) {
+                enableSensorsTimer = new Timer();
+                enableSensorsTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "Re-enabling motion sensors");
+                        executeCommand("dumpsys sensorservice enable");
+                    }
+                }, 2000);
+            }
+        }
+        if (useAutoRotateAndBrightnessFix) {
+            autoRotateBrightnessFix();
         }
         Timer updateNotif = new Timer();
         updateNotif.schedule(new TimerTask() {
