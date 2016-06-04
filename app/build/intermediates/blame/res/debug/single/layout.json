@@ -8,12 +8,12 @@
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\layout\\md_listitem_singlechoice.xml"
     },
     {
-        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\package_chooser_row.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\layout\\package_chooser_row.xml"
-    },
-    {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item_header.xml",
         "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\layout\\design_navigation_item_header.xml"
+    },
+    {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\package_chooser_row.xml",
+        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\src\\main\\res\\layout\\package_chooser_row.xml"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout\\md_dialog_input.xml",

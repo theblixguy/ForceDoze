@@ -34,6 +34,7 @@ public class ForceDozeService extends Service {
     boolean useAutoRotateAndBrightnessFix = false;
     boolean showPersistentNotif = false;
     boolean ignoreLockscreenTimeout = false;
+    boolean useXposedSensorWorkaround = false;
     int dozeEnterDelay = 0;
     Timer enterDozeTimer;
     Timer disableSensorsTimer;
@@ -69,6 +70,7 @@ public class ForceDozeService extends Service {
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
         this.registerReceiver(localDozeReceiver, filter);
         ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", false);
+        useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
         dozeEnterDelay = getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
         sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
@@ -127,6 +129,7 @@ public class ForceDozeService extends Service {
         disableWhenCharging = getDefaultSharedPreferences(getApplicationContext()).getBoolean("disableWhenCharging", true);
         dozeUsageData = getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageData", new LinkedHashSet<String>());
         showPersistentNotif = getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
+        useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
     }
 
     public void grantDumpPermission() {
@@ -162,22 +165,29 @@ public class ForceDozeService extends Service {
                 dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
                 saveDozeDataStats();
 
-                if (!enableSensors) {
-                    disableSensorsTimer = new Timer();
-                    disableSensorsTimer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Log.i(TAG, "Disabling motion sensors");
-                            if (sensorWhitelistPackage.equals("")) {
-                                executeCommand("dumpsys sensorservice restrict null");
-                            } else {
-                                Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
-                                Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
-                                executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                if (!useXposedSensorWorkaround) {
+                    if (!enableSensors) {
+                        disableSensorsTimer = new Timer();
+                        disableSensorsTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Log.i(TAG, "Disabling motion sensors");
+                                if (sensorWhitelistPackage.equals("")) {
+                                    executeCommand("dumpsys sensorservice restrict null");
+                                } else {
+                                    Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
+                                    Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
+                                    executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                                }
                             }
-                        }
-                    }, 2000);
+                        }, 2000);
+                    } else {
+                        Log.i(TAG, "Not disabling motion sensors because enableSensors=true");
+                    }
+                } else {
+                    Log.i(TAG, "Xposed Sensor workaround selected, not disabling sensors");
                 }
+
             } else {
                 Log.i(TAG, "Screen is on, skip entering Doze");
             }

@@ -255,8 +255,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Enable Doze on unsupported device (experimental)");
         builder.setMessage("Some devices have Doze mode disabled by the OEM. " +
                 "This option can enable Doze mode on devices which do not have it enabled by default.\n\nNote: You need to turn " +
-                "on the ForceDoze module in Xposed in order to permanently enable Doze. If you don't have Xposed installed, you will " +
-                "have to turn this option on every time you restart your phone.");
+                "on the ForceDoze module in Xposed and enable 'Enable Doze on unsupported device' option in the app's Settings, in order " +
+                "to permanently enable Doze. If you don't have Xposed installed, you will have to turn this option on every time you " +
+                "restart your phone.");
         builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -287,8 +288,9 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
         builder.setTitle("Xposed detected");
         builder.setMessage("ForceDoze has detected that Xposed is installed on your device. In order to make Doze permanently " +
-                "enabled on your device, you need to turn on the ForceDoze module in Xposed and restart your device. If you don't turn " +
-                "on the module, you will lose Doze functionality on device restart and will have to manually enable Doze again. ");
+                "enabled on your device, you need to turn on the ForceDoze module in Xposed and enable 'Enable Doze on unsupported device' " +
+                "option in the app's Settings. If you don't turn on the module, you will lose Doze functionality on device restart and " +
+                "will have to manually enable Doze again. ");
         builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

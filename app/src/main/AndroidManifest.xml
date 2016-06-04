@@ -74,7 +74,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Permanently enable Doze on a unsupported device" />
+            android:value="Enables more ForceDoze features" />
         <meta-data
             android:name="xposedminversion"
             android:value="72" />

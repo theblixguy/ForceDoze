@@ -9,8 +9,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -55,11 +57,15 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            getPreferenceManager().setSharedPreferencesMode(MODE_WORLD_READABLE);
             addPreferencesFromResource(R.xml.prefs);
+            PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
+            PreferenceCategory xposedSettings = (PreferenceCategory) findPreference("xposedSettings");
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
             Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
+            Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -194,6 +200,17 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            if (!Utils.isXposedInstalled(getContext())) {
+                preferenceScreen.removePreference(xposedSettings);
+            }
+
+            if (Utils.isXposedInstalled(getContext())) {
+                if (Utils.checkForAutoPowerModesFlag()) {
+                    usePermanentDoze.setEnabled(false);
+                    usePermanentDoze.setSummary("Your device supports Doze");
+                }
+            }
 
         }
 

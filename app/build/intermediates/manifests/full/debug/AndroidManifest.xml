@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.suyashsrijan.forcedoze"
-    android:versionCode="23"
-    android:versionName="1.2.7" >
+    android:versionCode="26"
+    android:versionName="1.2.9" >
 
     <uses-sdk
         android:minSdkVersion="23"
@@ -77,10 +77,10 @@
             android:exported="false" />
 
         <activity
-            android:name="com.suyashsrijan.forcedoze.DozeBatteryConsumption"
+            android:name="com.suyashsrijan.forcedoze.DozeStatsActivity"
             android:label="Doze battery stats" />
         <activity
-            android:name="com.suyashsrijan.forcedoze.WhitelistApps"
+            android:name="com.suyashsrijan.forcedoze.WhitelistAppsActivity"
             android:label="Whitelist" />
         <activity
             android:name="com.suyashsrijan.forcedoze.SettingsActivity"
@@ -89,7 +89,7 @@
             android:name="com.suyashsrijan.forcedoze.LogActivity"
             android:label="Debug log" />
         <activity
-            android:name="com.suyashsrijan.forcedoze.PackageChooser"
+            android:name="com.suyashsrijan.forcedoze.PackageChooserActivity"
             android:label="Package chooser" />
 
         <meta-data
@@ -97,7 +97,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Permanently enable Doze on a unsupported device" />
+            android:value="Enables more ForceDoze features" />
         <meta-data
             android:name="xposedminversion"
             android:value="72" />

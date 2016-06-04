@@ -1,62 +1,78 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="enableSensors"
-        android:summary="Don't disable sensors when the device goes into Doze mode"
-        android:title="Don't disable sensors on screen off" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="disableWhenCharging"
-        android:summary="Turn off ForceDoze when device is plugged in to a charger"
-        android:title="Turn off while charging" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="autoRotateAndBrightnessFix"
-        android:summary="Workaround for auto-rotate and auto-brightness not working after screen on"
-        android:title="Auto-rotate/brightness fix" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="showPersistentNotif"
-        android:summary="Show Doze stats in persistent notification"
-        android:title="Show persistent notification" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="ignoreLockscreenTimeout"
-        android:summary="Ignore lockscreen timeout and enable Doze immediately after screen off"
-        android:title="Ignore lockscreen timeout (experimental)" />
-    <com.suyashsrijan.forcedoze.NumberPickerPreference
-        android:title="Doze delay"
-        android:key="dozeEnterDelay"
-        android:summary="Add a delay before Doze mode kicks in after screen-off"
-        android:defaultValue="0"
-        bindSummary="false"
-        max="30"
-        min="0"
-        step="1" />
-    <Preference
-        android:key="whitelistAppsFromDozeMode"
-        android:summary="Whitelist apps from Doze mode"
-        android:title="Whitelist apps">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="com.suyashsrijan.forcedoze.WhitelistApps"
-            android:targetPackage="com.suyashsrijan.forcedoze" />
-    </Preference>
-    <Preference
-        android:key="resetForceDoze"
-        android:summary="Reset ForceDoze to the default state"
-        android:title="Reset ForceDoze" />
-    <Preference
-        android:key="resetDozeStats"
-        android:summary="Clear Doze battery stats"
-        android:title="Clear stats" />
-    <Preference
-        android:key="debugLogs"
-        android:summary="Show application debug logs"
-        android:title="Debug logs">
-    <intent
-        android:action="android.intent.action.VIEW"
-        android:targetClass="com.suyashsrijan.forcedoze.LogActivity"
-        android:targetPackage="com.suyashsrijan.forcedoze" />
-    </Preference>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="preferenceScreen">
+    <PreferenceCategory android:title="Main">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enableSensors"
+            android:summary="Don't disable device sensors when the device goes into Doze mode"
+            android:title="Don't disable sensors on screen off" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="disableWhenCharging"
+            android:summary="Turn off ForceDoze when device is plugged in to a charger"
+            android:title="Turn off while charging" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="autoRotateAndBrightnessFix"
+            android:summary="Workaround for auto-rotate and auto-brightness not working after screen on"
+            android:title="Auto-rotate/brightness fix" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showPersistentNotif"
+            android:summary="Show Doze stats in persistent notification"
+            android:title="Show persistent notification" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="ignoreLockscreenTimeout"
+            android:summary="Ignore lockscreen timeout and enable Doze immediately after screen off (experimental)"
+            android:title="Ignore lockscreen timeout" />
+        <com.suyashsrijan.forcedoze.NumberPickerPreference
+            bindSummary="false"
+            max="30"
+            min="0"
+            step="1"
+            android:defaultValue="0"
+            android:key="dozeEnterDelay"
+            android:summary="Add a delay before Doze mode kicks in after screen-off"
+            android:title="Doze delay" />
+        <Preference
+            android:key="whitelistAppsFromDozeMode"
+            android:summary="Whitelist apps from Doze mode"
+            android:title="Whitelist apps">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.suyashsrijan.forcedoze.WhitelistAppsActivity"
+                android:targetPackage="com.suyashsrijan.forcedoze" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Xposed" android:key="xposedSettings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="usePermanentDoze"
+            android:summary="Enables Doze on an unsupported device"
+            android:title="Enable Doze on unsupported device" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="useXposedSensorWorkaround"
+            android:summary="Prevent Doze from accessing motion sensors (experimental)"
+            android:title="Disable motion sensing for Doze" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Other">
+        <Preference
+            android:key="resetForceDoze"
+            android:summary="Reset ForceDoze to the default state"
+            android:title="Reset ForceDoze" />
+        <Preference
+            android:key="resetDozeStats"
+            android:summary="Clear Doze battery stats"
+            android:title="Clear stats" />
+        <Preference
+            android:key="debugLogs"
+            android:summary="Show application debug logs"
+            android:title="Debug logs">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.suyashsrijan.forcedoze.LogActivity"
+                android:targetPackage="com.suyashsrijan.forcedoze" />
+        </Preference>
+    </PreferenceCategory>
 </PreferenceScreen>

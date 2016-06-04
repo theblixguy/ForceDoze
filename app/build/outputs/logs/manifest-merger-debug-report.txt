@@ -192,18 +192,18 @@ ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidM
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:60:13-37
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:58:13-45
-activity#com.suyashsrijan.forcedoze.DozeBatteryConsumption
+activity#com.suyashsrijan.forcedoze.DozeStatsActivity
 ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:61:9-63:50
 	android:label
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:63:13-47
 	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:62:13-51
-activity#com.suyashsrijan.forcedoze.WhitelistApps
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:62:13-46
+activity#com.suyashsrijan.forcedoze.WhitelistAppsActivity
 ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:64:9-66:41
 	android:label
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:66:13-38
 	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:65:13-42
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:65:13-50
 activity#com.suyashsrijan.forcedoze.SettingsActivity
 ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:67:9-69:40
 	android:label
@@ -216,12 +216,12 @@ ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidM
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:70:47-72
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:70:19-46
-activity#com.suyashsrijan.forcedoze.PackageChooser
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:9-93
+activity#com.suyashsrijan.forcedoze.PackageChooserActivity
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:9-101
 	android:label
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:50-81
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:58-89
 	android:name
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:19-49
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:71:19-57
 meta-data#xposedmodule
 ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:72:9-74:36
 	android:value
@@ -229,9 +229,9 @@ ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidM
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:73:13-40
 meta-data#xposeddescription
-ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:75:9-77:79
+ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:75:9-77:63
 	android:value
-		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:77:13-76
+		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:77:13-60
 	android:name
 		ADDED from C:\Users\Suyash\AndroidStudioProjects\ForceDoze\app\src\main\AndroidManifest.xml:76:13-45
 meta-data#xposedminversion
