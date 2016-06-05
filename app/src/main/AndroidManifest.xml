@@ -3,14 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.suyashsrijan.forcedoze">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.DUMP" tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.DEVICE_POWER" tools:ignore="ProtectedPermissions"/>
+    <uses-permission
+        android:name="android.permission.DUMP"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.DEVICE_POWER"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <application android:name=".MyApplication"
+    <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,45 +24,58 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver android:name=".BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".AutoRestartOnUpdate" >
+        <receiver android:name=".AutoRestartOnUpdate">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.EnableForceDozeService">
+        <receiver
+            android:name=".EnableForceDozeService"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="com.suyashsrijan.forcedoze.ENABLE_FORCEDOZE"/>
+                <action android:name="com.suyashsrijan.forcedoze.ENABLE_FORCEDOZE" />
             </intent-filter>
         </receiver>
-        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.DisableForceDozeService">
+        <receiver
+            android:name=".DisableForceDozeService"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="com.suyashsrijan.forcedoze.DISABLE_FORCEDOZE"/>
+                <action android:name="com.suyashsrijan.forcedoze.DISABLE_FORCEDOZE" />
             </intent-filter>
         </receiver>
-        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.AddWhiteListReceiver">
+        <receiver
+            android:name=".AddWhiteListReceiver"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="com.suyashsrijan.forcedoze.ADD_WHITELIST"/>
+                <action android:name="com.suyashsrijan.forcedoze.ADD_WHITELIST" />
             </intent-filter>
         </receiver>
-        <receiver android:enabled="true" android:name="com.suyashsrijan.forcedoze.RemoveWhiteListReceiver">
+        <receiver
+            android:name=".RemoveWhiteListReceiver"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="com.suyashsrijan.forcedoze.REMOVE_WHITELIST"/>
+                <action android:name="com.suyashsrijan.forcedoze.REMOVE_WHITELIST" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".ForceDozeService"
             android:enabled="true"
             android:exported="false" />
+
         <activity
             android:name=".DozeStatsActivity"
             android:label="Doze battery stats" />
@@ -67,8 +85,13 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Settings" />
-        <activity android:name=".LogActivity" android:label="Debug log"></activity>
-        <activity android:name=".PackageChooserActivity" android:label="Package chooser"></activity>
+        <activity
+            android:name=".LogActivity"
+            android:label="Debug log" />
+        <activity
+            android:name=".PackageChooserActivity"
+            android:label="Package chooser" />
+
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -78,6 +101,8 @@
         <meta-data
             android:name="xposedminversion"
             android:value="72" />
+
+        <activity android:name=".AboutAppActivity" android:label="About"></activity>
     </application>
 
 </manifest>

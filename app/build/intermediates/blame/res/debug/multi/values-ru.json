@@ -463,8 +463,46 @@
                     "startLine": 26,
                     "startColumn": 4,
                     "startOffset": 2404,
+                    "endColumn": 49,
+                    "endOffset": 2449
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\de.psdev.licensesdialog\\licensesdialog\\1.8.1\\res\\values-ru\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 782,
+                        "endColumn": 49,
+                        "endOffset": 827
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 2454,
+                    "endColumn": 63,
+                    "endOffset": 2513
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\de.psdev.licensesdialog\\licensesdialog\\1.8.1\\res\\values-ru\\strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 717,
+                        "endColumn": 63,
+                        "endOffset": 776
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 2518,
                     "endColumn": 100,
-                    "endOffset": 2500
+                    "endOffset": 2614
                 },
                 "from": {
                     "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ru\\values-ru.xml",

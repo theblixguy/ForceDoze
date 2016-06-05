@@ -173,7 +173,7 @@ public class ForceDozeService extends Service {
                             public void run() {
                                 Log.i(TAG, "Disabling motion sensors");
                                 if (sensorWhitelistPackage.equals("")) {
-                                    executeCommand("dumpsys sensorservice restrict null");
+                                    executeCommand("dumpsys sensorservice restrict com.android.server.display.AutomaticBrightnessController");
                                 } else {
                                     Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
                                     Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
@@ -214,13 +214,12 @@ public class ForceDozeService extends Service {
                     public void run() {
                         Log.i(TAG, "Re-enabling motion sensors");
                         executeCommand("dumpsys sensorservice enable");
+                        autoRotateBrightnessFix();
                     }
                 }, 2000);
             }
         }
-        if (useAutoRotateAndBrightnessFix) {
-            autoRotateBrightnessFix();
-        }
+
         Timer updateNotif = new Timer();
         updateNotif.schedule(new TimerTask() {
             @Override
@@ -270,7 +269,7 @@ public class ForceDozeService extends Service {
             Utils.setAutoRotateEnabled(getApplicationContext(), !Utils.isAutoRotateEnabled(getApplicationContext()));
             try {
                 Log.i(TAG, "Sleeping for 200ms");
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Log.e(TAG, e.toString());
             }
@@ -278,7 +277,7 @@ public class ForceDozeService extends Service {
             Utils.setAutoRotateEnabled(getApplicationContext(), !Utils.isAutoRotateEnabled(getApplicationContext()));
             try {
                 Log.i(TAG, "Sleeping for 200ms");
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Log.e(TAG, e.toString());
             }
@@ -287,7 +286,7 @@ public class ForceDozeService extends Service {
             Utils.setAutoBrightnessEnabled(getApplicationContext(), !Utils.isAutoBrightnessEnabled(getApplicationContext()));
             try {
                 Log.i(TAG, "Sleeping for 200ms");
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Log.e(TAG, e.toString());
             }

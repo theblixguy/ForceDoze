@@ -24,5 +24,7 @@
     <string name="changelog_show_full">Mehr…</string>
     <string name="changelog_title">Das ist neu</string>
     <string name="changelog_version_format">Version <ns1:g id="version_name">%s</ns1:g></string>
+    <string name="notices_close">Schließen</string>
+    <string name="notices_title">Anmerkungen</string>
     <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

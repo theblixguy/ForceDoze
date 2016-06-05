@@ -1,0 +1,94 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rrl_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#232937"
+    android:fitsSystemWindows="true">
+
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_cal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HomeActivity">
+
+        <RelativeLayout
+            android:paddingRight="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="sans-serif-light"
+                android:text="ForceDoze for\nAndroid"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="36sp"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView2"
+                android:layout_alignStart="@+id/textView2"
+                android:layout_below="@+id/textView2"
+                android:layout_marginTop="38dp"
+                android:text="Version"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#9BA0AA"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView3"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_below="@+id/textView3"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/version_num_text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#586174" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView6"
+                android:layout_alignStart="@+id/textView6"
+                android:layout_below="@+id/textView6"
+                android:layout_marginTop="30dp"
+                android:text="licenses"
+                android:onClick="showLicences"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#9BA0AA"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41dp"
+                android:elegantTextHeight="false"
+                android:fontFamily="sans-seif-thin"
+                android:longClickable="false"
+                android:singleLine="false"
+                android:text="@string/about_app_opensrc_text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#9BA0AA"
+                android:layout_below="@+id/textView4"
+                android:layout_alignStart="@+id/textView4" />
+
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+</FrameLayout>

@@ -153,9 +153,9 @@ public class LogActivity extends AppCompatActivity {
                     getAndPrintLogcat();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this, R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle("Error");
-                    builder.setMessage("SU permission denied or SU not available, so cannot read logcat. ");
-                    builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    builder.setTitle(getString(R.string.error_text));
+                    builder.setMessage(getString(R.string.doze_stats_su_denied_error_dialog_text));
+                    builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();

@@ -37,10 +37,10 @@ public class PackageChooserActivity extends ListActivity {
         pm = getPackageManager();
 
         progressDialog = new MaterialDialog.Builder(this)
-                .title("Please wait")
+                .title(getString(R.string.please_wait_text))
                 .autoDismiss(false)
                 .cancelable(false)
-                .content("Loading installed apps...")
+                .content(R.string.loading_installed_apps_text)
                 .progress(true, 0)
                 .show();
 

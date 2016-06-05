@@ -368,8 +368,46 @@
                     "startLine": 21,
                     "startColumn": 4,
                     "startOffset": 1895,
-                    "endColumn": 100,
+                    "endColumn": 45,
+                    "endOffset": 1936
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\de.psdev.licensesdialog\\licensesdialog\\1.8.1\\res\\values-ja\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 773,
+                        "endColumn": 45,
+                        "endOffset": 814
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 1941,
+                    "endColumn": 54,
                     "endOffset": 1991
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\de.psdev.licensesdialog\\licensesdialog\\1.8.1\\res\\values-ja\\strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 717,
+                        "endColumn": 54,
+                        "endOffset": 767
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1996,
+                    "endColumn": 100,
+                    "endOffset": 2092
                 },
                 "from": {
                     "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ja\\values-ja.xml",

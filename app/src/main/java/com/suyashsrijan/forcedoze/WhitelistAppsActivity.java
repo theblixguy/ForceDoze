@@ -57,11 +57,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
         showDozeWhitelistWarning = sharedPreferences.getBoolean("showDozeWhitelistWarning", true);
 
         if (showDozeWhitelistWarning) {
-            displayDialog("Whitelisting", "An app that is whitelisted can use the network and hold " +
-                    "partial wake locks during Doze and App Standby. However, other restrictions " +
-                    "still apply to the whitelisted app, just as they do to other apps. For example, " +
-                    "the whitelisted app’s jobs and syncs are deferred, and its regular AlarmManager " +
-                    "alarms do not fire. ");
+            displayDialog(getString(R.string.whitelisting_text), getString(R.string.whitelisted_apps_restrictions_text));
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("whitelistApps");
             editor.putBoolean("showDozeWhitelistWarning", false);
@@ -117,7 +113,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
             if (requestCode == 999) {
                 String message = data.getStringExtra("package_name");
                 if (whitelistedPackages.contains(message)) {
-                    displayDialog("Info", "The app you're trying to add is already whitelisted!");
+                    displayDialog(getString(R.string.info_text), getString(R.string.app_already_whitelisted_text));
                 } else {
                     WhitelistAppsItem appItem = new WhitelistAppsItem();
                     appItem.setAppPackageName(message);
@@ -139,7 +135,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
             } else if (requestCode == 998) {
                 String message = data.getStringExtra("package_name");
                 if (!whitelistedPackages.contains(message)) {
-                    displayDialog("Info", "The app you're trying to remove does not exist in the whitelist");
+                    displayDialog(getString(R.string.info_text), getString(R.string.app_not_whitelisted_text));
                 } else {
                     WhitelistAppsItem appItem = new WhitelistAppsItem();
                     appItem.setAppPackageName(message);
@@ -184,7 +180,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Close", null);
+        builder.setPositiveButton(getString(R.string.close_button_text), null);
         builder.show();
     }
 

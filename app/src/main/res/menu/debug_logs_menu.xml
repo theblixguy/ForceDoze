@@ -4,11 +4,11 @@
     <item
         android:id="@+id/action_share_log"
         android:orderInCategory="100"
-        android:title="Share log"
+        android:title="@string/share_log_menu_item"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_share_fulllog"
         android:orderInCategory="100"
-        android:title="Share full logcat"
+        android:title="@string/share_full_logcat_menu_item"
         app:showAsAction="never"/>
 </menu>

@@ -31,7 +31,7 @@ import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
 import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     public static String TAG = "ForceDoze";
     SharedPreferences settings;
     SharedPreferences.Editor editor;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean serviceEnabled = false;
     Boolean isDumpPermGranted = false;
     Boolean ignoreLockscreenTimeout = true;
+    Boolean showDonateDevDialog = true;
     SwitchCompat toggleForceDozeSwitch;
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         CustomTabs.with(getApplicationContext()).warm();
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
+        showDonateDevDialog = settings.getBoolean("showDonateDevDialog", true);
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
         isDozeDisabled = settings.getBoolean("isDozeDisabled", false);
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
@@ -63,36 +65,24 @@ public class MainActivity extends AppCompatActivity {
         toggleForceDozeSwitch = (SwitchCompat) findViewById(R.id.switch1);
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
         textViewStatus = (TextView) findViewById(R.id.textView2);
-        toggleForceDozeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    editor = settings.edit();
-                    editor.putBoolean("serviceEnabled", true);
-                    editor.apply();
-                    textViewStatus.setText("ForceDoze service is active");
-                    if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
-                        Log.i(TAG, "Enabling ForceDoze");
-                        startService(new Intent(MainActivity.this, ForceDozeService.class));
-                    }
-                } else {
-                    editor = settings.edit();
-                    editor.putBoolean("serviceEnabled", false);
-                    editor.apply();
-                    textViewStatus.setText("ForceDoze service is inactive");
-                    if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
-                        Log.i(TAG, "Disabling ForceDoze");
-                        stopService(new Intent(MainActivity.this, ForceDozeService.class));
-                    }
-                }
-            }
-        });
+
+        toggleForceDozeSwitch.setOnCheckedChangeListener(null);
+
+        if (serviceEnabled) {
+            textViewStatus.setText(R.string.service_active);
+            toggleForceDozeSwitch.setChecked(true);
+        } else {
+            textViewStatus.setText(R.string.service_inactive);
+            toggleForceDozeSwitch.setChecked(false);
+        }
+
+        toggleForceDozeSwitch.setOnCheckedChangeListener(this);
 
         if (isDumpPermGranted) {
             Log.i(TAG, "android.permission.DUMP already granted, skipping SU check");
             if (serviceEnabled) {
                 toggleForceDozeSwitch.setChecked(true);
-                textViewStatus.setText("ForceDoze service is active");
+                textViewStatus.setText(R.string.service_active);
                 if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                     Log.i(TAG, "Starting ForceDozeService");
                     startService(new Intent(this, ForceDozeService.class));
@@ -100,19 +90,24 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Service already running");
                 }
             } else {
-                textViewStatus.setText("ForceDoze service is inactive");
+                textViewStatus.setText(R.string.service_inactive);
                 Log.i(TAG, "Service not enabled");
             }
             ChangeLog cl = new ChangeLog(this);
             if (cl.isFirstRun()) {
                 cl.getFullLogDialog().show();
+            } else {
+                if (showDonateDevDialog) {
+                    showDonateDevDialog();
+                }
             }
+
         } else {
             progressDialog = new MaterialDialog.Builder(this)
-                    .title("Please wait")
+                    .title(R.string.please_wait_text)
                     .autoDismiss(false)
                     .cancelable(false)
-                    .content("Requesting SU access...")
+                    .content(R.string.requesting_su_access_text)
                     .progress(true, 0)
                     .show();
             Log.i(TAG, "Check if SU is available, and request SU permission if it is");
@@ -160,16 +155,15 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG, "SU permission denied or not available");
                         toggleForceDozeSwitch.setChecked(false);
                         toggleForceDozeSwitch.setEnabled(false);
-                        textViewStatus.setText("ForceDoze service is disabled");
+                        textViewStatus.setText(R.string.service_disabled);
                         editor = settings.edit();
                         editor.putBoolean("isSuAvailable", false);
                         editor.apply();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                        builder.setTitle("Error");
-                        builder.setMessage("SU permission denied or not available! If you don't have root, " +
-                                "press 'Root workaround' to get instructions on how to enable no-root mode");
-                        builder.setPositiveButton("Close", null);
-                        builder.setNegativeButton("Root workaround", new DialogInterface.OnClickListener() {
+                        builder.setTitle(getString(R.string.error_text));
+                        builder.setMessage(getString(R.string.root_workaround_text));
+                        builder.setPositiveButton(getString(R.string.close_button_text), null);
+                        builder.setNegativeButton(getString(R.string.root_workaround_button_text), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
@@ -195,8 +189,8 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
             if (!ignoreLockscreenTimeout) {
                 coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-                Snackbar.make(coordinatorLayout, "The lockscreen timeout value on your device is too high!", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("More info", new View.OnClickListener() {
+                Snackbar.make(coordinatorLayout, R.string.lockscreen_timeout_snackbar_text, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.more_info_text, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 showLockScreenTimeoutInfoDialog();
@@ -234,12 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 showEnableDozeOnUnsupportedDeviceDialog();
                 break;
             case R.id.action_donate_dev:
-                CustomTabs.with(getApplicationContext())
-                        .setStyle(new CustomTabs.Style(getApplicationContext())
-                                .setShowTitle(true)
-                                .setExitAnimation(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                                .setToolbarColor(R.color.colorPrimary))
-                        .openUrl("https://www.paypal.me/suyashsrijan", this);
+                openDonatePage();
                 break;
             case R.id.action_doze_batterystats:
                 startActivity(new Intent(MainActivity.this, DozeStatsActivity.class));
@@ -254,21 +243,50 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (b) {
+            editor = settings.edit();
+            editor.putBoolean("serviceEnabled", true);
+            editor.apply();
+            textViewStatus.setText(R.string.service_active);
+            if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
+                Log.i(TAG, "Enabling ForceDoze");
+                startService(new Intent(MainActivity.this, ForceDozeService.class));
+            }
+            showForceDozeActiveDialog();
+        } else {
+            editor = settings.edit();
+            editor.putBoolean("serviceEnabled", false);
+            editor.apply();
+            textViewStatus.setText(R.string.service_inactive);
+            if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
+                Log.i(TAG, "Disabling ForceDoze");
+                stopService(new Intent(MainActivity.this, ForceDozeService.class));
+            }
+        }
+    }
+
+    public void openDonatePage() {
+        CustomTabs.with(getApplicationContext())
+                .setStyle(new CustomTabs.Style(getApplicationContext())
+                        .setShowTitle(true)
+                        .setExitAnimation(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        .setToolbarColor(R.color.colorPrimary))
+                .openUrl("https://www.paypal.me/suyashsrijan", this);
+    }
+
     public void showEnableDozeOnUnsupportedDeviceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Enable Doze on unsupported device (experimental)");
-        builder.setMessage("Some devices have Doze mode disabled by the OEM. " +
-                "This option can enable Doze mode on devices which do not have it enabled by default.\n\nNote: You need to turn " +
-                "on the ForceDoze module in Xposed and enable 'Enable Doze on unsupported device' option in the app's Settings, in order " +
-                "to permanently enable Doze. If you don't have Xposed installed, you will have to turn this option on every time you " +
-                "restart your phone.");
-        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.doze_unsupported_more_info_title));
+        builder.setMessage(getString(R.string.doze_unsupported_more_info));
+        builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        builder.setNegativeButton("Enable Doze mode", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.enable_doze_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 executeCommand("setprop persist.sys.doze_powersave true");
@@ -290,12 +308,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void showEnableXposedModuleDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Xposed detected");
-        builder.setMessage("ForceDoze has detected that Xposed is installed on your device. In order to make Doze permanently " +
-                "enabled on your device, you need to turn on the ForceDoze module in Xposed and enable 'Enable Doze on unsupported device' " +
-                "option in the app's Settings. If you don't turn on the module, you will lose Doze functionality on device restart and " +
-                "will have to manually enable Doze again. ");
-        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.xposed_detected_dialog_title));
+        builder.setMessage(getString(R.string.xposed_detected_dialog_text));
+        builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -306,12 +321,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void showRootWorkaroundInstructions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("No-root workaround");
-        builder.setMessage("If your device isn't rooted, you can manually grant the permission 'android.permission.DUMP' " +
-                "to this app by executing the following ADB command from your PC (the command is one-line, not separated):\n\n" + "\"adb -d shell pm grant com.suyashsrijan.forcedoze android.permission.DUMP\"\n\n" +
-                "Once you have done, please close this app and start again and you will then be able to access the app properly.");
-        builder.setPositiveButton("Okay", null);
-        builder.setNegativeButton("Share command", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.no_root_workaround_dialog_title));
+        builder.setMessage(getString(R.string.no_root_workaround_dialog_text));
+        builder.setPositiveButton(getString(R.string.okay_button_text), null);
+        builder.setNegativeButton(getString(R.string.share_command_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -329,15 +342,12 @@ public class MainActivity extends AppCompatActivity {
     public void showLockScreenTimeoutInfoDialog() {
         float lockscreenTimeout = Utils.getLockscreenTimeoutValue(getContentResolver());
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Lockscreen timeout");
-        builder.setMessage("The lockscreen timeout value on your device is too high (" + lockscreenTimeout + " mins). This means your device does not " +
-                "automatically lock itself after the screen turns off until " + lockscreenTimeout + " mins have passed. This also means ForceDoze will wait " +
-                "for " + lockscreenTimeout + " mins before making your device enter Doze mode by using a temporary wake lock. If you want ForceDoze to make " +
-                "the device enter Doze mode faster, consider reducing the lockscreen timeout to Immediately in your device's Security Settings. If you want " +
-                "ForceDoze to make the device enter Doze mode regardless of the lockscreen timeout, turn on 'Ignore lockscreen timeout' option in ForceDoze " +
-                "Settings.");
-        builder.setPositiveButton("Okay", null);
-        builder.setNegativeButton("Open Security Settings", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.lockscreen_timeout_dialog_title));
+        builder.setMessage(getString(R.string.lockscreen_timeout_dialog_text_p1) + lockscreenTimeout + getString(R.string.lockscreen_timeout_dialog_text_p2) +
+                getString(R.string.lockscreen_timeout_dialog_text_p3) + lockscreenTimeout + getString(R.string.lockscreen_timeout_dialog_text_p4) +
+                getString(R.string.lockscreen_timeout_dialog_text_p5) + lockscreenTimeout + getString(R.string.lockscreen_timeout_dialog_text_p6));
+        builder.setPositiveButton(getString(R.string.okay_button_text), null);
+        builder.setNegativeButton(getString(R.string.open_security_settings_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -351,24 +361,50 @@ public class MainActivity extends AppCompatActivity {
 
     public void showMoreInfoDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("More info");
-        builder.setMessage("How Doze mode works on your device:\n\nIf a user leaves a device unplugged and stationary for a period of time (30 mins), with the screen off, " +
-                "the device enters Doze mode. In Doze mode, the system attempts to conserve battery by restricting apps' " +
-                "access to network and CPU-intensive services. It also prevents apps from accessing the network and defers " +
-                "their jobs, syncs, and standard alarms\n\nPeriodically, the system exits Doze for a brief time to let apps complete " +
-                "their deferred activities. During this maintenance window, the system runs all pending syncs, jobs, and alarms, and " +
-                "lets apps access the network\n\nAt the conclusion of each maintenance window, the system again enters Doze, suspending " +
-                "network access and deferring jobs, syncs, and alarms. Over time, the system schedules maintenance windows less and less " +
-                "frequently, helping to reduce battery consumption in cases of longer-term inactivity when the device is not connected " +
-                "to a charger.\n\nAs soon as the user wakes the device by moving it, turning on the screen, or connecting a charger, " +
-                "the system exits Doze and all apps return to normal activity\n\nHow ForceDoze works:\n\nForceDoze makes the device enter Doze mode immediately " +
-                "after screen off (or after a user specified delay), instead of waiting for 30 mins for the device to become stationary. On top of that, ForceDoze " +
-                "also turns of the device's motion sensors, so Doze doesn't deactivate if you move your device. Doze will only deactivate during a maintenance window " +
-                "(as explained above) or when you turn on your screen, which means your device will stay in Doze mode for a much longer time even if the device's screen " +
-                "is off and the device is not stationary, which means the battery savings will be a lot higher than normal Doze.");
-        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.more_info_text));
+        builder.setMessage(getString(R.string.how_doze_works_dialog_text));
+        builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    public void showForceDozeActiveDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(getString(R.string.forcedoze_active_dialog_title));
+        builder.setMessage(getString(R.string.forcedoze_active_dialog_text));
+        builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    public void showDonateDevDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(getString(R.string.donate_dialog_title));
+        builder.setMessage(getString(R.string.donate_dialog_text));
+        builder.setPositiveButton(getString(R.string.donate_dialog_button_text), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                editor = settings.edit();
+                editor.putBoolean("showDonateDevDialog", false);
+                editor.apply();
+                dialogInterface.dismiss();
+                openDonatePage();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                editor = settings.edit();
+                editor.putBoolean("showDonateDevDialog", false);
+                editor.apply();
                 dialogInterface.dismiss();
             }
         });

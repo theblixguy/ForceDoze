@@ -4,27 +4,27 @@
     <item
         android:id="@+id/action_app_settings"
         android:orderInCategory="100"
-        android:title="Settings"
+        android:title="@string/settings_menu_item"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_donate_dev"
         android:orderInCategory="100"
-        android:title="Donate"
+        android:title="@string/donate_menu_item"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_toggle_doze"
         android:orderInCategory="100"
-        android:title="Enable Doze on unsupported device"
+        android:title="@string/doze_unsupported_menu_item"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_doze_batterystats"
         android:orderInCategory="100"
-        android:title="Doze Battery stats"
+        android:title="@string/doze_stats_menu_item"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_doze_more_info"
         android:icon="@drawable/ic_info_outline_white_24dp"
         android:orderInCategory="100"
-        android:title="More info"
+        android:title="@string/more_info_menu_item"
         app:showAsAction="always"/>
 </menu>

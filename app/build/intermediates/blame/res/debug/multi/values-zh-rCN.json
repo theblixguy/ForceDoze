@@ -368,8 +368,46 @@
                     "startLine": 21,
                     "startColumn": 4,
                     "startOffset": 1874,
+                    "endColumn": 44,
+                    "endOffset": 1914
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\de.psdev.licensesdialog\\licensesdialog\\1.8.1\\res\\values-zh-rCN\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 768,
+                        "endColumn": 44,
+                        "endOffset": 808
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 1919,
+                    "endColumn": 49,
+                    "endOffset": 1964
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\de.psdev.licensesdialog\\licensesdialog\\1.8.1\\res\\values-zh-rCN\\strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 717,
+                        "endColumn": 49,
+                        "endOffset": 762
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1969,
                     "endColumn": 100,
-                    "endOffset": 1970
+                    "endOffset": 2065
                 },
                 "from": {
                     "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-zh-rCN\\values-zh-rCN.xml",
