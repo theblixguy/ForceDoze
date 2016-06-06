@@ -54,7 +54,7 @@
     <string name="whitelist_apps_setting_summary">Lista de aplicativos excluidos do modo Doze</string>
     <string name="whitelist_apps_setting_text">Lista de aplicativos excluidos</string>
     <string name="doze_unsupported_xposed_setting_summary">Habilita Doze em dispositivo sem suporte</string>
-    <string name="doze_unsupported_xposed_setting_title">Habilitar Doze em dispositivos sem suporte</string>
+    <string name="doze_unsupported_xposed_setting_title">Habilitar Doze em dispositivo sem suporte</string>
     <string name="doze_sensors_xposed_setting_summary">Previne que Doze acesse os sensores de movimento (experimental)</string>
     <string name="doze_sensors_xposed_setting_title">Desabilitar sensores de movimento para Doze</string>
     <string name="reset_forcedoze_setting_summary">Redefine ForceDoze para as configurações originais</string>
