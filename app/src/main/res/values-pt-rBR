@@ -81,6 +81,6 @@
     <string name="about_app_opensrc_text">ForceDoze para Android foi criado utilizando software de código aberto:</string>
     <string name="version_num_text">1.3.0 rev 30</string>
     <string name="translation_credits_dialog_title">créditos de tradução</string>
-    <string name="translation_credits_dialog_text">Agradeço a siguintes pessoas por traduzir ForceDoze para outros idiomas: Espanhol: monza1412 (XDA)/n/nPortuguês-BR: GamerVicioX (GitHub)</string>
+    <string name="translation_credits_dialog_text">Agradeço as seguintes pessoas por traduzir ForceDoze para outros idiomas: Espanhol: monza1412 (XDA)/n/nPortuguês-BR: GamerVicioX (GitHub)</string>
     <string name="loading_whitelisted_packages">Carregando a lista blanca de pacotes ...</string>
 </resources>
