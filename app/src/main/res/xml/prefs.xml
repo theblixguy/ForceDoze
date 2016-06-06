@@ -25,6 +25,11 @@
             android:key="ignoreLockscreenTimeout"
             android:summary="@string/lockscreen_timeout_setting_summary"
             android:title="@string/lockscreen_timeout_setting_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="turnOffInternetInDoze"
+            android:summary="@string/turn_off_internet_doze_setting_summary"
+            android:title="@string/turn_off_internet_doze_setting_title" />
         <com.suyashsrijan.forcedoze.NumberPickerPreference
             bindSummary="false"
             max="30"

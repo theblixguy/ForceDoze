@@ -75,19 +75,16 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle("Do you want to reset?");
-                    builder.setMessage("Resetting ForceDoze will make the following changes: \n\n1) Stop " +
-                            "ForceDoze service\n2) Re-enable sensors, just in case they are disabled\n3) Disable and " +
-                            "re-enable Doze mode, to ensure Doze mode is turned on properly\n4) Reset app preferences\n5) " +
-                            "Revoke DUMP and READ_LOGS (if granted) permission\n\nDo you want to continue?");
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setTitle(getString(R.string.forcedoze_reset_initial_dialog_title));
+                    builder.setMessage(getString(R.string.forcedoze_reset_initial_dialog_text));
+                    builder.setPositiveButton(getString(R.string.yes_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
                             resetForceDoze();
                         }
                     });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getString(R.string.no_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
@@ -104,10 +101,9 @@ public class SettingsActivity extends AppCompatActivity {
                     int delay = (int) o;
                     if (delay >= 5) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-                        builder.setTitle("Warning");
-                        builder.setMessage("Doze Delay value is currently too high and may have a negative effect on battery life. Make sure " +
-                                "to test the effects of the delay on battery life and consider reducing the delay if there is a noticeable drop in battery life.");
-                        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        builder.setTitle(getString(R.string.doze_delay_warning_dialog_title));
+                        builder.setMessage(getString(R.string.doze_delay_warning_dialog_text));
+                        builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
@@ -133,10 +129,10 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     progressDialog1 = new MaterialDialog.Builder(getActivity())
-                            .title("Please wait")
+                            .title(getString(R.string.please_wait_text))
                             .cancelable(false)
                             .autoDismiss(false)
-                            .content("Requesting SU access...")
+                            .content(getString(R.string.requesting_su_access_text))
                             .progress(true, 0)
                             .show();
                     Log.i(TAG, "Check if SU is available, and request SU permission if it is");
@@ -159,9 +155,9 @@ public class SettingsActivity extends AppCompatActivity {
                             } else {
                                 Log.i(TAG, "SU permission denied or not available");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                builder.setTitle("Error");
-                                builder.setMessage("SU permission denied or not available!");
-                                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                builder.setTitle(getString(R.string.error_text));
+                                builder.setMessage(getString(R.string.su_perm_denied_msg));
+                                builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
@@ -192,9 +188,9 @@ public class SettingsActivity extends AppCompatActivity {
                         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle("Cleared");
-                    builder.setMessage("Doze battery stats was successfully cleared!");
-                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    builder.setTitle(getString(R.string.cleared_text));
+                    builder.setMessage(getString(R.string.doze_battery_stats_clear_msg));
+                    builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
@@ -209,10 +205,10 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     progressDialog1 = new MaterialDialog.Builder(getActivity())
-                            .title("Please wait")
+                            .title(getString(R.string.please_wait_text))
                             .cancelable(false)
                             .autoDismiss(false)
-                            .content("Requesting SU access...")
+                            .content(getString(R.string.requesting_su_access_text))
                             .progress(true, 0)
                             .show();
                     Log.i(TAG, "Check if SU is available, and request SU permission if it is");
@@ -236,8 +232,8 @@ public class SettingsActivity extends AppCompatActivity {
                             } else {
                                 Log.i(TAG, "SU permission denied or not available");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                builder.setTitle("Error");
-                                builder.setMessage("SU permission denied or not available!");
+                                builder.setTitle(getString(R.string.error_text));
+                                builder.setMessage(getString(R.string.su_perm_denied_msg));
                                 builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -270,7 +266,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (Utils.isXposedInstalled(getContext())) {
                 if (Utils.checkForAutoPowerModesFlag()) {
                     usePermanentDoze.setEnabled(false);
-                    usePermanentDoze.setSummary("Your device supports Doze");
+                    usePermanentDoze.setSummary(R.string.device_supports_doze_text);
                 }
             }
 
@@ -278,10 +274,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         public void requestWriteSettingsPermission() {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-            builder.setTitle("Auto-rotate and auto-brightness fix");
-            builder.setMessage("ForceDoze requires permission to modify the auto-rotate and auto-brightness setting on your phone in order to use this feature. " +
-                    "Press 'Authorize' to grant permission, or press 'Cancel' to deny");
-            builder.setPositiveButton("Authorize", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.auto_rotate_brightness_fix_dialog_title));
+            builder.setMessage(getString(R.string.auto_rotate_brightness_fix_dialog_text));
+            builder.setPositiveButton(getString(R.string.authorize_button_text), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
@@ -289,7 +284,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            builder.setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.deny_button_text), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
@@ -321,12 +316,9 @@ public class SettingsActivity extends AppCompatActivity {
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_LOGS");
             Log.i(TAG, "ForceDoze reset procedure complete");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-            builder.setTitle("Reset complete");
-            builder.setMessage("ForceDoze has resetted itself. The following changes were made: \n\n1) Stop " +
-                    "ForceDoze service\n2) Re-enable sensors, just in case they are disabled\n3) Disable and " +
-                    "re-enable Doze mode, to ensure Doze mode is turned on properly\n4) Reset app preferences\n5) " +
-                    "Revoke DUMP and READ_LOGS (if granted) permission\n\nIt is recommended that you restart your device. The app will restart now!");
-            builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.reset_complete_dialog_title));
+            builder.setMessage(getString(R.string.reset_complete_dialog_text));
+            builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();

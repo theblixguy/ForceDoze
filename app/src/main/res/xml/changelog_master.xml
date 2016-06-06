@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.0" versioncode="30">
-        <change>New: Spanish Translation (thanks to monza1412 from XDA)</change>
-        <change>Changed: Whitelist UI now loads packages directly from Doze whitelist</change>
-        <change>Changed: ForceDoze will exit Doze mode if you plug your charger while the device
-            is in Doze mode and 'Disable when charging' is enabled in Settings. Previously, it only
-            prevented the device from entering Doze if the charger was connected before the screen
-            turned off (and entered Doze)</change>
+    <release version="1.3.1" versioncode="31">
+        <change>New: Portuguese (Brazil) Translation (thanks to GamerVicioX from GitHub)</change>
+        <change>New: Disable WiFi and mobile data during Doze (it will be re-enabled during a Doze
+            maintenance window, or when you turn on the screen). State will be maintained, so if you
+            never had WiFi or mobile data enabled before the device entered Doze, then it won't be
+            re-enabled</change>
+        <change>Changed: Brought back 'Clear stats' option into Doze battery stats UI</change>
+        <change>Fixed: Lockscreen timeout added to Doze Delay even when 'Ignore lockscreen timeout' is enabled</change>
     </release>
 </changelog>

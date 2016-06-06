@@ -1,8 +1,15 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -35,5 +42,45 @@ public class DozeStatsActivity extends AppCompatActivity {
         }
         batteryConsumptionAdapter = new BatteryConsumptionAdapter(this, batteryConsumptionItems);
         listView.setAdapter(batteryConsumptionAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.doze_stats_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_clear_stats:
+                clearStats();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void clearStats() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("dozeUsageData");
+        editor.apply();
+        if (Utils.isMyServiceRunning(ForceDozeService.class, this)) {
+            Intent intent = new Intent("reload-settings");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
+        batteryConsumptionItems.clear();
+        batteryConsumptionAdapter.notifyDataSetChanged();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(getString(R.string.cleared_text));
+        builder.setMessage(getString(R.string.doze_battery_stats_clear_msg));
+        builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 }

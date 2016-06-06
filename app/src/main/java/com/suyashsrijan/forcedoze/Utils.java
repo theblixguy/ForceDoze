@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.display.DisplayManager;
 import android.media.AudioManager;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.PowerManager;
@@ -129,6 +130,16 @@ public class Utils {
     public static boolean isUserInCall(Context context) {
         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return manager.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK || manager.getCallState() == TelephonyManager.CALL_STATE_RINGING;
+    }
+
+    public static boolean isMobileDataConnected(Context context) {
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return manager.getDataState() == TelephonyManager.DATA_CONNECTED;
+    }
+
+    public static boolean isWiFiConnected(Context context) {
+        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        return wifi.isWifiEnabled();
     }
 
     public static boolean isLockscreenTimeoutValueTooHigh(ContentResolver contentResolver) {
