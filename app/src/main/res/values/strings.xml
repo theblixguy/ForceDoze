@@ -81,5 +81,5 @@
     <string name="version_num_text">1.3.0 rev 30</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
     <string name="translation_credits_dialog_title">Translation credits</string>
-    <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)</string>
+    <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA) \n\nPortuguese-BR: GamerVicioX (GitHub)</string>
 </resources>
