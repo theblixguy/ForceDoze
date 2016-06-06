@@ -49,7 +49,7 @@
     <string name="persistent_notification_setting_title">Mostrar notificação persistente</string>
     <string name="lockscreen_timeout_setting_summary">Ignorar tempo limite de bloqueio de tela e ativar Doze imediatamente após desligar a tela</string>
     <string name="lockscreen_timeout_setting_title">Ignorar tempo limite de bloqueio de tela</string>
-    <string name="doze_delay_setting_summary">Adicionar atraso para que o modo Doze se ative após a tela desligar</string>
+    <string name="doze_delay_setting_summary">Adiciona um atraso para que o modo Doze se ative após a tela desligar</string>
     <string name="doze_delay_setting_title">Atraso de Doze</string>
     <string name="whitelist_apps_setting_summary">Lista de aplicativos excluidos do modo Doze</string>
     <string name="whitelist_apps_setting_text">Lista de aplicativos excluidos</string>
