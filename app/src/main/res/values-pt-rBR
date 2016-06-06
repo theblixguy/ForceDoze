@@ -69,7 +69,7 @@
     <string name="remove_menu_item">Remover</string>
     <string name="settings_menu_item">Configurações</string>
     <string name="donate_menu_item">Doar</string>
-    <string name="doze_unsupported_menu_item">Habilitar Doze e, dispositivo não suportados</string>
+    <string name="doze_unsupported_menu_item">Habilitar Doze em dispositivos não suportados</string>
     <string name="doze_stats_menu_item">Estatísticas de bateria em modo Doze</string>
     <string name="more_info_menu_item">Mais Info</string>
     <string name="forcedoze_active_dialog_title">Isso é tudo</string>
