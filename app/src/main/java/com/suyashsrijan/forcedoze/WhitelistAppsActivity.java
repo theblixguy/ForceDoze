@@ -1,5 +1,6 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,8 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.nanotasks.BackgroundWork;
+import com.nanotasks.Completion;
+import com.nanotasks.Tasks;
+
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -24,11 +31,11 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     WhitelistAppsAdapter whitelistAppsAdapter;
     Set<String> whitelistedPackages;
-    String sensorWhitelistPackage = "";
     public ArrayList<WhitelistAppsItem> listData = new ArrayList<>();
     public static String TAG = "ForceDoze";
     boolean showDozeWhitelistWarning = true;
     Boolean isSuAvailable = false;
+    MaterialDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,30 +43,68 @@ public class WhitelistAppsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_whitelist_apps);
         listView = (ListView) findViewById(R.id.listView2);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        whitelistedPackages = sharedPreferences.getStringSet("whitelistApps", new HashSet<String>());
-        Log.i(TAG, "Whitelisted packages: " + whitelistedPackages.size());
-        if (!whitelistedPackages.isEmpty()) {
-            for (String s : whitelistedPackages) {
-                WhitelistAppsItem appItem = new WhitelistAppsItem();
-                appItem.setAppPackageName(s);
-                try {
-                    appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(s, PackageManager.GET_META_DATA)).toString());
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
+        whitelistedPackages = new HashSet<>();
+
+        Log.i(TAG, "Loading whitelisted packages...");
+        progressDialog = new MaterialDialog.Builder(this)
+                .title(getString(R.string.please_wait_text))
+                .autoDismiss(false)
+                .cancelable(false)
+                .content(R.string.loading_whitelisted_packages)
+                .progress(true, 0)
+                .show();
+
+        Tasks.executeInBackground(WhitelistAppsActivity.this, new BackgroundWork<List<String>>() {
+            @Override
+            public List<String> doInBackground() throws Exception {
+                List<String> output;
+                List<String> packages = new ArrayList<>();
+                output = Shell.SH.run("dumpsys deviceidle whitelist");
+                for (String s : output) {
+                    packages.add(s.split(",")[1]);
                 }
-                listData.add(appItem);
+                return packages;
             }
-        }
+        }, new Completion<List<String>>() {
+            @Override
+            public void onSuccess(Context context, List<String> result) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+
+                if (!result.isEmpty()) {
+                    for (String r : result) {
+                        WhitelistAppsItem appItem = new WhitelistAppsItem();
+                        appItem.setAppPackageName(r);
+                        whitelistedPackages.add(r);
+                        try {
+                            appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(r, PackageManager.GET_META_DATA)).toString());
+                        } catch (PackageManager.NameNotFoundException e) {
+                            appItem.setAppName("System package");
+                        }
+                        listData.add(appItem);
+                    }
+                }
+
+                Log.i(TAG, "Whitelisted packages: " + listData.size() + " packages in total");
+            }
+
+            @Override
+            public void onError(Context context, Exception e) {
+                Log.e(TAG, "Error loading packages: " + e.getMessage());
+
+            }
+        });
+
+
         whitelistAppsAdapter = new WhitelistAppsAdapter(this, listData);
         listView.setAdapter(whitelistAppsAdapter);
         isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
-        sensorWhitelistPackage = sharedPreferences.getString("sensorWhitelistPackage", "");
         showDozeWhitelistWarning = sharedPreferences.getBoolean("showDozeWhitelistWarning", true);
 
         if (showDozeWhitelistWarning) {
             displayDialog(getString(R.string.whitelisting_text), getString(R.string.whitelisted_apps_restrictions_text));
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("whitelistApps");
             editor.putBoolean("showDozeWhitelistWarning", false);
             editor.apply();
         }
@@ -81,27 +126,6 @@ public class WhitelistAppsActivity extends AppCompatActivity {
             case R.id.action_remove_whitelist:
                 startActivityForResult(new Intent(WhitelistAppsActivity.this, PackageChooserActivity.class), 998);
                 break;
-            /*case R.id.action_add_whitelist_sensor:
-                new MaterialDialog.Builder(this)
-                        .title("Whitelist app from sensorservice")
-                        .content("Please enter the package name of the app you want to be excluded from " +
-                                "being revoked access to sensors during Doze mode. You can only whitelist one app, " +
-                                "since that's a restriction by the sensorservice ")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("com.spotify.music", sensorWhitelistPackage, false, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (getPackageManager().getLaunchIntentForPackage(input.toString()) != null) {
-                                    sensorWhitelistPackage = input.toString();
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("sensorWhitelistPackage", input.toString());
-                                    editor.apply();
-                                    displayDialog("Success", "The app (" + sensorWhitelistPackage + ") was successfully set to be whitelisted from sensorservice." +
-                                            "This app will be able to access sensors, even when motion sensing is disabled.");
-                                }
-                            }
-                        }).show();
-                break;*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -122,11 +146,6 @@ public class WhitelistAppsActivity extends AppCompatActivity {
                         appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(message, PackageManager.GET_META_DATA)).toString());
                         listData.add(appItem);
                         whitelistAppsAdapter.notifyDataSetChanged();
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("whitelistApps");
-                        editor.apply();
-                        editor.putStringSet("whitelistApps", whitelistedPackages);
-                        editor.apply();
                         modifyWhitelist(message, false);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
@@ -152,11 +171,6 @@ public class WhitelistAppsActivity extends AppCompatActivity {
                         listDataClone.clear();
                         whitelistAppsAdapter.notifyDataSetChanged();
                         whitelistedPackages.remove(message);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("whitelistApps");
-                        editor.apply();
-                        editor.putStringSet("whitelistApps", whitelistedPackages);
-                        editor.apply();
                         modifyWhitelist(message, true);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();

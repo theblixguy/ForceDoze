@@ -1,6 +1,8 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -30,5 +32,18 @@ public class AboutAppActivity extends AppCompatActivity {
         notices.addNotice(new Notice("ckChangelog", "https://github.com/cketti/ckChangeLog", "cketti", new ApacheSoftwareLicense20()));
         notices.addNotice(new Notice("SimpleCustomTabs", "https://github.com/eliseomartelli/SimpleCustomTabs", "Eliseo Martelli", new MITLicense()));
         new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
+    }
+
+    public void showTranslationCreditsDialog(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(getString(R.string.translation_credits_dialog_title));
+        builder.setMessage(getString(R.string.translation_credits_dialog_text));
+        builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
     }
 }
