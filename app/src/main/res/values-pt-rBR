@@ -37,7 +37,7 @@
     <string name="info_text">Info</string>
     <string name="app_already_whitelisted_text">O aplicativo que está tentando adicionar já se encontra na lista!</string>
     <string name="app_not_whitelisted_text">O aplicativo que está tentando adicionar não se encontra na lista!</string>
-    <string name="force_doze_info">ForceDoze ativa Doze no momento em que sua tela desliga. Também desabilita os sensores de movimento asssim Doze não se desativa acidentalmente, exceto quando está no momento de executar as tarefas de manutenção, realizando uma economia de bateria que a função padrão Doze</string>
+    <string name="force_doze_info">ForceDoze ativa o modo Doze no momento em que sua tela desliga. Também desabilita os sensores de movimento asssim Doze não se desativa acidentalmente, exceto quando está no momento de executar as tarefas de manutenção, realizando uma economia de bateria que a função padrão Doze</string>
     <string name="hi_text">Olá!</string>
     <string name="enable_sensors_setting_title">Não desativar os sensores quando a tela for desligada</string>
     <string name="enable_sensors_setting_summary">Não desativa os sensores do dispositivo quando entrar em modo Doze</string>
@@ -47,7 +47,7 @@
     <string name="rotate_brightness_fix_setting_title">Rotação/brilho fix</string>
     <string name="persistent_notification_setting_summary">Mostra estatísticas Doze na barra de notificação de forma persistente</string>
     <string name="persistent_notification_setting_title">Mostrar notificação persistente</string>
-    <string name="lockscreen_timeout_setting_summary">Ignorar tempo limite de bloqueio de tela e ativar Doze imediatamente após desligar a tela</string>
+    <string name="lockscreen_timeout_setting_summary">Ignora o tempo limite de bloqueio de tela e ativar Doze imediatamente após desligar a tela</string>
     <string name="lockscreen_timeout_setting_title">Ignorar tempo limite de bloqueio de tela</string>
     <string name="doze_delay_setting_summary">Adiciona um atraso para que o modo Doze se ative após a tela desligar</string>
     <string name="doze_delay_setting_title">Atraso de Doze</string>
