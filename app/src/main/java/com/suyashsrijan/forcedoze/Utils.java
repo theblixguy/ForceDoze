@@ -42,6 +42,12 @@ public class Utils {
         else return false;
     }
 
+    public static boolean isReadPhoneStatePermissionGranted(Context context) {
+        if (context.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+            return true;
+        else return false;
+    }
+
     public static boolean isReadLogsPermissionGranted(Context context) {
         if (context.checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED)
             return true;

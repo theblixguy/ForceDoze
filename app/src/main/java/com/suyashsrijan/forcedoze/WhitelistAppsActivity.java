@@ -20,9 +20,7 @@ import com.nanotasks.Completion;
 import com.nanotasks.Tasks;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -30,8 +28,8 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     ListView listView;
     SharedPreferences sharedPreferences;
     WhitelistAppsAdapter whitelistAppsAdapter;
-    Set<String> whitelistedPackages;
-    public ArrayList<WhitelistAppsItem> listData = new ArrayList<>();
+    ArrayList<String> whitelistedPackages;
+   ArrayList<WhitelistAppsItem> listData;
     public static String TAG = "ForceDoze";
     boolean showDozeWhitelistWarning = true;
     Boolean isSuAvailable = false;
@@ -43,7 +41,8 @@ public class WhitelistAppsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_whitelist_apps);
         listView = (ListView) findViewById(R.id.listView2);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        whitelistedPackages = new HashSet<>();
+        whitelistedPackages = new ArrayList<>();
+        listData = new ArrayList<>();
 
         Log.i(TAG, "Loading whitelisted packages...");
         progressDialog = new MaterialDialog.Builder(this)
@@ -76,6 +75,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
                     for (String r : result) {
                         WhitelistAppsItem appItem = new WhitelistAppsItem();
                         appItem.setAppPackageName(r);
+                        Log.i(TAG, "Whitelisted package: " + r);
                         whitelistedPackages.add(r);
                         try {
                             appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(r, PackageManager.GET_META_DATA)).toString());

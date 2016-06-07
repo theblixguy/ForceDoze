@@ -133,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                             if (isSuAvailable) {
                                 Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
                                 executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
+                                Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
+                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
                             }
                         }
                         if (!Utils.isDevicePowerPermissionGranted(getApplicationContext())) {
@@ -200,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         .show();
             }
         }
-
     }
 
     @Override

@@ -69,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
             Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
             Preference enableSensors = (Preference) findPreference("enableSensors");
+            Preference turnOffInternetInDoze = (Preference) findPreference("turnOffInternetInDoze");
             Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -234,12 +235,13 @@ public class SettingsActivity extends AppCompatActivity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
                                 builder.setTitle(getString(R.string.error_text));
                                 builder.setMessage(getString(R.string.su_perm_denied_msg));
-                                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
                                     }
                                 });
+                                ;
                                 builder.show();
                             }
                         }
@@ -250,6 +252,63 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     });
                     return true;
+                }
+            });
+
+            turnOffInternetInDoze.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    boolean newValue = (boolean) o;
+                    if (!newValue) {
+                        return true;
+                    } else {
+                        progressDialog1 = new MaterialDialog.Builder(getActivity())
+                                .title(getString(R.string.please_wait_text))
+                                .cancelable(false)
+                                .autoDismiss(false)
+                                .content(getString(R.string.requesting_su_access_text))
+                                .progress(true, 0)
+                                .show();
+                        Log.i(TAG, "Check if SU is available, and request SU permission if it is");
+                        Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
+                            @Override
+                            public Boolean doInBackground() throws Exception {
+                                return Shell.SU.available();
+                            }
+                        }, new Completion<Boolean>() {
+                            @Override
+                            public void onSuccess(Context context, Boolean result) {
+                                if (progressDialog1 != null) {
+                                    progressDialog1.dismiss();
+                                }
+                                isSuAvailable = result;
+                                Log.i(TAG, "SU available: " + Boolean.toString(result));
+                                if (isSuAvailable) {
+                                    Log.i(TAG, "Phone is rooted and SU permission granted");
+                                    Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
+                                    executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
+                                } else {
+                                    Log.i(TAG, "SU permission denied or not available");
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+                                    builder.setTitle(getString(R.string.error_text));
+                                    builder.setMessage(getString(R.string.su_perm_denied_msg));
+                                    builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    builder.show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Context context, Exception e) {
+                                Log.e(TAG, "Error querying SU: " + e.getMessage());
+                            }
+                        });
+                        return true;
+                    }
                 }
             });
 
@@ -314,6 +373,7 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i(TAG, "Trying to revoke android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_LOGS");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
             Log.i(TAG, "ForceDoze reset procedure complete");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
             builder.setTitle(getString(R.string.reset_complete_dialog_title));

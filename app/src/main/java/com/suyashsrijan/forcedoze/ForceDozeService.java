@@ -10,14 +10,19 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -88,16 +93,24 @@ public class ForceDozeService extends Service {
         isSuAvailable = getDefaultSharedPreferences(getApplicationContext()).getBoolean("isSuAvailable", false);
         showPersistentNotif = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
         dozeUsageData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageData", new LinkedHashSet<String>());
+
         if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
             if (isSuAvailable) {
                 grantDumpPermission();
             }
         }
+
         if (Utils.isDeviceRunningOnNPreview()) {
             if (!Utils.isDevicePowerPermissionGranted(getApplicationContext())) {
                 if (isSuAvailable) {
                     grantDevicePowerPermission();
                 }
+            }
+        }
+
+        if (!Utils.isReadPhoneStatePermissionGranted(getApplicationContext())) {
+            if (isSuAvailable) {
+                grantReadPhoneStatePermission();
             }
         }
     }
@@ -145,12 +158,17 @@ public class ForceDozeService extends Service {
 
     public void grantDumpPermission() {
         Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
-        Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
+        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
     }
 
     public void grantDevicePowerPermission() {
         Log.i(TAG, "Granting android.permission.DEVICE_POWER to com.suyashsrijan.forcedoze");
-        Shell.SU.run("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
+        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
+    }
+
+    public void grantReadPhoneStatePermission() {
+        Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
+        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
     }
 
     public void addSelfToDozeWhitelist() {
@@ -374,12 +392,62 @@ public class ForceDozeService extends Service {
         startForeground(1234, n);
     }
 
+    public void setMobileNetwork(Context context, int targetState) {
+
+        if (!Utils.isReadPhoneStatePermissionGranted(context)) {
+            grantReadPhoneStatePermission();
+        }
+
+        String command;
+        try {
+            String transactionCode = getTransactionCode(context);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                SubscriptionManager mSubscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                for (int i = 0; i < mSubscriptionManager.getActiveSubscriptionInfoCountMax(); i++) {
+                    if (transactionCode != null && transactionCode.length() > 0) {
+                        int subscriptionId = mSubscriptionManager.getActiveSubscriptionInfoList().get(i).getSubscriptionId();
+                        command = "service call phone " + transactionCode + " i32 " + subscriptionId + " i32 " + targetState;
+                        List<String> output = Shell.SU.run(command);
+                        if (output != null) {
+                            for (String s : output) {
+                                Log.i(TAG, s);
+                            }
+                        } else {
+                            Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.i(TAG, "Failed to toggle mobile data: " + e.getMessage());
+        }
+    }
+
+    private static String getTransactionCode(Context context) {
+        try {
+            final TelephonyManager mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            final Class<?> mTelephonyClass = Class.forName(mTelephonyManager.getClass().getName());
+            final Method mTelephonyMethod = mTelephonyClass.getDeclaredMethod("getITelephony");
+            mTelephonyMethod.setAccessible(true);
+            final Object mTelephonyStub = mTelephonyMethod.invoke(mTelephonyManager);
+            final Class<?> mTelephonyStubClass = Class.forName(mTelephonyStub.getClass().getName());
+            final Class<?> mClass = mTelephonyStubClass.getDeclaringClass();
+            final Field field = mClass.getDeclaredField("TRANSACTION_setDataEnabled");
+            field.setAccessible(true);
+            return String.valueOf(field.getInt(null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     public void disableMobileData() {
-        executeCommand("svc data disable");
+        setMobileNetwork(getApplicationContext(), 0);
     }
 
     public void enableMobileData() {
-        executeCommand("svc data enable");
+        setMobileNetwork(getApplicationContext(), 1);
     }
 
     public void disableWiFi() {
@@ -424,7 +492,11 @@ public class ForceDozeService extends Service {
                 if (Utils.isDeviceDozing(context)) {
                     exitDoze();
                 } else {
-                    Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed OR disableWhenCharging=true");
+                    if (ignoreLockscreenTimeout) {
+                        Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(delay) + "ms has not passed OR disableWhenCharging=true");
+                    } else {
+                        Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed OR disableWhenCharging=true");
+                    }
                     enterDozeTimer.cancel();
                 }
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
@@ -441,7 +513,7 @@ public class ForceDozeService extends Service {
                             Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
                             enterDoze(context);
                         } else {
-                            Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
+                            Log.i(TAG, "Waiting for " + Integer.toString(delay) + "ms and then entering Doze");
                             tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
                             Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
                             tempWakeLock.acquire();
@@ -481,6 +553,8 @@ public class ForceDozeService extends Service {
                 if (!Utils.isScreenOn(context) && !Utils.isDeviceDozing(context)) {
                     if (turnOffInternetInDoze && !maintenance) {
                         Log.i(TAG, "Device exited Doze for maintenance");
+                        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT_MAINTENANCE"));
+                        saveDozeDataStats();
                         if (wasMobileDataTurnedOn) {
                             Log.i(TAG, "Enabling mobile data");
                             enableMobileData();
@@ -496,6 +570,8 @@ public class ForceDozeService extends Service {
                 } else if (!Utils.isScreenOn(context) && Utils.isDeviceDozing(context)) {
                     if (turnOffInternetInDoze && maintenance) {
                         Log.i(TAG, "Device entered Doze after maintenance");
+                        dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER_MAINTENANCE"));
+                        saveDozeDataStats();
                         wasMobileDataTurnedOn = Utils.isMobileDataConnected(context);
                         wasWiFiTurnedOn = Utils.isWiFiConnected(context);
 
