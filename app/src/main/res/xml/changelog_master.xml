@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.2" versioncode="33">
+    <release version="1.3.2" versioncode="34">
         <change>New: Doze battery stats now shows the times when a Doze maintenance window started/finished</change>
         <change>Changed: Updated translations</change>
         <change>Fixed: Missing permission causing mobile data not turning off when 'Disable Internet during Doze'
             is enabled</change>
+        <change>Fixed: Mobile data not turning off when 'Disable Internet during Doze' is enabled,
+            and WiFi/mobile data are both enabled </change>
         <change>Fixed: Random vibrations when 'Disable Internet during Doze' is enabled</change>
     </release>
 </changelog>

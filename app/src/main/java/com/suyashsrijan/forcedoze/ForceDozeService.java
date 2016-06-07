@@ -223,8 +223,8 @@ public class ForceDozeService extends Service {
                 }
 
                 if (turnOffInternetInDoze) {
-                    wasMobileDataTurnedOn = Utils.isMobileDataConnected(context);
-                    wasWiFiTurnedOn = Utils.isWiFiConnected(context);
+                    wasMobileDataTurnedOn = Utils.isMobileDataEnabled(context);
+                    wasWiFiTurnedOn = Utils.isWiFiEnabled(context);
                     Log.i(TAG, "wasMobileDataTurnedOn: " + wasMobileDataTurnedOn + ", wasWiFiTurnedOn: " + wasWiFiTurnedOn);
 
                     if (wasMobileDataTurnedOn) {
@@ -572,8 +572,8 @@ public class ForceDozeService extends Service {
                         Log.i(TAG, "Device entered Doze after maintenance");
                         dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER_MAINTENANCE"));
                         saveDozeDataStats();
-                        wasMobileDataTurnedOn = Utils.isMobileDataConnected(context);
-                        wasWiFiTurnedOn = Utils.isWiFiConnected(context);
+                        wasMobileDataTurnedOn = Utils.isMobileDataEnabled(context);
+                        wasWiFiTurnedOn = Utils.isWiFiEnabled(context);
 
                         if (wasMobileDataTurnedOn) {
                             Log.i(TAG, "Disabling mobile data");

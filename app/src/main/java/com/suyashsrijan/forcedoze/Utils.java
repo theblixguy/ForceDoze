@@ -138,12 +138,11 @@ public class Utils {
         return manager.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK || manager.getCallState() == TelephonyManager.CALL_STATE_RINGING;
     }
 
-    public static boolean isMobileDataConnected(Context context) {
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return manager.getDataState() == TelephonyManager.DATA_CONNECTED;
+    public static boolean isMobileDataEnabled(Context context) {
+        return Settings.Secure.getInt(context.getContentResolver(), "mobile_data", 1) == 1;
     }
 
-    public static boolean isWiFiConnected(Context context) {
+    public static boolean isWiFiEnabled(Context context) {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
     }
