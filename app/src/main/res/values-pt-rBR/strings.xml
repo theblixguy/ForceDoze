@@ -100,5 +100,5 @@
 	<string name="yes_button_text">Sim</string>
 	<string name="no_button_text">Não</string>
 	<string name="turn_off_internet_doze_setting_title">Desativar a internet durante Doze</string>
-	<string name="turn_off_internet_doze_setting_summary">Desativar WiFi/dados durante Doze (não afeta o período de manutenção do modo Doze)</string>
+	<string name="turn_off_internet_doze_setting_summary">Desativa WiFi/dados durante Doze (não afeta o período de manutenção do modo Doze)</string>
 </resources>
