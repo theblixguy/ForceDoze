@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
             Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
             Preference enableSensors = (Preference) findPreference("enableSensors");
-            Preference turnOffInternetInDoze = (Preference) findPreference("turnOffInternetInDoze");
+            Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
             Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -255,10 +255,10 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            turnOffInternetInDoze.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            turnOffDataInDoze.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    boolean newValue = (boolean) o;
+                    final boolean newValue = (boolean) o;
                     if (!newValue) {
                         return true;
                     } else {
@@ -307,6 +307,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 Log.e(TAG, "Error querying SU: " + e.getMessage());
                             }
                         });
+
                         return true;
                     }
                 }

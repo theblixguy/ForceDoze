@@ -25,20 +25,6 @@
             android:key="ignoreLockscreenTimeout"
             android:summary="@string/lockscreen_timeout_setting_summary"
             android:title="@string/lockscreen_timeout_setting_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="turnOffInternetInDoze"
-            android:summary="@string/turn_off_internet_doze_setting_summary"
-            android:title="@string/turn_off_internet_doze_setting_title" />
-        <com.suyashsrijan.forcedoze.NumberPickerPreference
-            bindSummary="false"
-            max="30"
-            min="0"
-            step="1"
-            android:defaultValue="0"
-            android:key="dozeEnterDelay"
-            android:summary="@string/doze_delay_setting_summary"
-            android:title="@string/doze_delay_setting_title" />
         <Preference
             android:key="whitelistAppsFromDozeMode"
             android:summary="@string/whitelist_apps_setting_summary"
@@ -48,6 +34,27 @@
                 android:targetClass="com.suyashsrijan.forcedoze.WhitelistAppsActivity"
                 android:targetPackage="com.suyashsrijan.forcedoze" />
         </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Doze enhancements" android:key="dozeSettings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="turnOffWiFiInDoze"
+            android:summary="@string/disable_wifi_during_doze_setting_summary"
+            android:title="@string/disable_wifi_during_doze_setting_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="turnOffDataInDoze"
+            android:summary="@string/disable_data_during_doze_setting_summary"
+            android:title="@string/disable_data_during_doze_setting_title" />
+        <com.suyashsrijan.forcedoze.NumberPickerPreference
+            bindSummary="false"
+            max="30"
+            min="0"
+            step="1"
+            android:defaultValue="0"
+            android:key="dozeEnterDelay"
+            android:summary="@string/doze_delay_setting_summary"
+            android:title="@string/doze_delay_setting_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Xposed" android:key="xposedSettings">
         <CheckBoxPreference
