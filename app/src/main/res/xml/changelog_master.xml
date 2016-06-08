@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.3" versioncode="35">
-        <change>Changed: 'Disable Internet during Doze' is now split into two parts - 'Disable WiFi during Doze'
-        and 'Disable mobile data during Doze', giving you more control over the settings</change>
+    <release version="1.3.3" versioncode="36">
+        <change>Changed: Query deviceidle directly to check Doze state rather than use isDeviceIdleMode().
+            This should fix the issue with missing logs and make ForceDoze track changes to idle state
+        more accurately</change>
     </release>
 </changelog>

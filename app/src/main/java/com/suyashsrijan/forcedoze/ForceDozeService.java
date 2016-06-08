@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -61,7 +62,8 @@ public class ForceDozeService extends Service {
     Long timeEnterDoze = 0L;
     Long timeExitDoze = 0L;
     String lastScreenOff = "Unknown";
-    public static String TAG = "ForceDozeService";
+    String TAG = "ForceDozeService";
+    String lastKnownState = "null";
 
     public ForceDozeService() {
     }
@@ -142,6 +144,7 @@ public class ForceDozeService extends Service {
             showPersistentNotification();
         }
         addSelfToDozeWhitelist();
+        lastKnownState = getDeviceIdleState();
         return START_STICKY;
     }
 
@@ -180,9 +183,9 @@ public class ForceDozeService extends Service {
     }
 
     public void enterDoze(Context context) {
-        if (!Utils.isDeviceDozing(context)) {
+        if (!getDeviceIdleState().equals("IDLE")) {
             if (!Utils.isScreenOn(context)) {
-
+                lastKnownState = "IDLE";
                 if (tempWakeLock != null) {
                     if (tempWakeLock.isHeld()) {
                         Log.i(TAG, "Releasing ForceDozeTempWakelock");
@@ -254,8 +257,7 @@ public class ForceDozeService extends Service {
 
     public void exitDoze() {
         timeExitDoze = System.currentTimeMillis();
-        Log.i(TAG, "Exiting Doze");
-
+        lastKnownState = "ACTIVE";
         if (Utils.isDeviceRunningOnNPreview()) {
             executeCommand("dumpsys deviceidle unforce");
         } else {
@@ -380,7 +382,7 @@ public class ForceDozeService extends Service {
                 notificationIntent, 0);
         Notification n = mBuilder
                 .setContentTitle("ForceDoze")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(Utils.isDeviceDozing(getApplicationContext())) + "\nLast Screen off: " + "No data" + "\nTime spent dozing: " + "No data"))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(getDeviceIdleState().equals("IDLE")) + "\nLast Screen off: " + "No data" + "\nTime spent dozing: " + "No data"))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(-2)
                 .setContentIntent(intent)
@@ -395,7 +397,7 @@ public class ForceDozeService extends Service {
                 notificationIntent, 0);
         Notification n = mBuilder
                 .setContentTitle("ForceDoze")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(Utils.isDeviceDozing(getApplicationContext())) + "\nLast Screen off: " + lastScreenOff + "\nTime spent dozing: " + Integer.toString(timeSpentDozing) + "mins"))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Currently Dozing: " + Boolean.toString(getDeviceIdleState().equals("IDLE")) + "\nLast Screen off: " + lastScreenOff + "\nTime spent dozing: " + Integer.toString(timeSpentDozing) + "mins"))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(-2)
                 .setContentIntent(intent)
@@ -452,6 +454,28 @@ public class ForceDozeService extends Service {
         }
     }
 
+    public String getDeviceIdleState() {
+        String state = "";
+        List<String> output = Shell.SH.run("dumpsys deviceidle");
+        String outputString = TextUtils.join(", ", output);
+        if (outputString.contains("mState=ACTIVE")) {
+            state = "ACTIVE";
+        } else if (outputString.contains("mState=INACTIVE")) {
+            state = "INACTIVE";
+        } else if (outputString.contains("mState=IDLE_PENDING")) {
+            state = "IDLE_PENDING";
+        } else if (outputString.contains("mState=SENSING")) {
+            state = "SENSING";
+        } else if (outputString.contains("mState=LOCATING")) {
+            state = "LOCATING";
+        } else if (outputString.contains("mState=IDLE")) {
+            state = "IDLE";
+        } else if (outputString.contains("mState=IDLE_MAINTENANCE")) {
+            state = "IDLE_MAINTENANCE";
+        }
+        return state;
+    }
+
 
     public void disableMobileData() {
         setMobileNetwork(getApplicationContext(), 0);
@@ -493,14 +517,17 @@ public class ForceDozeService extends Service {
 
             if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                 Log.i(TAG, "Screen ON received");
-
+                Log.i(TAG, "Last known Doze state: " + lastKnownState);
+                Log.i(TAG, "Current Doze state: " + getDeviceIdleState());
                 if (tempWakeLock != null) {
                     if (tempWakeLock.isHeld()) {
                         Log.i(TAG, "Releasing ForceDozeTempWakelock");
                         tempWakeLock.release();
                     }
                 }
-                if (Utils.isDeviceDozing(context)) {
+
+                if (getDeviceIdleState().equals("IDLE") || lastKnownState.equals("IDLE")) {
+                    Log.i(TAG, "Exiting Doze");
                     exitDoze();
                 } else {
                     if (ignoreLockscreenTimeout) {
@@ -510,6 +537,7 @@ public class ForceDozeService extends Service {
                     }
                     enterDozeTimer.cancel();
                 }
+
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 Log.i(TAG, "Screen OFF received");
                 if (Utils.isConnectedToCharger(getApplicationContext()) && disableWhenCharging) {
@@ -554,14 +582,16 @@ public class ForceDozeService extends Service {
 
                 }
             } else if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)) {
-                if ((Utils.isDeviceDozing(context) || !Utils.isScreenOn(context)) && disableWhenCharging) {
+                if ((getDeviceIdleState().equals("IDLE") || !Utils.isScreenOn(context)) && disableWhenCharging) {
                     Log.i(TAG, "Charger connected, exiting Doze mode");
                     enterDozeTimer.cancel();
                     exitDoze();
                 }
             } else if (intent.getAction().equals(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED)) {
+                Log.i(TAG, "ACTION_DEVICE_IDLE_MODE_CHANGED received");
+                lastKnownState = getDeviceIdleState();
 
-                if (!Utils.isScreenOn(context) && !Utils.isDeviceDozing(context)) {
+                if (!Utils.isScreenOn(context) && getDeviceIdleState().equals("IDLE_MAINTENANCE")) {
                     if ((turnOffWiFiInDoze || turnOffDataInDoze) && !maintenance) {
                         Log.i(TAG, "Device exited Doze for maintenance");
                         dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT_MAINTENANCE"));
@@ -584,7 +614,7 @@ public class ForceDozeService extends Service {
 
                         maintenance = true;
                     }
-                } else if (!Utils.isScreenOn(context) && Utils.isDeviceDozing(context)) {
+                } else if (!Utils.isScreenOn(context) && getDeviceIdleState().equals("IDLE")) {
                     if ((turnOffWiFiInDoze || turnOffDataInDoze) && maintenance) {
                         Log.i(TAG, "Device entered Doze after maintenance");
                         dozeUsageData.add(Utils.getDateCurrentTimeZone(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER_MAINTENANCE"));

@@ -14,7 +14,6 @@ import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.view.Display;
@@ -61,8 +60,8 @@ public class Utils {
     }
 
     public static boolean isConnectedToCharger(Context context) {
-        BatteryManager mBatteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
-        return mBatteryManager.isCharging();
+        Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        return (batteryIntent != null && batteryIntent.getIntExtra("plugged", 0) != 0);
     }
 
     public static String getDateCurrentTimeZone(long timestamp) {
@@ -121,11 +120,6 @@ public class Utils {
 
     public static void setAutoBrightnessEnabled(Context context, boolean enabled) {
         Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, enabled ? Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC : Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-    }
-
-    public static boolean isDeviceDozing(Context context) {
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        return powerManager.isDeviceIdleMode();
     }
 
     public static boolean isUserInCommunicationCall(Context context) {
