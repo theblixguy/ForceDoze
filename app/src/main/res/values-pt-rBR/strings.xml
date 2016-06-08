@@ -100,7 +100,7 @@
     <string name="yes_button_text">Sim</string>
     <string name="no_button_text">Não</string>
     <string name="turn_off_internet_doze_setting_title">Desativar a internet durante Doze</string>
-    <string name="turn_off_internet_doze_setting_summary">Desativa WiFi/dados durante Doze (não afeta o período de manutenção do modo Doze)</string>
+    <string name="turn_off_internet_doze_setting_summary">Desliga WiFi/dados durante Doze (não afeta o período de manutenção do modo Doze)</string>
     <string name="disable_wifi_during_doze_setting_summary">Desliga o WiFi durante Doze (não afeta o período de manutenção)</string>
     <string name="disable_wifi_during_doze_setting_title">Desativar WiFi durante Doze</string>
     <string name="disable_data_during_doze_setting_summary">Desliga os dados móveis durante Doze (não afeta o período de manutenção)</string>
