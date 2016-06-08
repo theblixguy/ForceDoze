@@ -95,7 +95,7 @@
     <string name="reset_complete_dialog_text">ForceDoze se ha reseteado. Los siguientes cambios fueron realizados: \n\n1) Detención del servicio ForceDoze\n2) Reactivación de sensores, por si acaso estuviesen deshabilitados\n3) Desactivación y reactivación del modo Doze, para asegurar que el modo Doze este efectivamente activado\n4) Reseteo de las preferencias de la aplicación\n5) Anulación de DUMP y READ_LOGS (si se concedió permiso)\n\nSe recomienda que reinicie su dispositivo. La aplicación se reiniciará ahora!</string>
     <string name="doze_delay_warning_dialog_title">Advertencia</string>
     <string name="doze_delay_warning_dialog_text">El valor de retardo de Doze es demasiado alto y puede tener efectos negativos en el consumo de bateria. Asegurese de testear los efectos de retardo en la vida útil de la batería y considere reducir el retardo si nota un empeoramiento de consumo en su batería.</string>
-    <string name="forcedoze_reset_initial_dialog_title">Quiere resetear a los valores por defecto?</string>
+    <string name="forcedoze_reset_initial_dialog_title">Quiere volver a los valores por defecto?</string>
     <string name="forcedoze_reset_initial_dialog_text">Resetear ForceDoze producirá los siguientes cambios: \n\n1) Detención del servicio ForceDoze\n2) Reactivación de sensores, por si acaso estuviesen deshabilitados\n3) Desactivación y reactivación del modo Doze, para asegurar que el modo Doze este efectivamente activado\n4) Reseteo de las preferencias de la aplicación\n5) Anulación de DUMP y READ_LOGS (si se concedió permiso)\n\nDesea continuar?</string>
     <string name="yes_button_text">Si</string>
     <string name="no_button_text">No</string>
@@ -103,6 +103,6 @@
     <string name="turn_off_internet_doze_setting_summary">Deshabilitar WiFi/datos durante Doze (no afecta el intervalo de mantenimiento de Doze)</string>
     <string name="disable_wifi_during_doze_setting_summary">Desactivar WiFi durante Doze (no afecta el intervalo de mantenimiento)</string>
     <string name="disable_wifi_during_doze_setting_title">Desactivar WiFi durante Doze</string>
-    <string name="disable_data_during_doze_setting_summary">Desactivar datos moviles durante Doze (no afecta el intervalo de mantenimiento)</string>
-    <string name="disable_data_during_doze_setting_title">Desactivar datos moviles durante Doze</string>
+    <string name="disable_data_during_doze_setting_summary">Desactivar datos móviles durante Doze (no afecta el intervalo de mantenimiento)</string>
+    <string name="disable_data_during_doze_setting_title">Desactivar datos móviles durante Doze</string>
 </resources>
