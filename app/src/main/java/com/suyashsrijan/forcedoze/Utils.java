@@ -168,7 +168,7 @@ public class Utils {
 
     public static boolean isSettingBool(String settingName) {
         // Since all the settings loaded dynamically by the service except dozeEnterDelay are bools,
-        // return true if settingName == dozeEnterDelay
+        // return true only if settingName != dozeEnterDelay
         if (settingName.equals("dozeEnterDelay")) {
             return false;
         } else return true;
