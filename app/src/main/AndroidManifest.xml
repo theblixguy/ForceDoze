@@ -17,7 +17,6 @@
         android:name="android.permission.DEVICE_POWER"
         tools:ignore="ProtectedPermissions" />
 
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -74,6 +73,13 @@
                 <action android:name="com.suyashsrijan.forcedoze.REMOVE_WHITELIST" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".SettingsChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.suyashsrijan.forcedoze.CHANGE_SETTING" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".ForceDozeService"
@@ -95,6 +101,13 @@
         <activity
             android:name=".PackageChooserActivity"
             android:label="Package chooser" />
+        <activity
+            android:name=".AboutAppActivity"
+            android:label="About" />
+
+        <activity
+            android:name=".TaskerBroadcastsActivity"
+            android:label="Tasker broadcasts"></activity>
 
         <meta-data
             android:name="xposedmodule"
@@ -106,7 +119,6 @@
             android:name="xposedminversion"
             android:value="72" />
 
-        <activity android:name=".AboutAppActivity" android:label="About"></activity>
     </application>
 
 </manifest>

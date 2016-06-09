@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">ForceDoze</string>
     <string name="service_active">ForceDoze service is active</string>
     <string name="service_inactive">ForceDoze service is inactive</string>
@@ -56,7 +55,7 @@
     <string name="doze_unsupported_xposed_setting_summary">Enables Doze on an unsupported device</string>
     <string name="doze_unsupported_xposed_setting_title">Enable Doze on unsupported device</string>
     <string name="doze_sensors_xposed_setting_summary">Prevent Doze from accessing motion sensors (experimental)</string>
-    <string name="doze_sensors_xposed_setting_title">Disable motion sensing for Doze</string>
+    <string name="doze_sensors_xposed_setting_title">Disable motion sensing for Doze (root)</string>
     <string name="reset_forcedoze_setting_summary">Reset ForceDoze to the default state</string>
     <string name="reset_forcedoze_setting_title">Reset ForceDoze</string>
     <string name="clear_doze_stats_setting_summary">Clear Doze battery stats</string>
@@ -79,7 +78,7 @@
     <string name="donate_dialog_button_text">I want to donate</string>
     <string name="about_forcedoze_setting_title">About ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze for Android is built using open source software:</string>
-    <string name="version_num_text">1.3.3 rev 36</string>
+    <string name="version_num_text">1.3.4 rev 38</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
     <string name="translation_credits_dialog_title">Translation credits</string>
     <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)</string>
@@ -100,9 +99,15 @@
     <string name="yes_button_text">Yes</string>
     <string name="no_button_text">No</string>
     <string name="turn_off_internet_doze_setting_title">Disable Internet during Doze</string>
-    <string name="turn_off_internet_doze_setting_summary">Disables WiFi/mobile data during Doze (doesn\'t affect Doze maintenance windows)</string>
-    <string name="disable_wifi_during_doze_setting_summary">Turn off WiFi during Doze (doesn\'t affect maintenance windows)</string>
+    <string name="turn_off_internet_doze_setting_summary">Disables WiFi/mobile data during Doze</string>
+    <string name="disable_wifi_during_doze_setting_summary">Turn off WiFi during Doze</string>
     <string name="disable_wifi_during_doze_setting_title">Disable WiFi during Doze</string>
-    <string name="disable_data_during_doze_setting_summary">Turn off mobile data during Doze (doesn\'t affect maintenance windows)</string>
+    <string name="disable_data_during_doze_setting_summary">Turn off mobile data during Doze</string>
     <string name="disable_data_during_doze_setting_title">Disable mobile data during Doze</string>
+    <string name="motion_sensing_disable_non_root_setting_summary">Prevent device movement from turning off Doze (non-root, experimental)</string>
+    <string name="motion_sensing_disable_non_root_setting_title">Disable motion sensing for Doze</string>
+    <string name="tasker_broadcast_setting_title">Tasker broadcasts</string>
+    <string name="tasker_broadcast_setting_summary">Show broadcasts that you can use via Tasker</string>
+    <string name="reboot_required_dialog_title">Reboot required</string>
+    <string name="reboot_required_dialog_text">Please reboot your phone for the changes to take effect</string>
 </resources>

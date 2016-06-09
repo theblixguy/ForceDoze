@@ -46,6 +46,11 @@
             android:key="turnOffDataInDoze"
             android:summary="@string/disable_data_during_doze_setting_summary"
             android:title="@string/disable_data_during_doze_setting_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="useNonRootSensorWorkaround"
+            android:summary="@string/motion_sensing_disable_non_root_setting_summary"
+            android:title="@string/motion_sensing_disable_non_root_setting_title" />
         <com.suyashsrijan.forcedoze.NumberPickerPreference
             bindSummary="false"
             max="30"
@@ -84,6 +89,15 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.suyashsrijan.forcedoze.LogActivity"
+                android:targetPackage="com.suyashsrijan.forcedoze" />
+        </Preference>
+        <Preference
+            android:key="taskerBroadcasts"
+            android:summary="@string/tasker_broadcast_setting_summary"
+            android:title="@string/tasker_broadcast_setting_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.suyashsrijan.forcedoze.TaskerBroadcastsActivity"
                 android:targetPackage="com.suyashsrijan.forcedoze" />
         </Preference>
         <Preference

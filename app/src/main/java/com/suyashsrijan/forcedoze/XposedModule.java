@@ -34,9 +34,6 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
                 XposedBridge.log("ForceDozeXposed: Hooking AnyMotionDetector");
                 final Class AnyMotionDetector = XposedHelpers.findClass("com.android.server.AnyMotionDetector", loadPackageParam.classLoader);
                 XposedHelpers.findAndHookMethod(AnyMotionDetector, "getStationaryStatus", XC_MethodReplacement.returnConstant(0));
-                XposedHelpers.setStaticLongField(AnyMotionDetector, "ACCELEROMETER_DATA_TIMEOUT_MILLIS", 0);
-                XposedHelpers.setStaticLongField(AnyMotionDetector, "ORIENTATION_MEASUREMENT_DURATION_MILLIS", 0);
-                XposedHelpers.setStaticIntField(AnyMotionDetector, "SAMPLING_INTERVAL_MILLIS", 0);
                 XposedBridge.log("ForceDozeXposed: Hooked AnyMotionDetector");
             }
         }

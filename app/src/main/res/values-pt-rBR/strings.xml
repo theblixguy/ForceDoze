@@ -79,7 +79,7 @@
     <string name="donate_dialog_button_text">Quero doar</string>
     <string name="about_forcedoze_setting_title">Sobre ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze para Android foi criado utilizando software de código aberto:</string>
-    <string name="version_num_text">1.3.3 rev 36</string>
+    <string name="version_num_text">1.3.4 rev 38</string>
     <string name="translation_credits_dialog_title">créditos de tradução</string>
     <string name="translation_credits_dialog_text">Agradeço as seguintes pessoas por traduzir ForceDoze para outros idiomas: \n\nEspanhol: monza1412 (XDA)\nPortuguês-BR: GamerVicioX (GitHub)</string>
     <string name="loading_whitelisted_packages">Carregando a lista branca de pacotes ...</string>
@@ -100,9 +100,9 @@
     <string name="yes_button_text">Sim</string>
     <string name="no_button_text">Não</string>
     <string name="turn_off_internet_doze_setting_title">Desativar a internet durante Doze</string>
-    <string name="turn_off_internet_doze_setting_summary">Desliga WiFi/dados durante Doze (não afeta o período de manutenção do modo Doze)</string>
-    <string name="disable_wifi_during_doze_setting_summary">Desliga WiFi durante Doze (não afeta o período de manutenção)</string>
+    <string name="turn_off_internet_doze_setting_summary">Desliga WiFi/dados durante Doze</string>
+    <string name="disable_wifi_during_doze_setting_summary">Desliga WiFi durante Doze</string>
     <string name="disable_wifi_during_doze_setting_title">Desativar WiFi durante Doze</string>
-    <string name="disable_data_during_doze_setting_summary">Desliga dados móveis durante Doze (não afeta o período de manutenção)</string>
+    <string name="disable_data_during_doze_setting_summary">Desliga dados móveis durante Doze</string>
     <string name="disable_data_during_doze_setting_title">Desativar dados móveis durante Doze</string>
 </resources>

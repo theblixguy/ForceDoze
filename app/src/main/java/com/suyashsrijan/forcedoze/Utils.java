@@ -14,11 +14,13 @@ import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.view.Display;
 
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -147,6 +149,29 @@ public class Utils {
 
     public static float getLockscreenTimeoutValue(ContentResolver contentResolver) {
         return ((float) (Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) / 1000f) / 60f);
+    }
+
+    public static boolean doesSettingExist(String settingName) {
+        String [] updatableSettings = {"turnOffDataInDoze", "turnOffWiFiInDoze", "ignoreLockscreenTimeout",
+        "dozeEnterDelay", "useAutoRotateAndBrightnessFix", "enableSensors", "disableWhenCharging",
+                "showPersistentNotif", "useXposedSensorWorkaround", "useNonRootSensorWorkaround"};
+        return Arrays.asList(updatableSettings).contains(settingName);
+    }
+
+    public static void updateSettingBool(Context context, String settingName, boolean settingValue) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(settingName, settingValue).apply();
+    }
+
+    public static void updateSettingInt(Context context, String settingName, int settingValue) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(settingName, settingValue).apply();
+    }
+
+    public static boolean isSettingBool(String settingName) {
+        // Since all the settings loaded dynamically by the service except dozeEnterDelay are bools,
+        // return true if settingName == dozeEnterDelay
+        if (settingName.equals("dozeEnterDelay")) {
+            return false;
+        } else return true;
     }
 
     public static boolean isXposedInstalled(Context context) {

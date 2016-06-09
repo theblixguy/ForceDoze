@@ -57,17 +57,18 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             addPreferencesFromResource(R.xml.prefs);
             PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
             PreferenceCategory xposedSettings = (PreferenceCategory) findPreference("xposedSettings");
             PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
+            PreferenceCategory dozeSettings = (PreferenceCategory) findPreference("dozeSettings");
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
             Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
-            Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
+            final Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
+            Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
             Preference enableSensors = (Preference) findPreference("enableSensors");
             Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
             Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
@@ -230,6 +231,17 @@ public class SettingsActivity extends AppCompatActivity {
                                 Log.i(TAG, "Phone is rooted and SU permission granted");
                                 executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
                                 executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+                                builder.setTitle(getString(R.string.reboot_required_dialog_title));
+                                builder.setMessage(getString(R.string.reboot_required_dialog_text));
+                                builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.show();
+
                             } else {
                                 Log.i(TAG, "SU permission denied or not available");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
@@ -241,7 +253,6 @@ public class SettingsActivity extends AppCompatActivity {
                                         dialogInterface.dismiss();
                                     }
                                 });
-                                ;
                                 builder.show();
                             }
                         }
@@ -251,6 +262,21 @@ public class SettingsActivity extends AppCompatActivity {
                             Log.e(TAG, "Error querying SU: " + e.getMessage());
                         }
                     });
+                    return true;
+                }
+            });
+
+            nonRootSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    boolean newValue = (boolean) o;
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    if (newValue) {
+                        editor.putBoolean("enableSensors", true);
+                        editor.putBoolean("useXposedSensorWorkaround", false);
+                        editor.apply();
+                    }
                     return true;
                 }
             });
@@ -318,6 +344,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
+
             if (sharedPreferences.getBoolean("useXposedSensorWorkaround", false)) {
                 mainSettings.removePreference(enableSensors);
                 mainSettings.removePreference(autoRotateBrightnessFix);
@@ -328,6 +356,16 @@ public class SettingsActivity extends AppCompatActivity {
                     usePermanentDoze.setEnabled(false);
                     usePermanentDoze.setSummary(R.string.device_supports_doze_text);
                 }
+            }
+
+            if (sharedPreferences.getBoolean("useNonRootSensorWorkaround", false)) {
+                xposedSettings.removePreference(xposedSensorWorkaround);
+                mainSettings.removePreference(autoRotateBrightnessFix);
+                mainSettings.removePreference(enableSensors);
+            }
+
+            if (!isSuAvailable) {
+                dozeSettings.removePreference(turnOffDataInDoze);
             }
 
         }
