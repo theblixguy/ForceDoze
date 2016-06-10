@@ -56,7 +56,7 @@
     <string name="doze_unsupported_xposed_setting_summary">Ativa Doze em dispositivos sem suporte</string>
     <string name="doze_unsupported_xposed_setting_title">Ativar Doze em dispositivos sem suporte</string>
     <string name="doze_sensors_xposed_setting_summary">Previne que Doze acesse os sensores de movimento (experimental)</string>
-    <string name="doze_sensors_xposed_setting_title">Desativar sensores de movimento</string>
+    <string name="doze_sensors_xposed_setting_title">Desativar sensores de movimento (root)</string>
     <string name="reset_forcedoze_setting_summary">Redefine ForceDoze para as configurações originais</string>
     <string name="reset_forcedoze_setting_title">Redefinir ForceDoze</string>
     <string name="clear_doze_stats_setting_summary">Apaga as estatísticas de bateria do modo Doze</string>
@@ -105,4 +105,10 @@
     <string name="disable_wifi_during_doze_setting_title">Desativar WiFi durante Doze</string>
     <string name="disable_data_during_doze_setting_summary">Desliga dados móveis durante Doze</string>
     <string name="disable_data_during_doze_setting_title">Desativar dados móveis durante Doze</string>
+    <string name="motion_sensing_disable_non_root_setting_summary">Previne que o movimento do dispositivo desative Doze (sem-root, experimental)</string>
+    <string name="motion_sensing_disable_non_root_setting_title">Desativar sensores de movimento para Doze</string>
+    <string name="tasker_broadcast_setting_title">Tasker broadcasts</string>
+    <string name="tasker_broadcast_setting_summary">Mostra broadcasts que podem ser usados via Tasker</string>
+    <string name="reboot_required_dialog_title">Necessário reiniciar</string>
+    <string name="reboot_required_dialog_text">Por favor, reinicie seu telefone para que as alterações entrem em vigor</string>
 </resources>
