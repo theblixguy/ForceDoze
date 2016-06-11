@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.5" versioncode="39">
-        <change>New: Enabling/Disabling sensors is no longer required, ForceDoze can now reliably re-activate Doze automatically on device movement, without any noticeable effect on battery life</change>
-        <change>New: Added the ability to add/remove apps by package name</change>
-        <change>New: Replaced "Currently Dozing" stat (which was useless) with "Battery usage in last Doze session" stat, which will tell you how much battery was consumed in the last Doze session</change>
-        <change>Fixed: Bugs in Whitelist (not loading/reloading properly)</change>
-        <change>Fixed: Date/Time in Doze Battery stats changing to AM/PM randomly, and thus messing up the sort order</change>
-        <change>Fixed: Doze stats not getting properly cleared for some users</change>
+    <release version="1.3.6" versioncode="41">
+        <change>Changed: REVERTED previous changes made to ForceDozeService regarding sensor enable/disable. Your previous configuration will automatically be restored. The changes made led to some users experience battery drain, so I have now reverted the changes and made it optional, just like it was before</change>
     </release>
 </changelog>

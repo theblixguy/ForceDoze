@@ -104,7 +104,6 @@
         <activity
             android:name=".AboutAppActivity"
             android:label="About" />
-
         <activity
             android:name=".TaskerBroadcastsActivity"
             android:label="Tasker broadcasts" />
@@ -119,6 +118,10 @@
             android:name="xposedminversion"
             android:value="72" />
 
+        <receiver
+            android:name=".ReenterDoze"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

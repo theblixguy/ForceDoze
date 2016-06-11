@@ -1,5 +1,6 @@
 package com.suyashsrijan.forcedoze;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -38,28 +39,32 @@ public class ForceDozeService extends Service {
 
     boolean isSuAvailable = false;
     boolean disableWhenCharging = true;
-    //boolean enableSensors = false;
-    //boolean useAutoRotateAndBrightnessFix = false;
+    boolean enableSensors = false;
+    boolean useAutoRotateAndBrightnessFix = false;
     boolean showPersistentNotif = false;
     boolean ignoreLockscreenTimeout = false;
-    //boolean useXposedSensorWorkaround = false;
-    //boolean useNonRootSensorWorkaround = false;
+    boolean useXposedSensorWorkaround = false;
+    boolean useNonRootSensorWorkaround = false;
     boolean turnOffWiFiInDoze = false;
     boolean turnOffDataInDoze = false;
     boolean wasWiFiTurnedOn = false;
     boolean wasMobileDataTurnedOn = false;
     boolean maintenance = false;
+    boolean setPendingDozeEnterAlarm = false;
     int dozeEnterDelay = 0;
     Timer enterDozeTimer;
-    //Timer disableSensorsTimer;
-    //Timer enableSensorsTimer;
+    Timer disableSensorsTimer;
+    Timer enableSensorsTimer;
     DozeReceiver localDozeReceiver;
     ReloadSettingsReceiver reloadSettingsReceiver;
+    PendingIntentDozeReceiver pendingIntentDozeReceiver;
     NotificationCompat.Builder mBuilder;
+    PendingIntent reenterDozePendingIntent;
     PowerManager pm;
+    AlarmManager alarmManager;
     PowerManager.WakeLock tempWakeLock;
     Set<String> dozeUsageData;
-    //String sensorWhitelistPackage = "";
+    String sensorWhitelistPackage = "";
     Long timeEnterDoze = 0L;
     Long timeExitDoze = 0L;
     String lastScreenOff = "Unknown";
@@ -76,27 +81,30 @@ public class ForceDozeService extends Service {
         super.onCreate();
         localDozeReceiver = new DozeReceiver();
         reloadSettingsReceiver = new ReloadSettingsReceiver();
+        pendingIntentDozeReceiver = new PendingIntentDozeReceiver();
         enterDozeTimer = new Timer();
-        //enableSensorsTimer = new Timer();
-        //disableSensorsTimer = new Timer();
+        enableSensorsTimer = new Timer();
+        disableSensorsTimer = new Timer();
         mBuilder = new NotificationCompat.Builder(this);
         pm = (PowerManager) getSystemService(POWER_SERVICE);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(pendingIntentDozeReceiver, new IntentFilter("reenter-doze"));
         this.registerReceiver(localDozeReceiver, filter);
         turnOffDataInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffDataInDoze", false);
         turnOffWiFiInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffWiFiInDoze", false);
         ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", true);
-        //useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
-        //useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
+        useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
+        useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
         dozeEnterDelay = getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
-        //useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
-        //sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
-        //enableSensors = getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
+        useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
+        sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
+        enableSensors = getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
         disableWhenCharging = getDefaultSharedPreferences(getApplicationContext()).getBoolean("disableWhenCharging", true);
         isSuAvailable = getDefaultSharedPreferences(getApplicationContext()).getBoolean("isSuAvailable", false);
         showPersistentNotif = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
@@ -135,9 +143,10 @@ public class ForceDozeService extends Service {
         Log.i(TAG, "Stopping service and enabling sensors");
         this.unregisterReceiver(localDozeReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(reloadSettingsReceiver);
-        /*if (!enableSensors) {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(pendingIntentDozeReceiver);
+        if (!enableSensors) {
             executeCommand("dumpsys sensorservice enable");
-        }*/
+        }
     }
 
     @Override
@@ -164,20 +173,20 @@ public class ForceDozeService extends Service {
         Log.i(TAG, "ignoreLockscreenTimeout: " + ignoreLockscreenTimeout);
         dozeEnterDelay = getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         Log.i(TAG, "dozeEnterDelay: " + dozeEnterDelay);
-        /*useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
-        Log.i(TAG, "useAutoRotateAndBrightnessFix: " + useAutoRotateAndBrightnessFix);*/
-        /*sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
-        Log.i(TAG, "sensorWhitelistPackage: " + sensorWhitelistPackage);*/
-        /*enableSensors = getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
-        Log.i(TAG, "enableSensors: " + enableSensors);*/
+        useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
+        Log.i(TAG, "useAutoRotateAndBrightnessFix: " + useAutoRotateAndBrightnessFix);
+        sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
+        Log.i(TAG, "sensorWhitelistPackage: " + sensorWhitelistPackage);
+        enableSensors = getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
+        Log.i(TAG, "enableSensors: " + enableSensors);
         disableWhenCharging = getDefaultSharedPreferences(getApplicationContext()).getBoolean("disableWhenCharging", true);
         Log.i(TAG, "disableWhenCharging: " + disableWhenCharging);
         showPersistentNotif = getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
         Log.i(TAG, "showPersistentNotif: " + showPersistentNotif);
-        /*useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
-        Log.i(TAG, "useXposedSensorWorkaround: " + useXposedSensorWorkaround);*/
-        /*useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
-        Log.i(TAG, "useNonRootSensorWorkaround: " + useNonRootSensorWorkaround);*/
+        useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
+        Log.i(TAG, "useXposedSensorWorkaround: " + useXposedSensorWorkaround);
+        useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
+        Log.i(TAG, "useNonRootSensorWorkaround: " + useNonRootSensorWorkaround);
         Log.i(TAG, "ForceDoze settings reloaded ----------------------------------");
     }
 
@@ -225,7 +234,7 @@ public class ForceDozeService extends Service {
                 dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
                 saveDozeDataStats();
 
-                /*if (!useXposedSensorWorkaround) {
+                if (!useXposedSensorWorkaround) {
                     if (!enableSensors) {
                         disableSensorsTimer = new Timer();
                         disableSensorsTimer.schedule(new TimerTask() {
@@ -246,7 +255,7 @@ public class ForceDozeService extends Service {
                     }
                 } else {
                     Log.i(TAG, "Xposed Sensor workaround selected, not disabling sensors");
-                }*/
+                }
 
                 if (turnOffWiFiInDoze) {
                     wasWiFiTurnedOn = Utils.isWiFiEnabled(context);
@@ -288,7 +297,7 @@ public class ForceDozeService extends Service {
         dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT"));
         saveDozeDataStats();
 
-        /*if (!useXposedSensorWorkaround) {
+        if (!useXposedSensorWorkaround) {
             if (!enableSensors) {
                 enableSensorsTimer = new Timer();
                 enableSensorsTimer.schedule(new TimerTask() {
@@ -300,7 +309,16 @@ public class ForceDozeService extends Service {
                     }
                 }, 2000);
             }
-        }*/
+        }
+
+        if (useNonRootSensorWorkaround) {
+            try {
+                reenterDozePendingIntent.cancel();
+                alarmManager.cancel(reenterDozePendingIntent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         Timer updateNotif = new Timer();
         updateNotif.schedule(new TimerTask() {
@@ -345,7 +363,7 @@ public class ForceDozeService extends Service {
         editor.commit();
     }
 
-    /*public void autoRotateBrightnessFix() {
+    public void autoRotateBrightnessFix() {
         if (useAutoRotateAndBrightnessFix) {
             Log.i(TAG, "Executing auto-rotate fix by doing a toggle");
             Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoRotateEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoRotateEnabled(getApplicationContext())));
@@ -376,7 +394,7 @@ public class ForceDozeService extends Service {
             Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoBrightnessEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoBrightnessEnabled(getApplicationContext())));
             Utils.setAutoBrightnessEnabled(getApplicationContext(), !Utils.isAutoBrightnessEnabled(getApplicationContext()));
         }
-    }*/
+    }
 
     public void showPersistentNotification() {
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -506,6 +524,15 @@ public class ForceDozeService extends Service {
         }
     }
 
+    class PendingIntentDozeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Pending intent broadcast received");
+            setPendingDozeEnterAlarm = false;
+            executeCommand("dumpsys deviceidle force-idle");
+        }
+    }
+
     class DozeReceiver extends BroadcastReceiver {
 
         @Override
@@ -615,7 +642,7 @@ public class ForceDozeService extends Service {
                 lastKnownState = getDeviceIdleState();
 
                 if (!Utils.isScreenOn(context) && getDeviceIdleState().equals("IDLE_MAINTENANCE")) {
-                    if ((turnOffWiFiInDoze || turnOffDataInDoze) && !maintenance) {
+                    if (!maintenance) {
                         Log.i(TAG, "Device exited Doze for maintenance");
                         dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT_MAINTENANCE"));
                         saveDozeDataStats();
@@ -638,7 +665,7 @@ public class ForceDozeService extends Service {
                         maintenance = true;
                     }
                 } else if (!Utils.isScreenOn(context) && getDeviceIdleState().equals("IDLE")) {
-                    if ((turnOffWiFiInDoze || turnOffDataInDoze) && maintenance) {
+                    if (maintenance) {
                         Log.i(TAG, "Device entered Doze after maintenance");
                         dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER_MAINTENANCE"));
                         saveDozeDataStats();
@@ -664,8 +691,15 @@ public class ForceDozeService extends Service {
                     }
                 }
 
-                if (!Utils.isScreenOn(context) && (!getDeviceIdleState().equals("IDLE") || !getDeviceIdleState().equals("IDLE_MAINTENANCE"))) {
-                    executeCommand("dumpsys deviceidle force-idle");
+                if (useNonRootSensorWorkaround) {
+                    if (!setPendingDozeEnterAlarm) {
+                        if (!Utils.isScreenOn(context) && (!getDeviceIdleState().equals("IDLE") || !getDeviceIdleState().equals("IDLE_MAINTENANCE"))) {
+                            Log.i(TAG, "Device gone out of Doze, scheduling pendingIntent for enterDoze in 15 mins");
+                            reenterDozePendingIntent = PendingIntent.getBroadcast(context, 1, new Intent(context, ReenterDoze.class), PendingIntent.FLAG_CANCEL_CURRENT);
+                            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 900000, reenterDozePendingIntent);
+                            setPendingDozeEnterAlarm = true;
+                        }
+                    }
                 }
             }
         }

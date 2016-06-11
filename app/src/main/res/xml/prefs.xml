@@ -1,20 +1,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="preferenceScreen">
     <PreferenceCategory android:title="Main" android:key="mainSettings">
-        <!--<CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="enableSensors"
             android:summary="@string/enable_sensors_setting_summary"
-            android:title="@string/enable_sensors_setting_title" />-->
+            android:title="@string/enable_sensors_setting_title" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="disableWhenCharging"
             android:summary="@string/disable_when_charging_setting_summary"
             android:title="@string/disable_when_charging_setting_title" />
-        <!--<CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="autoRotateAndBrightnessFix"
             android:summary="@string/rotate_brightness_fix_setting_summary"
-            android:title="@string/rotate_brightness_fix_setting_title" />-->
+            android:title="@string/rotate_brightness_fix_setting_title" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="showPersistentNotif"
@@ -46,11 +46,11 @@
             android:key="turnOffDataInDoze"
             android:summary="@string/disable_data_during_doze_setting_summary"
             android:title="@string/disable_data_during_doze_setting_title" />
-        <!--<CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="useNonRootSensorWorkaround"
             android:summary="@string/motion_sensing_disable_non_root_setting_summary"
-            android:title="@string/motion_sensing_disable_non_root_setting_title" />-->
+            android:title="@string/motion_sensing_disable_non_root_setting_title" />
         <com.suyashsrijan.forcedoze.NumberPickerPreference
             bindSummary="false"
             max="30"
@@ -61,7 +61,7 @@
             android:summary="@string/doze_delay_setting_summary"
             android:title="@string/doze_delay_setting_title" />
     </PreferenceCategory>
-    <!--<PreferenceCategory android:title="Xposed" android:key="xposedSettings">
+    <PreferenceCategory android:title="Xposed" android:key="xposedSettings">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="usePermanentDoze"
