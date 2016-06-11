@@ -2,26 +2,20 @@ package com.suyashsrijan.forcedoze;
 
 import android.content.res.XResources;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPackage {
-    XSharedPreferences prefs;
+public class XposedModule implements IXposedHookZygoteInit {
+    /*XSharedPreferences prefs;
     boolean usePermanentDoze = false;
     boolean useXposedSensorWorkaround = false;
-    boolean serviceEnabled = false;
+    boolean serviceEnabled = false;*/
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
-            XResources.setSystemWideReplacement("android", "bool", "config_enableAutoPowerModes", true);
+        XResources.setSystemWideReplacement("android", "bool", "config_enableAutoPowerModes", true);
     }
 
-    @Override
+    /*@Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
        if (loadPackageParam.packageName.equals("android")) {
             prefs = new XSharedPreferences("com.suyashsrijan.forcedoze");
@@ -37,5 +31,5 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
                 XposedBridge.log("ForceDozeXposed: Hooked AnyMotionDetector");
             }
         }
-    }
+    }*/
 }

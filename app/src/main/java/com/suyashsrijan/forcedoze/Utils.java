@@ -19,11 +19,10 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.view.Display;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class Utils {
 
@@ -67,7 +66,11 @@ public class Utils {
     }
 
     public static String getDateCurrentTimeZone(long timestamp) {
-        return DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.UK).format(new Date(timestamp));
+        //return DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.UK).format(new Date(timestamp));
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+        return dateFormat.format(cal.getTime());
     }
 
     public static int getBatteryLevel2(Context context) {
@@ -152,8 +155,8 @@ public class Utils {
     }
 
     public static boolean doesSettingExist(String settingName) {
-        String [] updatableSettings = {"turnOffDataInDoze", "turnOffWiFiInDoze", "ignoreLockscreenTimeout",
-        "dozeEnterDelay", "useAutoRotateAndBrightnessFix", "enableSensors", "disableWhenCharging",
+        String[] updatableSettings = {"turnOffDataInDoze", "turnOffWiFiInDoze", "ignoreLockscreenTimeout",
+                "dozeEnterDelay", "useAutoRotateAndBrightnessFix", "enableSensors", "disableWhenCharging",
                 "showPersistentNotif", "useXposedSensorWorkaround", "useNonRootSensorWorkaround"};
         return Arrays.asList(updatableSettings).contains(settingName);
     }

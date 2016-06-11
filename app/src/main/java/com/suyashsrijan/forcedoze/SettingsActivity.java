@@ -7,12 +7,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -58,21 +56,22 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.prefs);
-            PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
-            PreferenceCategory xposedSettings = (PreferenceCategory) findPreference("xposedSettings");
-            PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
+            //PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
+            //PreferenceCategory xposedSettings = (PreferenceCategory) findPreference("xposedSettings");
+            //PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
             PreferenceCategory dozeSettings = (PreferenceCategory) findPreference("dozeSettings");
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
             Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
-            Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
-            final Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
-            Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
-            Preference enableSensors = (Preference) findPreference("enableSensors");
+            //Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
+            //final Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
+            //Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
+            //Preference enableSensors = (Preference) findPreference("enableSensors");
             Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
-            Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
-            CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
+            //Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
+            //CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
+
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -117,7 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            autoRotateFixPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            /*autoRotateFixPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if (!Settings.System.canWrite(getActivity())) {
@@ -125,7 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
                         return false;
                     } else return true;
                 }
-            });
+            });*/
 
             debugLogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -203,7 +202,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            xposedSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            /*xposedSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     progressDialog1 = new MaterialDialog.Builder(getActivity())
@@ -264,9 +263,9 @@ public class SettingsActivity extends AppCompatActivity {
                     });
                     return true;
                 }
-            });
+            });*/
 
-            nonRootSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            /*nonRootSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     boolean newValue = (boolean) o;
@@ -279,7 +278,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     return true;
                 }
-            });
+            });*/
 
             turnOffDataInDoze.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -339,30 +338,30 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            if (!Utils.isXposedInstalled(getContext())) {
+            /*if (!Utils.isXposedInstalled(getContext())) {
                 preferenceScreen.removePreference(xposedSettings);
-            }
+            }*/
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
 
-            if (sharedPreferences.getBoolean("useXposedSensorWorkaround", false)) {
+            /*if (sharedPreferences.getBoolean("useXposedSensorWorkaround", false)) {
                 mainSettings.removePreference(enableSensors);
                 mainSettings.removePreference(autoRotateBrightnessFix);
-            }
+            }*/
 
-            if (Utils.isXposedInstalled(getContext())) {
+            /*if (Utils.isXposedInstalled(getContext())) {
                 if (Utils.checkForAutoPowerModesFlag()) {
                     usePermanentDoze.setEnabled(false);
                     usePermanentDoze.setSummary(R.string.device_supports_doze_text);
                 }
-            }
+            }*/
 
-            if (sharedPreferences.getBoolean("useNonRootSensorWorkaround", false)) {
+            /*if (sharedPreferences.getBoolean("useNonRootSensorWorkaround", false)) {
                 xposedSettings.removePreference(xposedSensorWorkaround);
                 mainSettings.removePreference(autoRotateBrightnessFix);
                 mainSettings.removePreference(enableSensors);
-            }
+            }*/
 
             if (!isSuAvailable) {
                 dozeSettings.removePreference(turnOffDataInDoze);

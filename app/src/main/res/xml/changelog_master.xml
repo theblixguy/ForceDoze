@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.4" versioncode="38">
-        <change>New: Experimental option to prevent Doze from exiting on movement (root/Xposed not required)</change>
-        <change>New: New broadcast (com.suyashsrijan.forcedoze.CHANGE_SETTING) to allow you to change ForceDoze settings via Tasker</change>
-        <change>New: Added the ability to see all supported Tasker-compatible broadcasts and the values you need to pass (if applicable). To see, go to Settings -> Tasker broadcasts</change>
-        <change>Changed: Updates to ForceDozeService to make it more reliable</change>
-        <change>Changed: Ability to turn off mobile data on Doze is no longer available if you're not rooted, because root is required for it</change>
+    <release version="1.3.5" versioncode="39">
+        <change>New: Enabling/Disabling sensors is no longer required, ForceDoze can now reliably re-activate Doze automatically on device movement, without any noticeable effect on battery life</change>
+        <change>New: Added the ability to add/remove apps by package name</change>
+        <change>New: Replaced "Currently Dozing" stat (which was useless) with "Battery usage in last Doze session" stat, which will tell you how much battery was consumed in the last Doze session</change>
+        <change>Fixed: Bugs in Whitelist (not loading/reloading properly)</change>
+        <change>Fixed: Date/Time in Doze Battery stats changing to AM/PM randomly, and thus messing up the sort order</change>
+        <change>Fixed: Doze stats not getting properly cleared for some users</change>
     </release>
 </changelog>

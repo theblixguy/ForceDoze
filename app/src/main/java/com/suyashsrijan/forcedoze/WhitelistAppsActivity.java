@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.nanotasks.Completion;
 import com.nanotasks.Tasks;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -29,7 +31,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     WhitelistAppsAdapter whitelistAppsAdapter;
     ArrayList<String> whitelistedPackages;
-   ArrayList<WhitelistAppsItem> listData;
+    ArrayList<WhitelistAppsItem> listData;
     public static String TAG = "ForceDoze";
     boolean showDozeWhitelistWarning = true;
     Boolean isSuAvailable = false;
@@ -40,65 +42,10 @@ public class WhitelistAppsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whitelist_apps);
         listView = (ListView) findViewById(R.id.listView2);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         whitelistedPackages = new ArrayList<>();
         listData = new ArrayList<>();
-
-        Log.i(TAG, "Loading whitelisted packages...");
-        progressDialog = new MaterialDialog.Builder(this)
-                .title(getString(R.string.please_wait_text))
-                .autoDismiss(false)
-                .cancelable(false)
-                .content(R.string.loading_whitelisted_packages)
-                .progress(true, 0)
-                .show();
-
-        Tasks.executeInBackground(WhitelistAppsActivity.this, new BackgroundWork<List<String>>() {
-            @Override
-            public List<String> doInBackground() throws Exception {
-                List<String> output;
-                List<String> packages = new ArrayList<>();
-                output = Shell.SH.run("dumpsys deviceidle whitelist");
-                for (String s : output) {
-                    packages.add(s.split(",")[1]);
-                }
-                return packages;
-            }
-        }, new Completion<List<String>>() {
-            @Override
-            public void onSuccess(Context context, List<String> result) {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-
-                if (!result.isEmpty()) {
-                    for (String r : result) {
-                        WhitelistAppsItem appItem = new WhitelistAppsItem();
-                        appItem.setAppPackageName(r);
-                        Log.i(TAG, "Whitelisted package: " + r);
-                        whitelistedPackages.add(r);
-                        try {
-                            appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(r, PackageManager.GET_META_DATA)).toString());
-                        } catch (PackageManager.NameNotFoundException e) {
-                            appItem.setAppName("System package");
-                        }
-                        listData.add(appItem);
-                    }
-                }
-
-                Log.i(TAG, "Whitelisted packages: " + listData.size() + " packages in total");
-            }
-
-            @Override
-            public void onError(Context context, Exception e) {
-                Log.e(TAG, "Error loading packages: " + e.getMessage());
-
-            }
-        });
-
-
-        whitelistAppsAdapter = new WhitelistAppsAdapter(this, listData);
-        listView.setAdapter(whitelistAppsAdapter);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        loadPackagesFromWhitelist();
         isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
         showDozeWhitelistWarning = sharedPreferences.getBoolean("showDozeWhitelistWarning", true);
 
@@ -126,6 +73,12 @@ public class WhitelistAppsActivity extends AppCompatActivity {
             case R.id.action_remove_whitelist:
                 startActivityForResult(new Intent(WhitelistAppsActivity.this, PackageChooserActivity.class), 998);
                 break;
+            case R.id.action_add_whitelist_package:
+                showManuallyAddPackageDialog();
+                break;
+            case R.id.action_remove_whitelist_package:
+                showManuallyRemovePackageDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -133,50 +86,121 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (null != data) {
+        if (data != null) {
             if (requestCode == 999) {
-                String message = data.getStringExtra("package_name");
-                if (whitelistedPackages.contains(message)) {
-                    displayDialog(getString(R.string.info_text), getString(R.string.app_already_whitelisted_text));
-                } else {
-                    WhitelistAppsItem appItem = new WhitelistAppsItem();
-                    appItem.setAppPackageName(message);
-                    whitelistedPackages.add(message);
-                    try {
-                        appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(message, PackageManager.GET_META_DATA)).toString());
-                        listData.add(appItem);
-                        whitelistAppsAdapter.notifyDataSetChanged();
-                        modifyWhitelist(message, false);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
+                String pkg = data.getStringExtra("package_name");
+                verifyAndAddPackage(pkg);
             } else if (requestCode == 998) {
-                String message = data.getStringExtra("package_name");
-                if (!whitelistedPackages.contains(message)) {
-                    displayDialog(getString(R.string.info_text), getString(R.string.app_not_whitelisted_text));
-                } else {
-                    WhitelistAppsItem appItem = new WhitelistAppsItem();
-                    appItem.setAppPackageName(message);
-                    try {
-                        appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(message, PackageManager.GET_META_DATA)).toString());
-                        ArrayList<WhitelistAppsItem> listDataClone = new ArrayList<>(listData);
-                        for (WhitelistAppsItem item : listData) {
-                            if (item.getAppPackageName().equals(message)) {
-                                listDataClone.remove(item);
-                            }
-                        }
+                String pkg = data.getStringExtra("package_name");
+                verifyAndRemovePackage(pkg);
+            }
+        }
+    }
+
+    public void loadPackagesFromWhitelist() {
+        Log.i(TAG, "Loading whitelisted packages...");
+        progressDialog = new MaterialDialog.Builder(this)
+                .title(getString(R.string.please_wait_text))
+                .autoDismiss(false)
+                .cancelable(false)
+                .content(R.string.loading_whitelisted_packages)
+                .progress(true, 0)
+                .show();
+
+        Tasks.executeInBackground(WhitelistAppsActivity.this, new BackgroundWork<List<String>>() {
+            @Override
+            public List<String> doInBackground() throws Exception {
+                List<String> output;
+                List<String> packages = new ArrayList<>();
+                output = Shell.SH.run("dumpsys deviceidle whitelist");
+                for (String s : output) {
+                    packages.add(s.split(",")[1]);
+                }
+
+                return new ArrayList<>(new LinkedHashSet<>(packages));
+            }
+        }, new Completion<List<String>>() {
+            @Override
+            public void onSuccess(Context context, List<String> result) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+
+                if (!result.isEmpty()) {
+                    if (!listData.isEmpty() && !whitelistedPackages.isEmpty()) {
                         listData.clear();
-                        listData.addAll(listDataClone);
-                        listDataClone.clear();
+                        whitelistedPackages.clear();
                         whitelistAppsAdapter.notifyDataSetChanged();
-                        whitelistedPackages.remove(message);
-                        modifyWhitelist(message, true);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
+                    }
+                    for (String r : result) {
+                        WhitelistAppsItem appItem = new WhitelistAppsItem();
+                        appItem.setAppPackageName(r);
+                        whitelistedPackages.add(r);
+                        try {
+                            appItem.setAppName(getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(r, PackageManager.GET_META_DATA)).toString());
+                        } catch (PackageManager.NameNotFoundException e) {
+                            appItem.setAppName("System package");
+                        }
+                        listData.add(appItem);
                     }
                 }
+
+                Log.i(TAG, "Whitelisted packages: " + listData.size() + " packages in total");
             }
+
+            @Override
+            public void onError(Context context, Exception e) {
+                Log.e(TAG, "Error loading packages: " + e.getMessage());
+
+            }
+        });
+
+        whitelistAppsAdapter = new WhitelistAppsAdapter(this, listData);
+        listView.setAdapter(whitelistAppsAdapter);
+    }
+
+    public void showManuallyAddPackageDialog() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.whitelist_apps_setting_text))
+                .content(R.string.manually_add_package_dialog_text)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("com.spotify.music", "", false, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        verifyAndAddPackage(input.toString());
+                    }
+                }).show();
+    }
+
+    public void showManuallyRemovePackageDialog() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.whitelist_apps_setting_text))
+                .content(R.string.manually_remove_package_dialog_text)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("com.spotify.music", "", false, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        verifyAndRemovePackage(input.toString());
+                    }
+                }).show();
+    }
+
+
+    public void verifyAndAddPackage(String packageName) {
+        if (whitelistedPackages.contains(packageName)) {
+            displayDialog(getString(R.string.info_text), getString(R.string.app_already_whitelisted_text));
+        } else {
+            modifyWhitelist(packageName, false);
+            loadPackagesFromWhitelist();
+        }
+    }
+
+    public void verifyAndRemovePackage(String packageName) {
+        if (!whitelistedPackages.contains(packageName)) {
+            displayDialog(getString(R.string.info_text), getString(R.string.app_not_whitelisted_text));
+        } else {
+            modifyWhitelist(packageName, true);
+            loadPackagesFromWhitelist();
         }
     }
 
@@ -199,20 +223,11 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     }
 
     public void executeCommand(final String command) {
-        if (isSuAvailable) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    Shell.SU.run(command);
-                }
-            });
-        } else {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    Shell.SH.run(command);
-                }
-            });
-        }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Shell.SH.run(command);
+            }
+        });
     }
 }

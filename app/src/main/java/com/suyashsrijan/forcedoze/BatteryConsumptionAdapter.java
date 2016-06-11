@@ -47,13 +47,13 @@ public class BatteryConsumptionAdapter extends BaseAdapter {
 
         String[] data = listData.get(position).getTimestampPercCombo().split(",");
         if (data[2].equals("EXIT")) {
-            holder.timestamp.setText("Exited Doze mode at ".concat(data[0]));
+            holder.timestamp.setText("Exited Doze mode at ".concat(Utils.getDateCurrentTimeZone(Long.valueOf(data[0]))));
         } else if (data[2].equals("ENTER")) {
-            holder.timestamp.setText("Entered Doze mode at ".concat(data[0]));
+            holder.timestamp.setText("Entered Doze mode at ".concat(Utils.getDateCurrentTimeZone(Long.valueOf(data[0]))));
         } else if (data[2].equals("EXIT_MAINTENANCE")) {
-            holder.timestamp.setText("Exited Doze mode for maintenance at ".concat(data[0]));
+            holder.timestamp.setText("Exited Doze mode for maintenance at ".concat(Utils.getDateCurrentTimeZone(Long.valueOf(data[0]))));
         } else if(data[2].equals("ENTER_MAINTENANCE")) {
-            holder.timestamp.setText("Entered Doze mode after maintenance at ".concat(data[0]));
+            holder.timestamp.setText("Entered Doze mode after maintenance at ".concat(Utils.getDateCurrentTimeZone(Long.valueOf(data[0]))));
         }
         holder.batteryPerc.setText("Battery level: ".concat(data[1]).concat("%"));
         return convertView;

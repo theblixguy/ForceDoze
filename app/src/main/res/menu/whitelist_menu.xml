@@ -13,4 +13,14 @@
         android:title="@string/remove_menu_item"
         android:icon="@drawable/ic_remove_white_24dp"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_add_whitelist_package"
+        android:orderInCategory="100"
+        android:title="@string/add_package_menu_item"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_remove_whitelist_package"
+        android:orderInCategory="100"
+        android:title="@string/remove_package_menu_item"
+        app:showAsAction="never"/>
 </menu>

@@ -107,14 +107,14 @@
 
         <activity
             android:name=".TaskerBroadcastsActivity"
-            android:label="Tasker broadcasts"></activity>
+            android:label="Tasker broadcasts" />
 
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Enables more ForceDoze features" />
+            android:value="Enable Doze on an unsupported device" />
         <meta-data
             android:name="xposedminversion"
             android:value="72" />
