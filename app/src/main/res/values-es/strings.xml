@@ -9,11 +9,11 @@
     <string name="close_button_text">Cerrar</string>
     <string name="lockscreen_timeout_snackbar_text">El tiempo de espera de bloqueo de pantalla es muy alto!</string>
     <string name="more_info_text">Más Info</string>
-    <string name="doze_unsupported_more_info">Algunos dispositivos tienen el modo Doze deshabilitado por el OEM. Esta opción puede habilitar el modo Doze en los dispositivos que no lo traen habilitado por defecto .\n\nNota: Usted tiene que activar el modo Forcedoze en Xposed y habilitar la opción \'Habilitar Doze en dispositivo no soportado\' en los ajustes de la aplicación para activar Doze de forma permanente. Si Xposed no está instalado, se tiene que activar esta opción cada vez que se reinicia el teléfono.</string>
+    <string name="doze_unsupported_more_info">Algunos dispositivos tienen el modo Doze deshabilitado por el OEM. Esta opción puede habilitar el modo Doze en los dispositivos que no lo traen habilitado por defecto .\n\nNota: Usted tiene que activar el modo Forcedoze en Xposed para activar Doze de forma permanente. Si Xposed no está instalado, se tiene que activar esta opción cada vez que se reinicia el teléfono.</string>
     <string name="doze_unsupported_more_info_title">Habilitar Doze en dispositivos no soportados</string>
     <string name="enable_doze_button_text">Habilitar modo Doze</string>
     <string name="xposed_detected_dialog_title">Xposed detectado</string>
-    <string name="xposed_detected_dialog_text">"ForceDoze ha detectado que Xposed está instalado en su dispositivo. En orden de habilitar permanentemente Doze en su dispositivo, necesita activar el módulo ForceDoze en Xposed y habilitar la opción 'Activar Doze en dispositivo no soportado' en los ajustes de la aplicación. Si no activa el módulo, perderá funcionalidad Doze cuando el dispositivo reinicie y tendrá que manualmente habilitar Doze nuevamente. "</string>
+    <string name="xposed_detected_dialog_text">"ForceDoze ha detectado que Xposed está instalado en su dispositivo. En orden de habilitar permanentemente Doze en su dispositivo, necesita activar el módulo ForceDoze en Xposed. Si no activa el módulo, perderá funcionalidad Doze cuando el dispositivo reinicie y tendrá que manualmente habilitar Doze nuevamente. "</string>
     <string name="no_root_workaround_dialog_title">Modo alternativo no-root</string>
     <string name="okay_button_text">Ok</string>
     <string name="share_command_button_text">Compartir comando</string>
@@ -111,4 +111,8 @@
     <string name="tasker_broadcast_setting_summary">Mostrar broadcasts que se pueden usar via Tasker</string>
     <string name="reboot_required_dialog_title">Requiere reinicio</string>
     <string name="reboot_required_dialog_text">Por favor reinicie su teléfono para que los cambios tengan efecto</string>
+    <string name="manually_add_package_dialog_text">Por favor ingrese el nombre del paquete de la aplicación que quiere agregar a la lista de exclusión de Doze</string>
+    <string name="manually_remove_package_dialog_text">Por favor ingrese el nombre del paquete de la aplicación que quire quitar de la lista de exclusión de Doze</string>
+    <string name="add_package_menu_item">Agregar paquete</string>
+    <string name="remove_package_menu_item">Quitar paquete</string>
 </resources>
