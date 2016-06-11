@@ -9,11 +9,11 @@
     <string name="close_button_text">Fechar</string>
     <string name="lockscreen_timeout_snackbar_text">O tempo de espera para o bloqueio da tela está muito alto!</string>
     <string name="more_info_text">Mais informações</string>
-    <string name="doze_unsupported_more_info">Alguns dispositivos possuem o modo Doze desativado pelo fabricante. Esta opção ativa o modo Doze em dispositivos que não têm a opção ativada por padrão.\n\nNota: Você tem que ativar o módulo Forcedoze no Xposed e habilitar a opção \'Ativar Doze em dispositivos sem suporte\' nas configurações do aplicativo para ativar Doze permanentemente. Se o Xposed não estiver instalado, você terá que ativar essa opção a cada vez que o telefone for reiniciado.</string>
+    <string name="doze_unsupported_more_info">Alguns dispositivos possuem o modo Doze desativado pelo fabricante. Esta opção ativa o modo Doze em dispositivos que não têm a opção ativada por padrão.\n\nNota: Você tem que ativar o módulo Forcedoze no Xposed para ativar Doze permanentemente. Se o Xposed não estiver instalado, você terá que ativar essa opção a cada vez que o telefone for reiniciado.</string>
     <string name="doze_unsupported_more_info_title">Ativar Doze em dispositivos sem suporte</string>
     <string name="enable_doze_button_text">Ativar modo Doze</string>
     <string name="xposed_detected_dialog_title">Xposed detectado</string>
-    <string name="xposed_detected_dialog_text">"ForceDoze detectou que o Xposed está instalado no seu dispositivo. A fim de permitir Doze permanentemente no seu dispositivo, você precisa ativar o módulo ForceDoze no Xposed e ativar a opção \'Ativar Doze em dispositivos sem suporte\' nas configurações do aplicativo. Se você não ativar o módulo, você vai perder a funcionalidade Doze quando o dispositivo for reiniciado e terá que ativar Doze manualmente novamente."</string>
+    <string name="xposed_detected_dialog_text">"ForceDoze detectou que o Xposed está instalado no seu dispositivo. A fim de permitir Doze permanentemente no seu dispositivo, você precisa ativar o módulo ForceDoze no Xposed. Se você não ativar o módulo, você vai perder a funcionalidade Doze quando o dispositivo for reiniciado e terá que ativar Doze manualmente novamente."</string>
     <string name="no_root_workaround_dialog_title">Modo alternativo sem root</string>
     <string name="okay_button_text">Okay</string>
     <string name="share_command_button_text">Compartilhar comando</string>
@@ -111,4 +111,8 @@
     <string name="tasker_broadcast_setting_summary">Mostra broadcasts que podem ser usados via Tasker</string>
     <string name="reboot_required_dialog_title">Necessário reiniciar</string>
     <string name="reboot_required_dialog_text">Por favor, reinicie seu telefone para que as alterações entrem em vigor</string>
+    <string name="manually_add_package_dialog_text">Por favor, indique o nome do pacote do aplicativo que você deseja adicionar a lista de exclusão Doze</string>
+    <string name="manually_remove_package_dialog_text">Por favor, indique o nome do pacote do aplicativo que você deseja remover da lista de exclusão Doze</string>
+    <string name="add_package_menu_item">Adicionar pacote</string>
+    <string name="remove_package_menu_item">Remover pacote</string>
 </resources>
