@@ -106,7 +106,7 @@
     <string name="disable_data_during_doze_setting_summary">Desliga dados móveis durante Doze</string>
     <string name="disable_data_during_doze_setting_title">Desativar dados móveis durante Doze</string>
     <string name="motion_sensing_disable_non_root_setting_summary">Previne que o movimento do dispositivo desative Doze (sem-root, experimental)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Desativar sensores de movimento para Doze</string>
+    <string name="motion_sensing_disable_non_root_setting_title">Desativar sensores de movimento</string>
     <string name="tasker_broadcast_setting_title">Tasker broadcasts</string>
     <string name="tasker_broadcast_setting_summary">Mostra broadcasts que podem ser usados via Tasker</string>
     <string name="reboot_required_dialog_title">Necessário reiniciar</string>
@@ -115,4 +115,9 @@
     <string name="manually_remove_package_dialog_text">Por favor, indique o nome do pacote do aplicativo que você deseja remover da lista de exclusão Doze</string>
     <string name="add_package_menu_item">Adicionar pacote</string>
     <string name="remove_package_menu_item">Remover pacote</string>
+    <string name="compact_view_menu_item">Visão compacta</string>
+    <string name="battery_optimization_menu_item">Otimização de bateria</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_title">O que significa os ícones?</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_text">O ícone de bateria com um raio indica que o uso de bateria durante a sessão Doze está dentro dos limites aceitáveis, o ícone de bateria com um ponto de exclamação indica que o uso de bateria durante a sessão Doze excedeu os limites aceitáveis. Se o uso de bateria em qualquer sessão Doze se encontrar acima dos limites aceitáveis, é aconselhável que execute o GSAM ou algum outro aplicativo de estatísticas de bateria para investigar a causa da drenagem</string>
+    <string name="clearing_doze_stats_text">Apagando estatísticas Doze...</string>
 </resources>
