@@ -107,6 +107,16 @@ public class Utils {
         return diff;
     }
 
+    public static String timeSpentString(long start, long end) {
+        long diff = end - start;
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+
+        String timeSpent = diffHours + " hours, " + diffMinutes + " mins, " + diffSeconds + " secs";
+        return timeSpent;
+    }
+
     public static void setAutoRotateEnabled(Context context, boolean enabled) {
         Settings.System.putInt(context.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, enabled ? 1 : 0);
     }

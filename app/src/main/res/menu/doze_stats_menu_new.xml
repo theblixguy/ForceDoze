@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_switch_stats_ui"
+        android:orderInCategory="100"
+        android:title="@string/compact_view_menu_item"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_clear_stats"
+        android:orderInCategory="100"
+        android:title="@string/clear_doze_stats_setting_title"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_stats_more_info"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/more_info_menu_item"
+        app:showAsAction="always"/>
+</menu>

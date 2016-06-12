@@ -25,6 +25,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class DozeStatsActivity extends AppCompatActivity {
+
+    /* Old Doze stats activity left to show a compact view of Doze stats and to handle some edge cases */
+
     ArrayList<BatteryConsumptionItem> batteryConsumptionItems;
     Set<String> dozeUsageStats;
     ListView listView;
@@ -36,9 +39,14 @@ public class DozeStatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doze_battery_consumption);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         listView = (ListView) findViewById(R.id.listView);
         batteryConsumptionItems = new ArrayList<>();
-        dozeUsageStats = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageDataNew", new LinkedHashSet<String>());
+        dozeUsageStats = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageDataAdvanced", new LinkedHashSet<String>());
         if (!dozeUsageStats.isEmpty()) {
             ArrayList<String> sortedList = new ArrayList<String>(dozeUsageStats);
             Collections.sort(sortedList);
@@ -66,22 +74,30 @@ public class DozeStatsActivity extends AppCompatActivity {
             case R.id.action_clear_stats:
                 clearStats();
                 break;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void clearStats() {
-
+        progressDialog = new MaterialDialog.Builder(this)
+                .title(getString(R.string.please_wait_text))
+                .cancelable(false)
+                .autoDismiss(false)
+                .content(getString(R.string.clearing_doze_stats_text))
+                .progress(true, 0)
+                .show();
 
         Tasks.executeInBackground(DozeStatsActivity.this, new BackgroundWork<Boolean>() {
             @Override
             public Boolean doInBackground() throws Exception {
-                Log.i(TAG, "Clearning Doze stats");
+                Log.i(TAG, "Clearing Doze stats");
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("dozeUsageDataNew");
-                boolean returnValue = editor.commit();
-                return returnValue;
+                editor.remove("dozeUsageDataAdvanced");
+                return editor.commit();
             }
         }, new Completion<Boolean>() {
             @Override

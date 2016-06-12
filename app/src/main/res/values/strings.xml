@@ -78,7 +78,7 @@
     <string name="donate_dialog_button_text">I want to donate</string>
     <string name="about_forcedoze_setting_title">About ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze for Android is built using open source software:</string>
-    <string name="version_num_text">1.3.6 rev 41</string>
+    <string name="version_num_text">1.3.7 rev 42</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
     <string name="translation_credits_dialog_title">Translation credits</string>
     <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)</string>
@@ -114,4 +114,9 @@
     <string name="manually_remove_package_dialog_text">Please enter the package name of the app you want to remove from the Doze whitelist</string>
     <string name="add_package_menu_item">Add package</string>
     <string name="remove_package_menu_item">Remove package</string>
+    <string name="compact_view_menu_item">Compact view</string>
+    <string name="battery_optimization_menu_item">Battery optimization</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_title">What do the icons mean?</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_text">The battery icon with a lightning sign indicates the battery usage during that Doze session was within acceptable limits, and the battery icon with an exclamation sign indicates the battery usage during that Doze session was above acceptable limits. If the battery usage in any Doze session is above acceptable limits, you are advised to look into GSAM or another third party battery stats app to investigate what drained your battery</string>
+    <string name="clearing_doze_stats_text">Clearing Doze stats...</string>
 </resources>

@@ -37,6 +37,11 @@ public class LogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         grantLogsPermissionAndPrintLog();
         progressDialog = new MaterialDialog.Builder(this)
                 .title("Please wait")
@@ -68,6 +73,9 @@ public class LogActivity extends AppCompatActivity {
                         .show();
                 getFullLogcat();
                 break;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

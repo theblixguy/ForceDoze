@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -41,6 +42,11 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whitelist_apps);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         listView = (ListView) findViewById(R.id.listView2);
         whitelistedPackages = new ArrayList<>();
         listData = new ArrayList<>();
@@ -79,6 +85,14 @@ public class WhitelistAppsActivity extends AppCompatActivity {
             case R.id.action_remove_whitelist_package:
                 showManuallyRemovePackageDialog();
                 break;
+            case R.id.action_whitelist_more_info:
+                displayDialog(getString(R.string.whitelisting_text), getString(R.string.whitelisted_apps_restrictions_text));
+                break;
+            case R.id.action_launch_system_whitelist:
+                startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
     CoordinatorLayout coordinatorLayout;
+    CustomTabs.Warmer warmer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0.0f);
         }
-        CustomTabs.with(getApplicationContext()).warm();
+        warmer = CustomTabs.with(getApplicationContext()).warm();
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
-        showDonateDevDialog = settings.getBoolean("showDonateDevDialog", true);
+        showDonateDevDialog = settings.getBoolean("showDonateDevDialog1", true);
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
         isDozeDisabled = settings.getBoolean("isDozeDisabled", false);
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
@@ -205,6 +206,12 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        warmer.unwarm();
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
 
@@ -232,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 openDonatePage();
                 break;
             case R.id.action_doze_batterystats:
-                startActivity(new Intent(MainActivity.this, DozeStatsActivity.class));
+                startActivity(new Intent(MainActivity.this, DozeBatteryStatsActivity.class));
                 break;
             case R.id.action_app_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
@@ -394,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor = settings.edit();
-                editor.putBoolean("showDonateDevDialog", false);
+                editor.putBoolean("showDonateDevDialog1", false);
                 editor.apply();
                 dialogInterface.dismiss();
                 openDonatePage();
@@ -404,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor = settings.edit();
-                editor.putBoolean("showDonateDevDialog", false);
+                editor.putBoolean("showDonateDevDialog1", false);
                 editor.apply();
                 dialogInterface.dismiss();
             }

@@ -2,6 +2,7 @@ package com.suyashsrijan.forcedoze;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ public class TaskerBroadcastsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasker_broadcasts);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         listView = (ListView) findViewById(R.id.listViewBroadcasts);
         items = new ArrayList<>();
         items.add(new TaskerBroadcastsItem("com.suyashsrijan.forcedoze.ENABLE_FORCEDOZE",
@@ -37,5 +43,16 @@ public class TaskerBroadcastsActivity extends AppCompatActivity {
                         "following:\n1) true\n2) false\n3) an integer value (ONLY in case of dozeEnterDelay)"));
         taskerBroadcastsAdapter = new TaskerBroadcastsAdapter(this, items);
         listView.setAdapter(taskerBroadcastsAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

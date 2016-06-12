@@ -88,7 +88,12 @@
 
         <activity
             android:name=".DozeStatsActivity"
+            android:label="Doze battery stats (old)" />
+
+        <activity
+            android:name=".DozeBatteryStatsActivity"
             android:label="Doze battery stats" />
+
         <activity
             android:name=".WhitelistAppsActivity"
             android:label="Whitelist" />
@@ -113,7 +118,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Enable Doze on an unsupported device" />
+            android:value="Enable more ForceDoze features" />
         <meta-data
             android:name="xposedminversion"
             android:value="72" />
@@ -121,7 +126,7 @@
         <receiver
             android:name=".ReenterDoze"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
     </application>
 
 </manifest>

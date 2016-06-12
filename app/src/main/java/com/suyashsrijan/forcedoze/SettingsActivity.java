@@ -18,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jakewharton.processphoenix.ProcessPhoenix;
@@ -38,6 +39,10 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
@@ -50,6 +55,17 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent("reload-settings");
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static class SettingsFragment extends PreferenceFragment {
@@ -182,24 +198,54 @@ public class SettingsActivity extends AppCompatActivity {
             clearDozeStats.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.remove("dozeUsageData");
-                    editor.apply();
-                    if (Utils.isMyServiceRunning(ForceDozeService.class, getActivity())) {
-                        Intent intent = new Intent("reload-settings");
-                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-                    }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle(getString(R.string.cleared_text));
-                    builder.setMessage(getString(R.string.doze_battery_stats_clear_msg));
-                    builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+                    progressDialog1 = new MaterialDialog.Builder(getActivity())
+                            .title(getString(R.string.please_wait_text))
+                            .cancelable(false)
+                            .autoDismiss(false)
+                            .content(getString(R.string.clearing_doze_stats_text))
+                            .progress(true, 0)
+                            .show();
+                    Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
+                        public Boolean doInBackground() throws Exception {
+                            Log.i(TAG, "Clearing Doze stats");
+                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("dozeUsageDataAdvanced");
+                            return editor.commit();
+                        }
+                    }, new Completion<Boolean>() {
+                        @Override
+                        public void onSuccess(Context context, Boolean result) {
+                            if (progressDialog1 != null) {
+                                progressDialog1.dismiss();
+                            }
+                            if (result) {
+                                Log.i(TAG, "Doze stats successfully cleared");
+                                if (Utils.isMyServiceRunning(ForceDozeService.class, context)) {
+                                    Intent intent = new Intent("reload-settings");
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+                                builder.setTitle(getString(R.string.cleared_text));
+                                builder.setMessage(getString(R.string.doze_battery_stats_clear_msg));
+                                builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(Context context, Exception e) {
+                            Log.e(TAG, "Error clearing Doze stats: " + e.getMessage());
+
                         }
                     });
-                    builder.show();
                     return true;
                 }
             });
@@ -207,7 +253,7 @@ public class SettingsActivity extends AppCompatActivity {
             xposedSensorWorkaround.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    final boolean newValue = (boolean)o;
+                    final boolean newValue = (boolean) o;
                     progressDialog1 = new MaterialDialog.Builder(getActivity())
                             .title(getString(R.string.please_wait_text))
                             .cancelable(false)
