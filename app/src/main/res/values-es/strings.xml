@@ -115,4 +115,10 @@
     <string name="manually_remove_package_dialog_text">Por favor ingrese el nombre del paquete de la aplicación que quire quitar de la lista de exclusión de Doze</string>
     <string name="add_package_menu_item">Agregar paquete</string>
     <string name="remove_package_menu_item">Quitar paquete</string>
+    <string name="compact_view_menu_item">Vista compacta</string>
+    <string name="battery_optimization_menu_item">Optimización de batería</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_title">Que significan los íconos?</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_text">El ícono de batería con un rayo indica que la utilización de la batería durante esa sesión de Doze estuvo dentro de los límites aceptables, y el ícono de batería con un signo de exclamación indica que la utilización de la batería durante esa sesión de Doze excedió los límites aceptables. Si el uso de la batería en cualquier sesión Doze se encuentra por encima de los límites aceptables, se aconseja que corrobore con GSAM o alguna otra aplicación las estadísticas de batería para investigar la causa de su drenaje</string>
+    <string name="clearing_doze_stats_text">Borrando estadísticas de Doze...</string>
+</resources>
 </resources>
