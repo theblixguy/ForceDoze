@@ -37,6 +37,8 @@ public class AboutAppActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

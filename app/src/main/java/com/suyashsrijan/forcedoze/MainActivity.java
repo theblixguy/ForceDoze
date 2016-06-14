@@ -247,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case R.id.action_doze_more_info:
                 showMoreInfoDialog();
                 break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

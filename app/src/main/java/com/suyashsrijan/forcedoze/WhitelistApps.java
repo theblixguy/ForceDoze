@@ -106,6 +106,8 @@ public class WhitelistApps extends AppCompatActivity {
                             }
                         }).show();
                 break;*/
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -76,6 +76,8 @@ public class LogActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
