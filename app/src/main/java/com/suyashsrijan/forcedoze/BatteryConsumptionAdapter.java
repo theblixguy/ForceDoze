@@ -60,7 +60,7 @@ public class BatteryConsumptionAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView timestamp;
-        TextView batteryPerc;
+        private TextView timestamp;
+        private TextView batteryPerc;
     }
 }

@@ -28,15 +28,15 @@ import java.util.List;
 import eu.chainfire.libsuperuser.Shell;
 
 public class WhitelistAppsActivity extends AppCompatActivity {
-    ListView listView;
-    SharedPreferences sharedPreferences;
-    WhitelistAppsAdapter whitelistAppsAdapter;
-    ArrayList<String> whitelistedPackages;
-    ArrayList<WhitelistAppsItem> listData;
+    private ListView listView;
+    private SharedPreferences sharedPreferences;
+    private WhitelistAppsAdapter whitelistAppsAdapter;
+    private ArrayList<String> whitelistedPackages;
+    private ArrayList<WhitelistAppsItem> listData;
     public static String TAG = "ForceDoze";
-    boolean showDozeWhitelistWarning = true;
-    Boolean isSuAvailable = false;
-    MaterialDialog progressDialog = null;
+    private boolean showDozeWhitelistWarning = true;
+    private Boolean isSuAvailable = false;
+    private MaterialDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

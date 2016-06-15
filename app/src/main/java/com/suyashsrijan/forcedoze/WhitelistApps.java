@@ -20,15 +20,15 @@ import java.util.Set;
 import eu.chainfire.libsuperuser.Shell;
 
 public class WhitelistApps extends AppCompatActivity {
-    ListView listView;
-    SharedPreferences sharedPreferences;
-    WhitelistAppsAdapter whitelistAppsAdapter;
-    Set<String> whitelistedPackages;
-    String sensorWhitelistPackage = "";
+    private ListView listView;
+    private SharedPreferences sharedPreferences;
+    private WhitelistAppsAdapter whitelistAppsAdapter;
+    private Set<String> whitelistedPackages;
+    private String sensorWhitelistPackage = "";
     public ArrayList<WhitelistAppsItem> listData = new ArrayList<>();
     public static String TAG = "ForceDoze";
-    boolean showDozeWhitelistWarning = true;
-    Boolean isSuAvailable = false;
+    private boolean showDozeWhitelistWarning = true;
+    private Boolean isSuAvailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

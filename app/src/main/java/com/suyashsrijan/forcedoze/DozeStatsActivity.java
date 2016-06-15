@@ -28,11 +28,11 @@ public class DozeStatsActivity extends AppCompatActivity {
 
     /* Old Doze stats activity left to show a compact view of Doze stats and to handle some edge cases */
 
-    ArrayList<BatteryConsumptionItem> batteryConsumptionItems;
-    Set<String> dozeUsageStats;
-    ListView listView;
-    BatteryConsumptionAdapter batteryConsumptionAdapter;
-    MaterialDialog progressDialog = null;
+    private ArrayList<BatteryConsumptionItem> batteryConsumptionItems;
+    private Set<String> dozeUsageStats;
+    private ListView listView;
+    private BatteryConsumptionAdapter batteryConsumptionAdapter;
+    private MaterialDialog progressDialog = null;
     public static String TAG = "ForceDoze";
 
     @Override

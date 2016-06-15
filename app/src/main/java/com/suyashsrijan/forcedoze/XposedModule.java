@@ -11,10 +11,10 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPackage {
-    XSharedPreferences prefs;
-    boolean usePermanentDoze = false;
-    boolean useXposedSensorWorkaround = false;
-    boolean serviceEnabled = false;
+    private XSharedPreferences prefs;
+    private boolean usePermanentDoze = false;
+    private boolean useXposedSensorWorkaround = false;
+    private boolean serviceEnabled = false;
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {

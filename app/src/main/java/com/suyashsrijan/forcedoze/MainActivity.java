@@ -33,20 +33,20 @@ import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     public static String TAG = "ForceDoze";
-    SharedPreferences settings;
-    SharedPreferences.Editor editor;
-    Boolean isDozeEnabledByOEM = true;
-    Boolean isSuAvailable = false;
-    Boolean isDozeDisabled = false;
-    Boolean serviceEnabled = false;
-    Boolean isDumpPermGranted = false;
-    Boolean ignoreLockscreenTimeout = true;
-    Boolean showDonateDevDialog = true;
-    SwitchCompat toggleForceDozeSwitch;
-    MaterialDialog progressDialog = null;
-    TextView textViewStatus;
-    CoordinatorLayout coordinatorLayout;
-    CustomTabs.Warmer warmer;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
+    private Boolean isDozeEnabledByOEM = true;
+    private Boolean isSuAvailable = false;
+    private Boolean isDozeDisabled = false;
+    private Boolean serviceEnabled = false;
+    private Boolean isDumpPermGranted = false;
+    private Boolean ignoreLockscreenTimeout = true;
+    private Boolean showDonateDevDialog = true;
+    private SwitchCompat toggleForceDozeSwitch;
+    private MaterialDialog progressDialog = null;
+    private TextView textViewStatus;
+    private CoordinatorLayout coordinatorLayout;
+    private CustomTabs.Warmer warmer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

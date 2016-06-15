@@ -16,7 +16,7 @@ import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class AboutAppActivity extends AppCompatActivity {
 
-    CustomTabs.Warmer warmer;
+    private CustomTabs.Warmer warmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

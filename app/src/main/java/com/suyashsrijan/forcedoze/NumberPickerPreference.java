@@ -24,15 +24,15 @@ public class NumberPickerPreference extends Preference implements
     private final int DEFAULT_MIN = 0;
     private final int DEFAULT_STEP = 1;
 
-    AlertDialog mDialog;
-    NumberPicker mPicker;
-    String mTitle;
-    boolean mBindSummary = DEFAULT_BIND_SUMMARY;
-    int mMax = DEFAULT_MAX;
-    int mMin = DEFAULT_MIN;
-    int mStep = DEFAULT_STEP;
-    int mCurrentValue = mMin;
-    String[] mValues;
+    private AlertDialog mDialog;
+    private NumberPicker mPicker;
+    private String mTitle;
+    private boolean mBindSummary = DEFAULT_BIND_SUMMARY;
+    private int mMax = DEFAULT_MAX;
+    private int mMin = DEFAULT_MIN;
+    private int mStep = DEFAULT_STEP;
+    private int mCurrentValue = mMin;
+    private String[] mValues;
 
     public NumberPickerPreference(Context context) {
         super(context);
@@ -207,7 +207,7 @@ public class NumberPickerPreference extends Preference implements
 
     private static class SavedState extends BaseSavedState {
         // Member that holds the setting's value
-        int value;
+        private int value;
 
         public SavedState(Parcelable superState) {
             super(superState);

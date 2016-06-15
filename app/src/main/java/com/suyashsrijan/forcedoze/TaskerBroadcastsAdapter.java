@@ -51,7 +51,7 @@ public class TaskerBroadcastsAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView broadcastName;
-        TextView broadcastValues;
+        private TextView broadcastName;
+        private TextView broadcastValues;
     }
 }

@@ -51,7 +51,7 @@ public class WhitelistAppsAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView appName;
-        TextView appPackageName;
+        private TextView appName;
+        private TextView appPackageName;
     }
 }

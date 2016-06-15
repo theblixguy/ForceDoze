@@ -30,8 +30,8 @@ public class LogActivity extends AppCompatActivity {
 
     public static String TAG = "ForceDoze";
     public List<String> log;
-    boolean isSuAvailable;
-    MaterialDialog progressDialog = null;
+    private boolean isSuAvailable;
+    private MaterialDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
