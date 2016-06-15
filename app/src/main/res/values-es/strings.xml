@@ -33,7 +33,7 @@
     <string name="doze_stats_su_denied_error_dialog_text">Permiso SU denegado o SU no disponible, no se puede leer logcat</string>
     <string name="loading_installed_apps_text">Cargando aplicaciones instaladas...</string>
     <string name="whitelisting_text">Lista de exclusión</string>
-    <string name="whitelisted_apps_restrictions_text">"Una aplicación en la lista de exclusión puede acceder a la red y tener wake locks parciales durante Doze. De todas formas, otras restricciones continuarán en las aplicaciones de la lista de exclusión, así como en las demás aplicaciones. Por ejemplo, las tareas y sincronizaciones de las aplicaciones excluidas son postergadas, y sus alarmas regulares no son activadas. "</string>
+    <string name="whitelisted_apps_restrictions_text">"Una aplicación en la lista de exclusión puede acceder a la red y tener wakelocks parciales durante Doze. De todas formas, otras restricciones continuarán en las aplicaciones de la lista de exclusión, así como en las demás aplicaciones. Por ejemplo, las tareas y sincronizaciones de las aplicaciones excluidas son postergadas, y sus alarmas regulares no son activadas. "</string>
     <string name="info_text">Info</string>
     <string name="app_already_whitelisted_text">La aplicación que trata de agregar ya existe en su lista!</string>
     <string name="app_not_whitelisted_text">La aplicación que trata de quitar no existe en su lista!</string>
