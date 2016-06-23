@@ -121,4 +121,3 @@
     <string name="doze_stats_battery_icon_meaning_dialog_text">El ícono de batería con un rayo indica que la utilización de la batería durante esa sesión de Doze estuvo dentro de los límites aceptables, y el ícono de batería con un signo de exclamación indica que la utilización de la batería durante esa sesión de Doze excedió los límites aceptables. Si el uso de la batería en cualquier sesión Doze se encuentra por encima de los límites aceptables, se aconseja que corrobore con GSAM o alguna otra aplicación las estadísticas de batería para investigar la causa de su drenaje</string>
     <string name="clearing_doze_stats_text">Borrando estadísticas de Doze...</string>
 </resources>
-</resources>
