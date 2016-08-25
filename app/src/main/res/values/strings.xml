@@ -48,7 +48,7 @@
     <string name="persistent_notification_setting_title">Show persistent notification</string>
     <string name="lockscreen_timeout_setting_summary">Ignore lockscreen timeout and enable Doze immediately after screen off</string>
     <string name="lockscreen_timeout_setting_title">Ignore lockscreen timeout</string>
-    <string name="doze_delay_setting_summary">Add a delay before Doze mode kicks in after screen-off</string>
+    <string name="doze_delay_setting_summary">Add a delay before Doze mode kicks in after screen-off. In seconds.</string>
     <string name="doze_delay_setting_title">Doze delay</string>
     <string name="whitelist_apps_setting_summary">Whitelist apps from Doze mode</string>
     <string name="whitelist_apps_setting_text">Whitelist apps</string>
@@ -102,8 +102,8 @@
     <string name="turn_off_internet_doze_setting_summary">Disables WiFi/mobile data during Doze</string>
     <string name="disable_wifi_during_doze_setting_summary">Turn off WiFi during Doze</string>
     <string name="disable_wifi_during_doze_setting_title">Disable WiFi during Doze</string>
-    <string name="disable_data_during_doze_setting_summary">Turn off mobile data during Doze</string>
-    <string name="disable_data_during_doze_setting_title">Disable mobile data during Doze</string>
+    <string name="disable_data_during_doze_setting_summary">Turn off mobile data during Doze. Requires root.</string>
+    <string name="disable_data_during_doze_setting_title">Disable mobile data during Doze (root)</string>
     <string name="motion_sensing_disable_non_root_setting_summary">Prevent device movement from turning off Doze (non-root, experimental)</string>
     <string name="motion_sensing_disable_non_root_setting_title">Disable motion sensing for Doze</string>
     <string name="tasker_broadcast_setting_title">Tasker broadcasts</string>
