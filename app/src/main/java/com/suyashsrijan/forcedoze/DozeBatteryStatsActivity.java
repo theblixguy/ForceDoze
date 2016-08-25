@@ -124,6 +124,7 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                 startActivity(new Intent(this, DozeStatsActivity.class));
                 finish();
             }
+            mListView.scrollToPosition(0);
         }
     }
 
