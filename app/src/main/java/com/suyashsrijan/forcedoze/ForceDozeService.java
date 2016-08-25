@@ -9,11 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -51,6 +54,14 @@ public class ForceDozeService extends Service {
     boolean wasMobileDataTurnedOn = false;
     boolean maintenance = false;
     boolean setPendingDozeEnterAlarm = false;
+    boolean hasWiFiTimedOut = false;
+    boolean tryingToConnectWiFi = false;
+    boolean optionTryWiFi = true;
+    boolean screenOn = false;
+    int wiFiConnectSecs = 15;
+    int wiFiCooldownMins = 20;
+    long lastWiFiTimeOut = 0;
+    CountDownTimer wiFiConnectTimer;
     int dozeEnterDelay = 0;
     Timer enterDozeTimer;
     Timer disableSensorsTimer;
@@ -98,6 +109,7 @@ public class ForceDozeService extends Service {
         this.registerReceiver(localDozeReceiver, filter);
         turnOffDataInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffDataInDoze", false);
         turnOffWiFiInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffWiFiInDoze", false);
+        optionTryWiFi = getDefaultSharedPreferences(getApplicationContext()).getBoolean("optionTryWiFi", true);
         ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", true);
         useXposedSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useXposedSensorWorkaround", false);
         useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
@@ -211,76 +223,79 @@ public class ForceDozeService extends Service {
     }
 
     public void enterDoze(Context context) {
-        if (!getDeviceIdleState().equals("IDLE")) {
-            if (!Utils.isScreenOn(context)) {
-                lastKnownState = "IDLE";
-                if (tempWakeLock != null) {
-                    if (tempWakeLock.isHeld()) {
-                        Log.i(TAG, "Releasing ForceDozeTempWakelock");
-                        tempWakeLock.release();
-                    }
-                }
-
-                timeEnterDoze = System.currentTimeMillis();
-                lastDozeEnterBatteryLife = Utils.getBatteryLevel2(getApplicationContext());
-                Log.i(TAG, "Entering Doze");
-                if (Utils.isDeviceRunningOnNPreview()) {
-                    executeCommand("dumpsys deviceidle force-idle deep");
-                } else {
-                    executeCommand("dumpsys deviceidle force-idle");
-                }
-                lastScreenOff = Utils.getDateCurrentTimeZone(System.currentTimeMillis());
-
-                dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
-                saveDozeDataStats();
-
-                if (!useXposedSensorWorkaround) {
-                    if (!enableSensors) {
-                        disableSensorsTimer = new Timer();
-                        disableSensorsTimer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                Log.i(TAG, "Disabling motion sensors");
-                                if (sensorWhitelistPackage.equals("")) {
-                                    executeCommand("dumpsys sensorservice restrict");
-                                } else {
-                                    Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
-                                    Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
-                                    executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
-                                }
-                            }
-                        }, 2000);
-                    } else {
-                        Log.i(TAG, "Not disabling motion sensors because enableSensors=true");
-                    }
-                } else {
-                    Log.i(TAG, "Xposed Sensor workaround selected, not disabling sensors");
-                }
-
-                if (turnOffWiFiInDoze) {
-                    wasWiFiTurnedOn = Utils.isWiFiEnabled(context);
-                    Log.i(TAG, "wasWiFiTurnedOn: " + wasWiFiTurnedOn);
-                    if (wasWiFiTurnedOn) {
-                        Log.i(TAG, "Disabling WiFi");
-                        disableWiFi();
-                    }
-
-                }
-
-                if (turnOffDataInDoze) {
-                    wasMobileDataTurnedOn = Utils.isMobileDataEnabled(context);
-                    Log.i(TAG, "wasDataTurnedOn: " + wasMobileDataTurnedOn);
-                    if (wasMobileDataTurnedOn) {
-                        Log.i(TAG, "Disabling mobile data");
-                        disableMobileData();
-                    }
-                }
-
+        if (!Utils.isScreenOn(context)) {
+            lastKnownState = "IDLE";
+            timeEnterDoze = System.currentTimeMillis();
+            lastDozeEnterBatteryLife = Utils.getBatteryLevel2(getApplicationContext());
+            Log.i(TAG, "Entering Doze");
+            if (Utils.isDeviceRunningOnNPreview()) {
+                executeCommand("dumpsys deviceidle force-idle deep");
             } else {
-                Log.i(TAG, "Screen is on, skip entering Doze");
+                executeCommand("dumpsys deviceidle force-idle");
             }
+            lastScreenOff = Utils.getDateCurrentTimeZone(System.currentTimeMillis());
+
+            dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("ENTER"));
+            saveDozeDataStats();
+
+            if (!useXposedSensorWorkaround) {
+                if (!enableSensors) {
+                    disableSensorsTimer = new Timer();
+                    disableSensorsTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Log.i(TAG, "Disabling motion sensors");
+                            if (sensorWhitelistPackage.equals("")) {
+                                executeCommand("dumpsys sensorservice restrict");
+                            } else {
+                                Log.i(TAG, "Package " + sensorWhitelistPackage + " is whitelisted from sensorservice");
+                                Log.i(TAG, "Note: Packages that get whitelisted are supposed to request sensor access again, if the app doesn't work, email the dev of that app!");
+                                executeCommand("dumpsys sensorservice restrict " + sensorWhitelistPackage);
+                            }
+                        }
+                    }, 2000);
+                } else {
+                    Log.i(TAG, "Not disabling motion sensors because enableSensors=true");
+                }
+            } else {
+                Log.i(TAG, "Xposed Sensor workaround selected, not disabling sensors");
+            }
+
+            if (turnOffWiFiInDoze) {
+                wasWiFiTurnedOn = Utils.isWiFiEnabled(context);
+                Log.i(TAG, "wasWiFiTurnedOn: " + wasWiFiTurnedOn);
+                if (wasWiFiTurnedOn) {
+                    Log.i(TAG, "Disabling WiFi");
+                    disableWiFi();
+                }
+
+            }
+
+            if (turnOffDataInDoze) {
+                wasMobileDataTurnedOn = Utils.isMobileDataEnabled(context);
+                Log.i(TAG, "wasDataTurnedOn: " + wasMobileDataTurnedOn);
+                if (wasMobileDataTurnedOn) {
+                    Log.i(TAG, "Disabling mobile data");
+                    disableMobileData();
+                }
+            }
+
+            if (tempWakeLock != null) {
+                if (tempWakeLock.isHeld()) {
+                    Log.i(TAG, "Releasing ForceDozeTempWakelock in enterDoze()");
+                    tempWakeLock.release();
+                }
+            }
+
         } else {
-            Log.i(TAG, "enterDoze() received but skipping because device is already Dozing");
+            Log.i(TAG, "Screen is on, skip entering Doze");
+
+            if (tempWakeLock != null) {
+                if (tempWakeLock.isHeld()) {
+                    Log.i(TAG, "Releasing ForceDozeTempWakelock in enterDoze()");
+                    tempWakeLock.release();
+                }
+            }
         }
     }
 
@@ -507,13 +522,78 @@ public class ForceDozeService extends Service {
     }
 
     public void disableWiFi() {
+        if (optionTryWiFi) {
+            if (tryingToConnectWiFi) {
+                Log.i(TAG, "Canceling WiFi connect timer");
+                wiFiConnectTimer.cancel();
+                tryingToConnectWiFi = false;
+                hasWiFiTimedOut = false;
+            }
+        }
         WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         wifi.setWifiEnabled(false);
     }
 
     public void enableWiFi() {
+        if (optionTryWiFi) {
+            if (hasWiFiTimedOut) {
+                long timeNow = SystemClock.elapsedRealtime();
+                if ((timeNow - lastWiFiTimeOut) > (wiFiCooldownMins*60*1000)) { //xx minutes, 60 secs pr min, 1000 milliseconds pr sec
+                    Log.i(TAG, "WiFi has come out of timeout");
+                    enableWiFiReally();
+                } else {
+                    Log.i(TAG, "WiFi not enabled since it's in timeout");
+                }
+            } else { // we're not timed out
+                enableWiFiReally();
+            }
+        } else { //we're not using tryWifi
+            enableWiFiReally();
+        }
+    }
+
+    public void enableWiFiReally() {
         WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         wifi.setWifiEnabled(true);
+
+        if (optionTryWiFi) {
+            tryingToConnectWiFi = true;
+            Log.i(TAG, "Starting WiFi connect timer");
+            wiFiConnectTimer = new CountDownTimer( (wiFiConnectSecs*1000), 1000) { //secs*millisecs, every 1 sec do onTick..
+
+                public void onTick(long millisUntilFinished) {
+                    //do nada, need this method?
+                }
+
+                public void onFinish() {
+                    tryingToConnectWiFi = false;
+                    WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                    if (wifi.isWifiEnabled()) {
+                        WifiInfo wifiInfo = wifi.getConnectionInfo();
+                        if (wifiInfo.getNetworkId() == -1) {
+                            if (screenOn || maintenance) {
+                                Log.i(TAG, "WiFi connection has timed out while screen on or during maintenance");
+                                hasWiFiTimedOut = true;
+                                lastWiFiTimeOut = SystemClock.elapsedRealtime();
+                                disableWiFi();
+                            } else {
+                                Log.i(TAG, "WiFi connection has timed out while screen off, setting WiFi as active");
+                                wasWiFiTurnedOn = true;
+                                hasWiFiTimedOut = false;
+                            }
+
+
+                        } else {
+                            Log.i(TAG, "WiFi has connected");
+                            hasWiFiTimedOut = false;
+                        }
+                    } else {
+                        Log.i(TAG, "User disabled WiFi in connection window");
+                        hasWiFiTimedOut = false;
+                    }
+                }
+            }.start();
+        }
     }
 
     class ReloadSettingsReceiver extends BroadcastReceiver {
@@ -541,7 +621,7 @@ public class ForceDozeService extends Service {
             if (time == 0) {
                 time = 1000;
             }
-            int delay = dozeEnterDelay * 60 * 1000;
+            int delay = dozeEnterDelay * 1000; //using seconds
             Log.i(TAG, "Doze delay: " + delay + "ms");
             time = time + delay;
 
@@ -549,17 +629,18 @@ public class ForceDozeService extends Service {
                 Log.i(TAG, "Screen ON received");
                 Log.i(TAG, "Last known Doze state: " + lastKnownState);
                 Log.i(TAG, "Current Doze state: " + getDeviceIdleState());
+                screenOn = true;
 
                 if (tempWakeLock != null) {
                     if (tempWakeLock.isHeld()) {
-                        Log.i(TAG, "Releasing ForceDozeTempWakelock");
+                        Log.i(TAG, "Releasing ForceDozeTempWakelock in onReceive() at screen on");
                         tempWakeLock.release();
                     }
                 }
 
                 if (turnOffWiFiInDoze) {
                     Log.i(TAG, "wasWiFiTurnedOn: " + wasWiFiTurnedOn);
-                    if (wasWiFiTurnedOn) {
+                    if (wasWiFiTurnedOn || (optionTryWiFi && hasWiFiTimedOut) ) {
                         Log.i(TAG, "Enabling WiFi");
                         enableWiFi();
                         wasWiFiTurnedOn = false;
@@ -580,16 +661,14 @@ public class ForceDozeService extends Service {
                     Log.i(TAG, "Exiting Doze");
                     exitDoze();
                 } else {
-                    if (ignoreLockscreenTimeout) {
-                        Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(delay) + "ms has not passed OR disableWhenCharging=true");
-                    } else {
-                        Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + Integer.toString(time) + "ms has not passed OR disableWhenCharging=true");
-                    }
+                    Log.i(TAG, "Cancelling enterDoze() because user turned on screen and " + (ignoreLockscreenTimeout ? Integer.toString(delay) : Integer.toString(time)) + "ms has not passed OR disableWhenCharging=true");
                     enterDozeTimer.cancel();
                 }
 
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 Log.i(TAG, "Screen OFF received");
+                screenOn = false;
+
                 if (Utils.isConnectedToCharger(getApplicationContext()) && disableWhenCharging) {
                     Log.i(TAG, "Connected to charger and disableWhenCharging=true, skip entering Doze");
                 } else if (Utils.isUserInCommunicationCall(context)) {
@@ -597,49 +676,51 @@ public class ForceDozeService extends Service {
                 } else if (Utils.isUserInCall(context)) {
                     Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
-                    if (ignoreLockscreenTimeout) {
-                        if (dozeEnterDelay == 0) {
-                            Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
-                            enterDoze(context);
-                        } else {
-                            Log.i(TAG, "Waiting for " + Integer.toString(delay) + "ms and then entering Doze");
-                            tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
-                            Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
-                            tempWakeLock.acquire();
-                            enterDozeTimer = new Timer();
-                            enterDozeTimer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    enterDoze(context);
-                                }
-                            }, delay);
-                        }
+                    if (ignoreLockscreenTimeout && dozeEnterDelay == 0) {
+                        Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
+                        enterDoze(context);
                     } else {
-                        Log.i(TAG, "Waiting for " + Integer.toString(time) + "ms and then entering Doze");
+                        Log.i(TAG, "Waiting for " + Integer.toString(ignoreLockscreenTimeout ? delay : time) + "ms and then entering Doze");
                         if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
                             tempWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ForceDozeTempWakelock");
                             Log.i(TAG, "Acquiring temporary wakelock (ForceDozeTempWakelock)");
                             tempWakeLock.acquire();
                         }
+                        Log.i(TAG, "Setting up timertask");
                         enterDozeTimer = new Timer();
                         enterDozeTimer.schedule(new TimerTask() {
                             @Override
                             public void run() {
+                                Log.i(TAG, "Timertask executing");
                                 enterDoze(context);
                             }
-                        }, time);
+                        }, ignoreLockscreenTimeout ? delay : time);
                     }
-
                 }
+
             } else if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)) {
                 if ((getDeviceIdleState().equals("IDLE") || !Utils.isScreenOn(context)) && disableWhenCharging) {
                     Log.i(TAG, "Charger connected, exiting Doze mode");
                     enterDozeTimer.cancel();
+
+                    if (tempWakeLock != null) {
+                        if (tempWakeLock.isHeld()) {
+                            Log.i(TAG, "Releasing ForceDozeTempWakelock in onReceive() at Charger connected");
+                            tempWakeLock.release();
+                        }
+                    }
                     exitDoze();
                 }
             } else if (intent.getAction().equals(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED)) {
                 Log.i(TAG, "ACTION_DEVICE_IDLE_MODE_CHANGED received");
                 lastKnownState = getDeviceIdleState();
+                Log.i(TAG, "State seems to be: " + lastKnownState);
+
+                if (tempWakeLock != null) {
+                    if (tempWakeLock.isHeld()) {
+                        Log.i(TAG, "WL still held in onReceive() at MODE_CHANGED");
+                    }
+                }
 
                 if (!Utils.isScreenOn(context) && getDeviceIdleState().equals("IDLE_MAINTENANCE")) {
                     if (!maintenance) {
@@ -655,7 +736,7 @@ public class ForceDozeService extends Service {
                             }
                         }
                         if (turnOffWiFiInDoze) {
-                            if (wasWiFiTurnedOn) {
+                            if (wasWiFiTurnedOn || (optionTryWiFi && hasWiFiTimedOut)) {
                                 Log.i(TAG, "Enabling WiFi");
                                 enableWiFi();
                                 wasWiFiTurnedOn = false;
@@ -704,5 +785,4 @@ public class ForceDozeService extends Service {
             }
         }
     }
-
 }
