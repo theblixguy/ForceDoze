@@ -51,6 +51,8 @@ public class WhitelistAppsActivity extends AppCompatActivity {
         whitelistedPackages = new ArrayList<>();
         listData = new ArrayList<>();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        whitelistAppsAdapter = new WhitelistAppsAdapter(this, listData);
+        listView.setAdapter(whitelistAppsAdapter);
         loadPackagesFromWhitelist();
         isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
         showDozeWhitelistWarning = sharedPreferences.getBoolean("showDozeWhitelistWarning", true);
@@ -141,10 +143,9 @@ public class WhitelistAppsActivity extends AppCompatActivity {
                 }
 
                 if (!result.isEmpty()) {
-                    if (!listData.isEmpty() && !whitelistedPackages.isEmpty()) {
+                    if (!listData.isEmpty() || !whitelistedPackages.isEmpty()) {
                         listData.clear();
                         whitelistedPackages.clear();
-                        whitelistAppsAdapter.notifyDataSetChanged();
                     }
                     for (String r : result) {
                         WhitelistAppsItem appItem = new WhitelistAppsItem();
@@ -157,6 +158,7 @@ public class WhitelistAppsActivity extends AppCompatActivity {
                         }
                         listData.add(appItem);
                     }
+                    whitelistAppsAdapter.notifyDataSetChanged();
                 }
 
                 Log.i(TAG, "Whitelisted packages: " + listData.size() + " packages in total");
@@ -168,9 +170,6 @@ public class WhitelistAppsActivity extends AppCompatActivity {
 
             }
         });
-
-        whitelistAppsAdapter = new WhitelistAppsAdapter(this, listData);
-        listView.setAdapter(whitelistAppsAdapter);
     }
 
     public void showManuallyAddPackageDialog() {
