@@ -236,11 +236,11 @@ public class WhitelistAppsActivity extends AppCompatActivity {
     }
 
     public void executeCommand(final String command) {
-        AsyncTask.execute(new Runnable() {
+        /*AsyncTask.execute(new Runnable() {
             @Override
-            public void run() {
-                Shell.SH.run(command);
-            }
-        });
+            public void run() {*/
+                Shell.SH.run(command); //if async, SH in loadPackagesFromWhitelist() could be run before list is updated
+            /*}
+        });*/
     }
 }
