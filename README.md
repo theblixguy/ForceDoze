@@ -14,7 +14,7 @@ ForceDoze allows you to forcefully enable Doze right after you turn off your scr
 Play Store link: https://play.google.com/store/apps/details?id=com.suyashsrijan.forcedoze&hl=en
 
 ## Android
-# Requirements for compiling source code:
+### Requirements for compiling source code:
 
 * Android 6.0 (Marshmallow) SDK platform
 * Android smartphone running 6.0 (Marshmallow)
