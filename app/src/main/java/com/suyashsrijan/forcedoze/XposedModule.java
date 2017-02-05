@@ -15,16 +15,20 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
     boolean usePermanentDoze = false;
     boolean useXposedSensorWorkaround = false;
     boolean serviceEnabled = false;
+    String PACKAGE_NAME = "com.suyashsrijan.forcedoze";
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         XResources.setSystemWideReplacement("android", "bool", "config_enableAutoPowerModes", true);
+        prefs = new XSharedPreferences(PACKAGE_NAME);
+        prefs.makeWorldReadable();
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         if (loadPackageParam.packageName.equals("android")) {
-            prefs = new XSharedPreferences("com.suyashsrijan.forcedoze");
+            // Prefs need to be reloaded from disk after makeWorldReadable()
+            prefs = new XSharedPreferences(PACKAGE_NAME);
             usePermanentDoze = prefs.getBoolean("usePermanentDoze", false);
             useXposedSensorWorkaround = prefs.getBoolean("useXposedSensorWorkaround", false);
             serviceEnabled = prefs.getBoolean("serviceEnabled", false);
