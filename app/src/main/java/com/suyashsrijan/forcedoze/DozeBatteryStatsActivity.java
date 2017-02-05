@@ -31,12 +31,12 @@ import java.util.Set;
 
 public class DozeBatteryStatsActivity extends AppCompatActivity {
 
-    Set<String> dozeUsageStats;
-    ArrayList<String> sortedDozeUsageStats;
-    MaterialDialog progressDialog = null;
-    MaterialListView mListView;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private Set<String> dozeUsageStats;
+    private ArrayList<String> sortedDozeUsageStats;
+    private MaterialDialog progressDialog = null;
+    private MaterialListView mListView;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     public static String TAG = "ForceDoze";
 
     @Override

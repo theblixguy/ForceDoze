@@ -32,8 +32,8 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class SettingsActivity extends AppCompatActivity {
     public static String TAG = "ForceDoze";
-    static MaterialDialog progressDialog1 = null;
-    static boolean isSuAvailable = false;
+    private static MaterialDialog progressDialog1 = null;
+    private static boolean isSuAvailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -25,10 +25,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class PackageChooser extends ListActivity {
-    AppAdapter adapter = null;
-    MaterialDialog progressDialog = null;
+    private AppAdapter adapter = null;
+    private MaterialDialog progressDialog = null;
     public static String TAG = "ForceDoze";
-    PackageManager pm;
+    private PackageManager pm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

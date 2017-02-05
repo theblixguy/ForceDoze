@@ -16,10 +16,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class DozeBatteryConsumption extends AppCompatActivity {
-    ArrayList<BatteryConsumptionItem> batteryConsumptionItems;
-    Set<String> dozeUsageStats;
-    ListView listView;
-    BatteryConsumptionAdapter batteryConsumptionAdapter;
+    private ArrayList<BatteryConsumptionItem> batteryConsumptionItems;
+    private Set<String> dozeUsageStats;
+    private ListView listView;
+    private BatteryConsumptionAdapter batteryConsumptionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

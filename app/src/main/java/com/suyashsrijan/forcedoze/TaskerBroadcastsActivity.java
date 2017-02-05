@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class TaskerBroadcastsActivity extends AppCompatActivity {
 
-    ArrayList<TaskerBroadcastsItem> items;
-    ListView listView;
-    TaskerBroadcastsAdapter taskerBroadcastsAdapter;
+    private ArrayList<TaskerBroadcastsItem> items;
+    private ListView listView;
+    private TaskerBroadcastsAdapter taskerBroadcastsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
