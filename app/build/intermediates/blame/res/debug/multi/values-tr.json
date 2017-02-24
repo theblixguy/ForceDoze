@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\values-tr\\values-tr.xml",
+        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-tr\\values-tr.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 155
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 263
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 386
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 485
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -87,7 +87,7 @@
                     "endOffset": 597
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -102,17 +102,17 @@
                     "startLine": 7,
                     "startColumn": 4,
                     "startOffset": 602,
-                    "endColumn": 89,
-                    "endOffset": 687
+                    "endColumn": 84,
+                    "endOffset": 682
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
                         "startOffset": 602,
-                        "endColumn": 89,
-                        "endOffset": 687
+                        "endColumn": 84,
+                        "endOffset": 682
                     }
                 }
             },
@@ -120,18 +120,18 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 692,
+                    "startOffset": 687,
                     "endColumn": 105,
-                    "endOffset": 793
+                    "endOffset": 788
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 692,
+                        "startOffset": 687,
                         "endColumn": 105,
-                        "endOffset": 793
+                        "endOffset": 788
                     }
                 }
             },
@@ -139,18 +139,18 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 798,
+                    "startOffset": 793,
                     "endColumn": 119,
-                    "endOffset": 913
+                    "endOffset": 908
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 798,
+                        "startOffset": 793,
                         "endColumn": 119,
-                        "endOffset": 913
+                        "endOffset": 908
                     }
                 }
             },
@@ -158,18 +158,18 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 918,
+                    "startOffset": 913,
                     "endColumn": 78,
-                    "endOffset": 992
+                    "endOffset": 987
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 918,
+                        "startOffset": 913,
                         "endColumn": 78,
-                        "endOffset": 992
+                        "endOffset": 987
                     }
                 }
             },
@@ -177,18 +177,18 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 997,
+                    "startOffset": 992,
                     "endColumn": 75,
-                    "endOffset": 1068
+                    "endOffset": 1063
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 997,
+                        "startOffset": 992,
                         "endColumn": 75,
-                        "endOffset": 1068
+                        "endOffset": 1063
                     }
                 }
             },
@@ -196,18 +196,18 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 1073,
+                    "startOffset": 1068,
                     "endColumn": 78,
-                    "endOffset": 1147
+                    "endOffset": 1142
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 1073,
+                        "startOffset": 1068,
                         "endColumn": 78,
-                        "endOffset": 1147
+                        "endOffset": 1142
                     }
                 }
             },
@@ -215,18 +215,18 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 1152,
+                    "startOffset": 1147,
                     "endColumn": 106,
-                    "endOffset": 1254
+                    "endOffset": 1249
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 1152,
+                        "startOffset": 1147,
                         "endColumn": 106,
-                        "endOffset": 1254
+                        "endOffset": 1249
                     }
                 }
             },
@@ -234,18 +234,18 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 1259,
+                    "startOffset": 1254,
                     "endColumn": 104,
-                    "endOffset": 1359
+                    "endOffset": 1354
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 1259,
+                        "startOffset": 1254,
                         "endColumn": 104,
-                        "endOffset": 1359
+                        "endOffset": 1354
                     }
                 }
             },
@@ -253,18 +253,18 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1364,
+                    "startOffset": 1359,
                     "endColumn": 95,
-                    "endOffset": 1455
+                    "endOffset": 1450
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 1364,
+                        "startOffset": 1359,
                         "endColumn": 95,
-                        "endOffset": 1455
+                        "endOffset": 1450
                     }
                 }
             },
@@ -272,18 +272,18 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1460,
+                    "startOffset": 1455,
                     "endColumn": 106,
-                    "endOffset": 1562
+                    "endOffset": 1557
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 1460,
+                        "startOffset": 1455,
                         "endColumn": 106,
-                        "endOffset": 1562
+                        "endOffset": 1557
                     }
                 }
             },
@@ -291,18 +291,18 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 1567,
+                    "startOffset": 1562,
                     "endColumn": 101,
-                    "endOffset": 1664
+                    "endOffset": 1659
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 1567,
+                        "startOffset": 1562,
                         "endColumn": 101,
-                        "endOffset": 1664
+                        "endOffset": 1659
                     }
                 }
             },
@@ -310,18 +310,18 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1669,
+                    "startOffset": 1664,
                     "endColumn": 107,
-                    "endOffset": 1772
+                    "endOffset": 1767
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 1669,
+                        "startOffset": 1664,
                         "endColumn": 107,
-                        "endOffset": 1772
+                        "endOffset": 1767
                     }
                 }
             },
@@ -329,18 +329,18 @@
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1777,
+                    "startOffset": 1772,
                     "endColumn": 118,
-                    "endOffset": 1891
+                    "endOffset": 1886
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1777,
+                        "startOffset": 1772,
                         "endColumn": 118,
-                        "endOffset": 1891
+                        "endOffset": 1886
                     }
                 }
             },
@@ -348,18 +348,18 @@
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1896,
+                    "startOffset": 1891,
                     "endColumn": 97,
-                    "endOffset": 1989
+                    "endOffset": 1984
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1896,
+                        "startOffset": 1891,
                         "endColumn": 97,
-                        "endOffset": 1989
+                        "endOffset": 1984
                     }
                 }
             },
@@ -367,18 +367,37 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 1994,
-                    "endColumn": 100,
-                    "endOffset": 2090
+                    "startOffset": 1989,
+                    "endColumn": 78,
+                    "endOffset": 2063
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-tr\\values-tr.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 1994,
+                        "startOffset": 1989,
+                        "endColumn": 78,
+                        "endOffset": 2063
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2068,
+                    "endColumn": 100,
+                    "endOffset": 2164
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-tr\\values-tr.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 2068,
                         "endColumn": 100,
-                        "endOffset": 2090
+                        "endOffset": 2164
                     }
                 }
             }

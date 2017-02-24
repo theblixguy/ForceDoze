@@ -21,5 +21,6 @@
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"접기"</string>
     <string name="notices_close">닫기</string>
     <string name="notices_title">오픈소스 라이선스</string>
+    <string msgid="146198913615257606" name="search_menu_title">"검색"</string>
     <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

@@ -1,23 +1,23 @@
 [
     {
-        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\values-az-rAZ\\values-az-rAZ.xml",
+        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-az-rAZ\\values-az-rAZ.xml",
         "map": [
             {
                 "to": {
                     "startLine": 2,
                     "startColumn": 4,
                     "startOffset": 55,
-                    "endColumn": 97,
-                    "endOffset": 148
+                    "endColumn": 107,
+                    "endOffset": 158
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
                         "startOffset": 55,
-                        "endColumn": 97,
-                        "endOffset": 148
+                        "endColumn": 107,
+                        "endOffset": 158
                     }
                 }
             },
@@ -25,18 +25,18 @@
                 "to": {
                     "startLine": 3,
                     "startColumn": 4,
-                    "startOffset": 153,
+                    "startOffset": 163,
                     "endColumn": 107,
-                    "endOffset": 256
+                    "endOffset": 266
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 153,
+                        "startOffset": 163,
                         "endColumn": 107,
-                        "endOffset": 256
+                        "endOffset": 266
                     }
                 }
             },
@@ -44,18 +44,18 @@
                 "to": {
                     "startLine": 4,
                     "startColumn": 4,
-                    "startOffset": 261,
+                    "startOffset": 271,
                     "endColumn": 122,
-                    "endOffset": 379
+                    "endOffset": 389
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 261,
+                        "startOffset": 271,
                         "endColumn": 122,
-                        "endOffset": 379
+                        "endOffset": 389
                     }
                 }
             },
@@ -63,18 +63,18 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 384,
+                    "startOffset": 394,
                     "endColumn": 98,
-                    "endOffset": 478
+                    "endOffset": 488
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 384,
+                        "startOffset": 394,
                         "endColumn": 98,
-                        "endOffset": 478
+                        "endOffset": 488
                     }
                 }
             },
@@ -82,18 +82,18 @@
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 483,
-                    "endColumn": 109,
-                    "endOffset": 588
+                    "startOffset": 493,
+                    "endColumn": 111,
+                    "endOffset": 600
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 483,
-                        "endColumn": 109,
-                        "endOffset": 588
+                        "startOffset": 493,
+                        "endColumn": 111,
+                        "endOffset": 600
                     }
                 }
             },
@@ -101,18 +101,18 @@
                 "to": {
                     "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 593,
+                    "startOffset": 605,
                     "endColumn": 87,
-                    "endOffset": 676
+                    "endOffset": 688
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 593,
+                        "startOffset": 605,
                         "endColumn": 87,
-                        "endOffset": 676
+                        "endOffset": 688
                     }
                 }
             },
@@ -120,18 +120,18 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 681,
+                    "startOffset": 693,
                     "endColumn": 106,
-                    "endOffset": 783
+                    "endOffset": 795
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 681,
+                        "startOffset": 693,
                         "endColumn": 106,
-                        "endOffset": 783
+                        "endOffset": 795
                     }
                 }
             },
@@ -139,18 +139,18 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 788,
+                    "startOffset": 800,
                     "endColumn": 113,
-                    "endOffset": 897
+                    "endOffset": 909
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 788,
+                        "startOffset": 800,
                         "endColumn": 113,
-                        "endOffset": 897
+                        "endOffset": 909
                     }
                 }
             },
@@ -158,18 +158,18 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 902,
+                    "startOffset": 914,
                     "endColumn": 80,
-                    "endOffset": 978
+                    "endOffset": 990
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 902,
+                        "startOffset": 914,
                         "endColumn": 80,
-                        "endOffset": 978
+                        "endOffset": 990
                     }
                 }
             },
@@ -177,18 +177,18 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 983,
+                    "startOffset": 995,
                     "endColumn": 78,
-                    "endOffset": 1057
+                    "endOffset": 1069
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 983,
+                        "startOffset": 995,
                         "endColumn": 78,
-                        "endOffset": 1057
+                        "endOffset": 1069
                     }
                 }
             },
@@ -196,18 +196,18 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 1062,
+                    "startOffset": 1074,
                     "endColumn": 84,
-                    "endOffset": 1142
+                    "endOffset": 1154
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 1062,
+                        "startOffset": 1074,
                         "endColumn": 84,
-                        "endOffset": 1142
+                        "endOffset": 1154
                     }
                 }
             },
@@ -215,18 +215,18 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 1147,
+                    "startOffset": 1159,
                     "endColumn": 106,
-                    "endOffset": 1249
+                    "endOffset": 1261
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 1147,
+                        "startOffset": 1159,
                         "endColumn": 106,
-                        "endOffset": 1249
+                        "endOffset": 1261
                     }
                 }
             },
@@ -234,18 +234,18 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 1254,
+                    "startOffset": 1266,
                     "endColumn": 106,
-                    "endOffset": 1356
+                    "endOffset": 1368
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 1254,
+                        "startOffset": 1266,
                         "endColumn": 106,
-                        "endOffset": 1356
+                        "endOffset": 1368
                     }
                 }
             },
@@ -253,18 +253,18 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1361,
+                    "startOffset": 1373,
                     "endColumn": 99,
-                    "endOffset": 1456
+                    "endOffset": 1468
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 1361,
+                        "startOffset": 1373,
                         "endColumn": 99,
-                        "endOffset": 1456
+                        "endOffset": 1468
                     }
                 }
             },
@@ -272,18 +272,18 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1461,
+                    "startOffset": 1473,
                     "endColumn": 108,
-                    "endOffset": 1565
+                    "endOffset": 1577
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 1461,
+                        "startOffset": 1473,
                         "endColumn": 108,
-                        "endOffset": 1565
+                        "endOffset": 1577
                     }
                 }
             },
@@ -291,18 +291,18 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 1570,
+                    "startOffset": 1582,
                     "endColumn": 103,
-                    "endOffset": 1669
+                    "endOffset": 1681
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 1570,
+                        "startOffset": 1582,
                         "endColumn": 103,
-                        "endOffset": 1669
+                        "endOffset": 1681
                     }
                 }
             },
@@ -310,18 +310,18 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1674,
+                    "startOffset": 1686,
                     "endColumn": 109,
-                    "endOffset": 1779
+                    "endOffset": 1791
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 1674,
+                        "startOffset": 1686,
                         "endColumn": 109,
-                        "endOffset": 1779
+                        "endOffset": 1791
                     }
                 }
             },
@@ -329,18 +329,18 @@
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1784,
+                    "startOffset": 1796,
                     "endColumn": 96,
-                    "endOffset": 1876
+                    "endOffset": 1888
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1784,
+                        "startOffset": 1796,
                         "endColumn": 96,
-                        "endOffset": 1876
+                        "endOffset": 1888
                     }
                 }
             },
@@ -348,18 +348,37 @@
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1881,
-                    "endColumn": 100,
-                    "endOffset": 1977
+                    "startOffset": 1893,
+                    "endColumn": 82,
+                    "endOffset": 1971
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1881,
+                        "startOffset": 1893,
+                        "endColumn": 82,
+                        "endOffset": 1971
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 1976,
+                    "endColumn": 100,
+                    "endOffset": 2072
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-az-rAZ\\values-az-rAZ.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1976,
                         "endColumn": 100,
-                        "endOffset": 1977
+                        "endOffset": 2072
                     }
                 }
             }

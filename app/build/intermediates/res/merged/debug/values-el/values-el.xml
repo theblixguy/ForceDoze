@@ -24,5 +24,6 @@
     <string name="changelog_show_full">Περισσότερα…</string>
     <string name="changelog_title">Τι Είναι Καινούργιο</string>
     <string name="changelog_version_format">Έκδοση <ns1:g id="version_name">%s</ns1:g></string>
+    <string msgid="146198913615257606" name="search_menu_title">"Αναζήτηση"</string>
     <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

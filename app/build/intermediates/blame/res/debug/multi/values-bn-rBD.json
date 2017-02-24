@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\values-bn-rBD\\values-bn-rBD.xml",
+        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-bn-rBD\\values-bn-rBD.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 159
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 267
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 390
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 502
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -87,7 +87,7 @@
                     "endOffset": 608
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -106,7 +106,7 @@
                     "endOffset": 702
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -125,7 +125,7 @@
                     "endOffset": 807
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -140,17 +140,17 @@
                     "startLine": 9,
                     "startColumn": 4,
                     "startOffset": 812,
-                    "endColumn": 129,
-                    "endOffset": 937
+                    "endColumn": 128,
+                    "endOffset": 936
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
                         "startOffset": 812,
-                        "endColumn": 129,
-                        "endOffset": 937
+                        "endColumn": 128,
+                        "endOffset": 936
                     }
                 }
             },
@@ -158,18 +158,18 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 942,
+                    "startOffset": 941,
                     "endColumn": 77,
-                    "endOffset": 1015
+                    "endOffset": 1014
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 942,
+                        "startOffset": 941,
                         "endColumn": 77,
-                        "endOffset": 1015
+                        "endOffset": 1014
                     }
                 }
             },
@@ -177,18 +177,18 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 1020,
+                    "startOffset": 1019,
                     "endColumn": 77,
-                    "endOffset": 1093
+                    "endOffset": 1092
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 1020,
+                        "startOffset": 1019,
                         "endColumn": 77,
-                        "endOffset": 1093
+                        "endOffset": 1092
                     }
                 }
             },
@@ -196,18 +196,18 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 1098,
+                    "startOffset": 1097,
                     "endColumn": 86,
-                    "endOffset": 1180
+                    "endOffset": 1179
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 1098,
+                        "startOffset": 1097,
                         "endColumn": 86,
-                        "endOffset": 1180
+                        "endOffset": 1179
                     }
                 }
             },
@@ -215,18 +215,18 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 1185,
+                    "startOffset": 1184,
                     "endColumn": 109,
-                    "endOffset": 1290
+                    "endOffset": 1289
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 1185,
+                        "startOffset": 1184,
                         "endColumn": 109,
-                        "endOffset": 1290
+                        "endOffset": 1289
                     }
                 }
             },
@@ -234,18 +234,18 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 1295,
+                    "startOffset": 1294,
                     "endColumn": 115,
-                    "endOffset": 1406
+                    "endOffset": 1405
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 1295,
+                        "startOffset": 1294,
                         "endColumn": 115,
-                        "endOffset": 1406
+                        "endOffset": 1405
                     }
                 }
             },
@@ -253,18 +253,18 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1411,
+                    "startOffset": 1410,
                     "endColumn": 106,
-                    "endOffset": 1513
+                    "endOffset": 1512
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 1411,
+                        "startOffset": 1410,
                         "endColumn": 106,
-                        "endOffset": 1513
+                        "endOffset": 1512
                     }
                 }
             },
@@ -272,18 +272,18 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1518,
+                    "startOffset": 1517,
                     "endColumn": 109,
-                    "endOffset": 1623
+                    "endOffset": 1622
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 1518,
+                        "startOffset": 1517,
                         "endColumn": 109,
-                        "endOffset": 1623
+                        "endOffset": 1622
                     }
                 }
             },
@@ -291,18 +291,18 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 1628,
+                    "startOffset": 1627,
                     "endColumn": 105,
-                    "endOffset": 1729
+                    "endOffset": 1728
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 1628,
+                        "startOffset": 1627,
                         "endColumn": 105,
-                        "endOffset": 1729
+                        "endOffset": 1728
                     }
                 }
             },
@@ -310,18 +310,18 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1734,
-                    "endColumn": 109,
-                    "endOffset": 1839
+                    "startOffset": 1733,
+                    "endColumn": 112,
+                    "endOffset": 1841
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 1734,
-                        "endColumn": 109,
-                        "endOffset": 1839
+                        "startOffset": 1733,
+                        "endColumn": 112,
+                        "endOffset": 1841
                     }
                 }
             },
@@ -329,18 +329,18 @@
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1844,
-                    "endColumn": 124,
-                    "endOffset": 1964
+                    "startOffset": 1846,
+                    "endColumn": 127,
+                    "endOffset": 1969
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1844,
-                        "endColumn": 124,
-                        "endOffset": 1964
+                        "startOffset": 1846,
+                        "endColumn": 127,
+                        "endOffset": 1969
                     }
                 }
             },
@@ -348,18 +348,18 @@
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1969,
+                    "startOffset": 1974,
                     "endColumn": 104,
-                    "endOffset": 2069
+                    "endOffset": 2074
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1969,
+                        "startOffset": 1974,
                         "endColumn": 104,
-                        "endOffset": 2069
+                        "endOffset": 2074
                     }
                 }
             },
@@ -367,18 +367,37 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 2074,
-                    "endColumn": 100,
-                    "endOffset": 2170
+                    "startOffset": 2079,
+                    "endColumn": 89,
+                    "endOffset": 2164
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 2074,
+                        "startOffset": 2079,
+                        "endColumn": 89,
+                        "endOffset": 2164
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2169,
+                    "endColumn": 100,
+                    "endOffset": 2265
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-bn-rBD\\values-bn-rBD.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 2169,
                         "endColumn": 100,
-                        "endOffset": 2170
+                        "endOffset": 2265
                     }
                 }
             }

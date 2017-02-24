@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw600dp-v13\\values-sw600dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 92
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\10c4b43587d8a347c8c3bb792521cf8c45f68b3b\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 161
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -45,17 +45,17 @@
                     "startLine": 4,
                     "startColumn": 4,
                     "startOffset": 166,
-                    "endColumn": 69,
-                    "endOffset": 231
+                    "endColumn": 68,
+                    "endOffset": 230
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
                         "startOffset": 124,
-                        "endColumn": 69,
-                        "endOffset": 189
+                        "endColumn": 68,
+                        "endOffset": 188
                     }
                 }
             },
@@ -63,18 +63,18 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 236,
-                    "endColumn": 73,
-                    "endOffset": 305
+                    "startOffset": 235,
+                    "endColumn": 69,
+                    "endOffset": 300
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 194,
-                        "endColumn": 73,
-                        "endOffset": 263
+                        "startOffset": 193,
+                        "endColumn": 69,
+                        "endOffset": 258
                     }
                 }
             },
@@ -82,18 +82,18 @@
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 310,
-                    "endColumn": 75,
-                    "endOffset": 381
+                    "startOffset": 305,
+                    "endColumn": 73,
+                    "endOffset": 374
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 268,
-                        "endColumn": 75,
-                        "endOffset": 339
+                        "startOffset": 263,
+                        "endColumn": 73,
+                        "endOffset": 332
                     }
                 }
             },
@@ -101,18 +101,18 @@
                 "to": {
                     "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 386,
-                    "endColumn": 58,
-                    "endOffset": 440
+                    "startOffset": 379,
+                    "endColumn": 75,
+                    "endOffset": 450
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 344,
-                        "endColumn": 58,
-                        "endOffset": 398
+                        "startOffset": 337,
+                        "endColumn": 75,
+                        "endOffset": 408
                     }
                 }
             },
@@ -120,18 +120,18 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 445,
-                    "endColumn": 70,
-                    "endOffset": 511
+                    "startOffset": 455,
+                    "endColumn": 58,
+                    "endOffset": 509
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 403,
-                        "endColumn": 70,
-                        "endOffset": 469
+                        "startOffset": 413,
+                        "endColumn": 58,
+                        "endOffset": 467
                     }
                 }
             },
@@ -139,18 +139,18 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 516,
-                    "endColumn": 67,
-                    "endOffset": 579
+                    "startOffset": 514,
+                    "endColumn": 70,
+                    "endOffset": 580
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 474,
-                        "endColumn": 67,
-                        "endOffset": 537
+                        "startOffset": 472,
+                        "endColumn": 70,
+                        "endOffset": 538
                     }
                 }
             },
@@ -158,12 +158,31 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 584,
-                    "endColumn": 59,
-                    "endOffset": 639
+                    "startOffset": 585,
+                    "endColumn": 67,
+                    "endOffset": 648
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 543,
+                        "endColumn": 67,
+                        "endOffset": 606
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 653,
+                    "endColumn": 59,
+                    "endOffset": 708
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -175,14 +194,14 @@
             },
             {
                 "to": {
-                    "startLine": 11,
+                    "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 644,
+                    "startOffset": 713,
                     "endColumn": 69,
-                    "endOffset": 709
+                    "endOffset": 778
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -194,14 +213,14 @@
             },
             {
                 "to": {
-                    "startLine": 12,
+                    "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 714,
+                    "startOffset": 783,
                     "endColumn": 70,
-                    "endOffset": 780
+                    "endOffset": 849
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -213,14 +232,14 @@
             },
             {
                 "to": {
-                    "startLine": 13,
+                    "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 785,
+                    "startOffset": 854,
                     "endColumn": 71,
-                    "endOffset": 852
+                    "endOffset": 921
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -232,14 +251,14 @@
             },
             {
                 "to": {
-                    "startLine": 14,
+                    "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 857,
+                    "startOffset": 926,
                     "endColumn": 57,
-                    "endOffset": 910
+                    "endOffset": 979
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -251,14 +270,14 @@
             },
             {
                 "to": {
-                    "startLine": 15,
+                    "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 915,
+                    "startOffset": 984,
                     "endColumn": 57,
-                    "endOffset": 968
+                    "endOffset": 1037
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -270,14 +289,14 @@
             },
             {
                 "to": {
-                    "startLine": 16,
+                    "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 973,
+                    "startOffset": 1042,
                     "endColumn": 105,
-                    "endOffset": 1074
+                    "endOffset": 1143
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -289,14 +308,14 @@
             },
             {
                 "to": {
-                    "startLine": 17,
+                    "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1079,
+                    "startOffset": 1148,
                     "endColumn": 63,
-                    "endOffset": 1138
+                    "endOffset": 1207
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -308,33 +327,33 @@
             },
             {
                 "to": {
-                    "startLine": 18,
+                    "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1143,
-                    "endColumn": 54,
-                    "endOffset": 1193
+                    "startOffset": 1212,
+                    "endColumn": 51,
+                    "endOffset": 1259
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\10c4b43587d8a347c8c3bb792521cf8c45f68b3b\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
-                        "startLine": 9,
+                        "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 542,
-                        "endColumn": 54,
-                        "endOffset": 592
+                        "startOffset": 97,
+                        "endColumn": 51,
+                        "endOffset": 144
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 19,
+                    "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1198,
+                    "startOffset": 1264,
                     "endColumn": 62,
-                    "endOffset": 1256
+                    "endOffset": 1322
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -346,15 +365,15 @@
             },
             {
                 "to": {
-                    "startLine": 20,
+                    "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 1261,
-                    "endLine": 23,
+                    "startOffset": 1327,
+                    "endLine": 24,
                     "endColumn": 12,
-                    "endOffset": 1438
+                    "endOffset": 1504
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,

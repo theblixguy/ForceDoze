@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\values-ml-rIN\\values-ml-rIN.xml",
+        "outputFile": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml-rIN\\values-ml-rIN.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 169
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 277
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 400
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 518
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -83,17 +83,17 @@
                     "startLine": 6,
                     "startColumn": 4,
                     "startOffset": 523,
-                    "endColumn": 115,
-                    "endOffset": 634
+                    "endColumn": 114,
+                    "endOffset": 633
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
                         "startOffset": 523,
-                        "endColumn": 115,
-                        "endOffset": 634
+                        "endColumn": 114,
+                        "endOffset": 633
                     }
                 }
             },
@@ -101,18 +101,18 @@
                 "to": {
                     "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 639,
+                    "startOffset": 638,
                     "endColumn": 92,
-                    "endOffset": 727
+                    "endOffset": 726
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 639,
+                        "startOffset": 638,
                         "endColumn": 92,
-                        "endOffset": 727
+                        "endOffset": 726
                     }
                 }
             },
@@ -120,18 +120,18 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 732,
+                    "startOffset": 731,
                     "endColumn": 104,
-                    "endOffset": 832
+                    "endOffset": 831
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 732,
+                        "startOffset": 731,
                         "endColumn": 104,
-                        "endOffset": 832
+                        "endOffset": 831
                     }
                 }
             },
@@ -139,18 +139,18 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 837,
+                    "startOffset": 836,
                     "endColumn": 131,
-                    "endOffset": 964
+                    "endOffset": 963
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 837,
+                        "startOffset": 836,
                         "endColumn": 131,
-                        "endOffset": 964
+                        "endOffset": 963
                     }
                 }
             },
@@ -158,18 +158,18 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 969,
+                    "startOffset": 968,
                     "endColumn": 76,
-                    "endOffset": 1041
+                    "endOffset": 1040
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 969,
+                        "startOffset": 968,
                         "endColumn": 76,
-                        "endOffset": 1041
+                        "endOffset": 1040
                     }
                 }
             },
@@ -177,18 +177,18 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 1046,
+                    "startOffset": 1045,
                     "endColumn": 75,
-                    "endOffset": 1117
+                    "endOffset": 1116
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 1046,
+                        "startOffset": 1045,
                         "endColumn": 75,
-                        "endOffset": 1117
+                        "endOffset": 1116
                     }
                 }
             },
@@ -196,18 +196,18 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 1122,
+                    "startOffset": 1121,
                     "endColumn": 81,
-                    "endOffset": 1199
+                    "endOffset": 1198
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 1122,
+                        "startOffset": 1121,
                         "endColumn": 81,
-                        "endOffset": 1199
+                        "endOffset": 1198
                     }
                 }
             },
@@ -215,18 +215,18 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 1204,
+                    "startOffset": 1203,
                     "endColumn": 110,
-                    "endOffset": 1310
+                    "endOffset": 1309
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 1204,
+                        "startOffset": 1203,
                         "endColumn": 110,
-                        "endOffset": 1310
+                        "endOffset": 1309
                     }
                 }
             },
@@ -234,18 +234,18 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 1315,
+                    "startOffset": 1314,
                     "endColumn": 105,
-                    "endOffset": 1416
+                    "endOffset": 1415
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 1315,
+                        "startOffset": 1314,
                         "endColumn": 105,
-                        "endOffset": 1416
+                        "endOffset": 1415
                     }
                 }
             },
@@ -253,18 +253,18 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1421,
+                    "startOffset": 1420,
                     "endColumn": 97,
-                    "endOffset": 1514
+                    "endOffset": 1513
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 1421,
+                        "startOffset": 1420,
                         "endColumn": 97,
-                        "endOffset": 1514
+                        "endOffset": 1513
                     }
                 }
             },
@@ -272,18 +272,18 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1519,
+                    "startOffset": 1518,
                     "endColumn": 113,
-                    "endOffset": 1628
+                    "endOffset": 1627
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 1519,
+                        "startOffset": 1518,
                         "endColumn": 113,
-                        "endOffset": 1628
+                        "endOffset": 1627
                     }
                 }
             },
@@ -291,18 +291,18 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 1633,
-                    "endColumn": 100,
-                    "endOffset": 1729
+                    "startOffset": 1632,
+                    "endColumn": 99,
+                    "endOffset": 1727
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 1633,
-                        "endColumn": 100,
-                        "endOffset": 1729
+                        "startOffset": 1632,
+                        "endColumn": 99,
+                        "endOffset": 1727
                     }
                 }
             },
@@ -310,18 +310,18 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1734,
+                    "startOffset": 1732,
                     "endColumn": 110,
-                    "endOffset": 1840
+                    "endOffset": 1838
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 1734,
+                        "startOffset": 1732,
                         "endColumn": 110,
-                        "endOffset": 1840
+                        "endOffset": 1838
                     }
                 }
             },
@@ -329,18 +329,18 @@
                 "to": {
                     "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 1845,
+                    "startOffset": 1843,
                     "endColumn": 127,
-                    "endOffset": 1968
+                    "endOffset": 1966
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1845,
+                        "startOffset": 1843,
                         "endColumn": 127,
-                        "endOffset": 1968
+                        "endOffset": 1966
                     }
                 }
             },
@@ -348,18 +348,18 @@
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1973,
+                    "startOffset": 1971,
                     "endColumn": 100,
-                    "endOffset": 2069
+                    "endOffset": 2067
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1973,
+                        "startOffset": 1971,
                         "endColumn": 100,
-                        "endOffset": 2069
+                        "endOffset": 2067
                     }
                 }
             },
@@ -367,18 +367,37 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 2074,
-                    "endColumn": 100,
-                    "endOffset": 2170
+                    "startOffset": 2072,
+                    "endColumn": 81,
+                    "endOffset": 2149
                 },
                 "from": {
-                    "file": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 2074,
+                        "startOffset": 2072,
+                        "endColumn": 81,
+                        "endOffset": 2149
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2154,
+                    "endColumn": 100,
+                    "endOffset": 2250
+                },
+                "from": {
+                    "file": "C:\\Users\\Suyash\\.android\\build-cache\\b368a1367127d26d5675db17b7c6f92c16acbc06\\output\\res\\values-ml-rIN\\values-ml-rIN.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 2154,
                         "endColumn": 100,
-                        "endOffset": 2170
+                        "endOffset": 2250
                     }
                 }
             }

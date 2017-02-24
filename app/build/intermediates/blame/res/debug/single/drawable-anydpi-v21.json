@@ -1,6 +1,14 @@
 [
     {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\design_ic_visibility.xml",
+        "source": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\drawable-anydpi-v21\\design_ic_visibility.xml"
+    },
+    {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\md_nav_back.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\drawable-anydpi-v21\\md_nav_back.xml"
+        "source": "C:\\Users\\Suyash\\.android\\build-cache\\10c4b43587d8a347c8c3bb792521cf8c45f68b3b\\output\\res\\drawable-anydpi-v21\\md_nav_back.xml"
+    },
+    {
+        "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\design_ic_visibility_off.xml",
+        "source": "C:\\Users\\Suyash\\.android\\build-cache\\b2f3cda3ed85d90274711a3a9366372f88bba22e\\output\\res\\drawable-anydpi-v21\\design_ic_visibility_off.xml"
     }
 ]

@@ -16,13 +16,12 @@ import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class AboutAppActivity extends AppCompatActivity {
 
-    CustomTabs.Warmer warmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
 
-        warmer = CustomTabs.with(getApplicationContext()).warm();
+        CustomTabs.with(getApplicationContext()).warm();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0f);
@@ -39,12 +38,6 @@ public class AboutAppActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        warmer.unwarm();
     }
 
     public void showLicences(View v) {

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
     android:descendantFocusability="blocksDescendants"
     android:minHeight="@dimen/md_listitem_height"
     android:orientation="horizontal"
@@ -12,7 +13,7 @@
     tools:gravity="start|center_vertical">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/md_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -25,7 +26,7 @@
         tools:text="Item" />
 
     <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/control"
+        android:id="@+id/md_control"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@null"

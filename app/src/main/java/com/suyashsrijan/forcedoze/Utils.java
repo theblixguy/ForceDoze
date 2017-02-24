@@ -54,8 +54,8 @@ public class Utils {
         else return false;
     }
 
-    public static boolean isDevicePowerPermissionGranted(Context context) {
-        if (context.checkCallingOrSelfPermission("android.permission.DEVICE_POWER") == PackageManager.PERMISSION_GRANTED)
+    public static boolean isSecureSettingsPermissionGranted(Context context) {
+        if (context.checkCallingOrSelfPermission("android.permission.WRITE_SECURE_SETTINGS") == PackageManager.PERMISSION_GRANTED)
             return true;
         else return false;
     }
@@ -98,8 +98,8 @@ public class Utils {
         return Resources.getSystem().getBoolean(Resources.getSystem().getIdentifier("config_enableAutoPowerModes", "bool", "android"));
     }
 
-    public static boolean isDeviceRunningOnNPreview() {
-        return ("N".equals(Build.VERSION.CODENAME));
+    public static boolean isDeviceRunningOnN() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     }
 
     public static int diffInMins(long start, long end) {

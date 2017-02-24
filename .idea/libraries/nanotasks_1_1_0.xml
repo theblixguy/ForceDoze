@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="nanotasks-1.1.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.fabiendevos/nanotasks/1.1.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.fabiendevos/nanotasks/1.1.0/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/ecbeeb45b2ad71be60c2d96e74032af288b38c0d/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/ecbeeb45b2ad71be60c2d96e74032af288b38c0d/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

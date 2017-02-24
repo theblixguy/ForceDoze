@@ -21,5 +21,6 @@
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"收起"</string>
     <string name="notices_close">关闭</string>
     <string name="notices_title">开放源代码许可</string>
+    <string msgid="146198913615257606" name="search_menu_title">"搜索"</string>
     <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

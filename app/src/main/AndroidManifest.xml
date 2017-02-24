@@ -14,7 +14,7 @@
         android:name="android.permission.DUMP"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
-        android:name="android.permission.DEVICE_POWER"
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application

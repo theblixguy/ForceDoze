@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "24.0.0-rc4"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
-        targetSdkVersion 23
-        versionCode 42
-        versionName "1.3.7"
+        targetSdkVersion 25
+        versionCode 48
+        versionName "1.3.8"
     }
     buildTypes {
         release {
@@ -21,14 +21,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') { transitive = true }
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile ('com.afollestad.material-dialogs:core:0.9.3.0') {
+        transitive = true
+    }
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
     compile 'eu.chainfire:libsuperuser:1.0.0.+'
     compile 'com.fabiendevos:nanotasks:1.1.0'
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
-    compile 'io.github.eliseomartelli:simple-custom-tabs:1.4.2'
+    compile 'io.github.eliseomartelli:simple-custom-tabs:1.4.3'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     compile 'com.github.dexafree:materiallist:3.2.1'
     provided 'de.robv.android.xposed:api:82'

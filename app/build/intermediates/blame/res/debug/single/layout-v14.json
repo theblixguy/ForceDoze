@@ -1,14 +1,14 @@
 [
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout-v14\\md_stub_progress_indeterminate_horizontal.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\layout-v14\\md_stub_progress_indeterminate_horizontal.xml"
+        "source": "C:\\Users\\Suyash\\.android\\build-cache\\10c4b43587d8a347c8c3bb792521cf8c45f68b3b\\output\\res\\layout-v14\\md_stub_progress_indeterminate_horizontal.xml"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout-v14\\md_stub_progress_indeterminate.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\layout-v14\\md_stub_progress_indeterminate.xml"
+        "source": "C:\\Users\\Suyash\\.android\\build-cache\\10c4b43587d8a347c8c3bb792521cf8c45f68b3b\\output\\res\\layout-v14\\md_stub_progress_indeterminate.xml"
     },
     {
         "merged": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\res\\merged\\debug\\layout-v14\\md_stub_progress.xml",
-        "source": "C:\\Users\\Suyash\\AndroidStudioProjects\\ForceDoze\\app\\build\\intermediates\\exploded-aar\\com.github.afollestad.material-dialogs\\core\\0.8.5.8\\res\\layout-v14\\md_stub_progress.xml"
+        "source": "C:\\Users\\Suyash\\.android\\build-cache\\10c4b43587d8a347c8c3bb792521cf8c45f68b3b\\output\\res\\layout-v14\\md_stub_progress.xml"
     }
 ]
