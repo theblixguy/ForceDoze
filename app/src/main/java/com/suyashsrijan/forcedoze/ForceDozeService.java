@@ -473,27 +473,17 @@ public class ForceDozeService extends Service {
     }
 
     public String getDeviceIdleState() {
+        Log.i(TAG, "Fetching Device Idle state...");
         String state = "";
-        List<String> output = Shell.SH.run("dumpsys deviceidle");
-        String outputString = TextUtils.join(", ", output);
-
         if (Utils.isDeviceRunningOnN()) {
-            if (outputString.contains("mState=ACTIVE")) {
-                state = "ACTIVE";
-            } else if (outputString.contains("mState=INACTIVE")) {
-                state = "INACTIVE";
-            } else if (outputString.contains("mState=PRE_IDLE")) {
-                state = "PRE_IDLE";
-            } else if (outputString.contains("mState=IDLE")) {
+            if (pm.isDeviceIdleMode()) {
                 state = "IDLE";
-            } else if (outputString.contains("mState=WAITING_FOR_NETWORK")) {
-                state = "WAITING_FOR_NETWORK";
-            } else if (outputString.contains("mState=OVERRIDE")) {
-                state = "OVERRIDE";
-            } else if (outputString.contains("mState=IDLE_MAINTENANCE")) {
-                state = "IDLE_MAINTENANCE";
+            } else {
+                state = "ACTIVE";
             }
         } else {
+            List<String> output = Shell.SH.run("dumpsys deviceidle");
+            String outputString = TextUtils.join(", ", output);
             if (outputString.contains("mState=ACTIVE")) {
                 state = "ACTIVE";
             } else if (outputString.contains("mState=INACTIVE")) {
@@ -546,7 +536,11 @@ public class ForceDozeService extends Service {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Pending intent broadcast received");
             setPendingDozeEnterAlarm = false;
-            executeCommand("dumpsys deviceidle force-idle");
+            if (Utils.isDeviceRunningOnN()) {
+                executeCommand("settings put global device_idle_constants inactive_to=600000,light_after_inactive_to=300000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+            } else {
+                executeCommand("dumpsys deviceidle force-idle");
+            }
         }
     }
 

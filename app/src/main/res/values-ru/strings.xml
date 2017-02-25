@@ -78,7 +78,7 @@
     <string name="donate_dialog_button_text">Я хочу пожертвовать</string>
     <string name="about_forcedoze_setting_title">Про ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze для Android созан с помощью библиотек с открытим исходным кодом:</string>
-    <string name="version_num_text">1.3.7 rev 46</string>
+    <string name="version_num_text">1.3.8 rev 49</string>
     <string name="loading_whitelisted_packages">Загрузка белого списка...</string>
     <string name="translation_credits_dialog_title">О переводах</string>
     <string name="translation_credits_dialog_text">Спасибо этим людям за перевод ForceDoze на другие языки: \n\nИспанский: monza1412 (XDA)\nПортугальский-BR: GamerVicioX (GitHub)\nРусский: HardSer (GitHub)\nGerman: okij (XDA)</string>
@@ -119,4 +119,5 @@
     <string name="doze_stats_battery_icon_meaning_dialog_title">Что означают иконки?</string>
     <string name="doze_stats_battery_icon_meaning_dialog_text">Значок батареи с молнией означает использование батареи было в норме, и батарея с восклицательным знаком означает высокое потребление батареи. Если использование батареи выше нормы, вам нужно использовать GSAM или другую программу статистики, чтобы узнать, что использовало батарею.</string>
     <string name="clearing_doze_stats_text">Очистка статистики...</string>
+    <string name="tile_label">ForceDoze</string>
 </resources>

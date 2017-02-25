@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<changelog>
-    <release version="1.3.8" versioncode="48">
-        <change>New: Android Nougat support. Please grant android.permission.WRITE_SECURE_SETTINGS permission via ADB if you are not rooted.</change>
-    </release>
-</changelog>

@@ -55,7 +55,7 @@ public class Utils {
     }
 
     public static boolean isSecureSettingsPermissionGranted(Context context) {
-        if (context.checkCallingOrSelfPermission("android.permission.WRITE_SECURE_SETTINGS") == PackageManager.PERMISSION_GRANTED)
+        if (context.checkCallingOrSelfPermission(Manifest.permission.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED)
             return true;
         else return false;
     }

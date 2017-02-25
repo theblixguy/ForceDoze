@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.8" versioncode="48">
+    <release version="1.3.8" versioncode="49">
         <change>New: Android Nougat support. Please grant android.permission.WRITE_SECURE_SETTINGS permission via ADB if you are not rooted.</change>
+        <change>New: QuickTile support on Nougat. You can now add a ForceDoze tile to your Quick Settings to quickly toggle ForceDoze on or off. Long pressing the tile will open ForceDoze</change>
+        <change>Fixed: A bug that could cause ForceDozeService to not reliably enter or exit Doze mode</change>
     </release>
 </changelog>
