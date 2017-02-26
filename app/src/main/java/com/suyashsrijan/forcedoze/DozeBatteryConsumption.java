@@ -55,6 +55,8 @@ public class DozeBatteryConsumption extends AppCompatActivity {
             case R.id.action_clear_stats:
                 clearStats();
                 break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
