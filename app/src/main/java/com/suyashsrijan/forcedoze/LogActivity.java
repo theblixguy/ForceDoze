@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nanotasks.BackgroundWork;
@@ -32,6 +34,10 @@ public class LogActivity extends AppCompatActivity {
     public List<String> log;
     boolean isSuAvailable;
     MaterialDialog progressDialog = null;
+
+    private ScrollView mSVLog;
+    private HorizontalScrollView mHSVLog;
+    private EditText logcatEd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +99,25 @@ public class LogActivity extends AppCompatActivity {
                 if (progressDialog != null) {
                     progressDialog.cancel();
                 }
-                EditText logcatEd = (EditText) findViewById(R.id.editText);
+                logcatEd = (EditText) findViewById(R.id.editText);
+                mSVLog = (ScrollView) findViewById(R.id.svLog);
+                mHSVLog = (HorizontalScrollView) findViewById(R.id.hsvLog);
+
+
                 if (result != null) {
                     log = result;
                     logcatEd.setLongClickable(false);
                     logcatEd.setFocusable(false);
                     logcatEd.setClickable(true);
-                    logcatEd.setText(result.toString());
+                    logcatEd.setHorizontallyScrolling(true);
+
+                    StringBuilder sb = new StringBuilder();
+                    for (String res : result) {
+                        sb.append(res.replaceAll("ForceDozeService", "FDS")
+                                     .replaceAll("ForceDoze","FD"));
+                        sb.append("\n");
+                    }
+                    logcatEd.setText(sb.toString());
                 } else {
                     log = null;
                     logcatEd.setLongClickable(false);
@@ -107,6 +125,20 @@ public class LogActivity extends AppCompatActivity {
                     logcatEd.setClickable(true);
                     logcatEd.setText("Unable to get logcat");
                 }
+
+                mSVLog.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSVLog.scrollTo(0, logcatEd.getHeight());
+                    }
+                });
+
+                mHSVLog.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHSVLog.scrollTo(0, 0);
+                    }
+                });
             }
 
             @Override

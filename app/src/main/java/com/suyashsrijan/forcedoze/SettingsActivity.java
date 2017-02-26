@@ -444,7 +444,6 @@ public class SettingsActivity extends AppCompatActivity {
                 turnOffDataInDoze.setEnabled(false);
                 turnOffDataInDoze.setSummary("Root required");
             }
-
         }
 
         public void requestWriteSettingsPermission() {
@@ -498,7 +497,9 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
-                    ProcessPhoenix.triggerRebirth(getActivity());
+                    //ProcessPhoenix.triggerRebirth(getActivity());
+                    getActivity().finish(); //no restart
+                    Runtime.getRuntime().exit(0); //just exit, still restarts or keep active though...
                 }
             });
             builder.show();
