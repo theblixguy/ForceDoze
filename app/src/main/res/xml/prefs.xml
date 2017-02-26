@@ -42,6 +42,11 @@
             android:summary="@string/disable_wifi_during_doze_setting_summary"
             android:title="@string/disable_wifi_during_doze_setting_title" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="optionTryWiFi"
+            android:summary="Tries to connect WiFi for 15secs after screen on. If unsuccessful turn off WiFi for 20mins. Repeat."
+            android:title="WiFi timeout" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="turnOffDataInDoze"
             android:summary="@string/disable_data_during_doze_setting_summary"
