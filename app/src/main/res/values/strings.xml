@@ -78,10 +78,10 @@
     <string name="donate_dialog_button_text">I want to donate</string>
     <string name="about_forcedoze_setting_title">About ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze for Android is built using open source software:</string>
-    <string name="version_num_text">1.3.7 rev 42</string>
+    <string name="version_num_text">1.3.8 rev 50</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
     <string name="translation_credits_dialog_title">Translation credits</string>
-    <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)</string>
+    <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)</string>
     <string name="su_perm_denied_msg">SU permission denied or not available!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Auto-rotate and auto-brightness fix</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze requires permission to modify the auto-rotate and auto-brightness setting on your phone in order to use this feature. Press \'Authorize\' to grant permission, or press \'Cancel\' to deny</string>
@@ -119,4 +119,5 @@
     <string name="doze_stats_battery_icon_meaning_dialog_title">What do the icons mean?</string>
     <string name="doze_stats_battery_icon_meaning_dialog_text">The battery icon with a lightning sign indicates the battery usage during that Doze session was within acceptable limits, and the battery icon with an exclamation sign indicates the battery usage during that Doze session was above acceptable limits. If the battery usage in any Doze session is above acceptable limits, you are advised to look into GSAM or another third party battery stats app to investigate what drained your battery</string>
     <string name="clearing_doze_stats_text">Clearing Doze stats...</string>
+    <string name="tile_label">ForceDoze</string>
 </resources>

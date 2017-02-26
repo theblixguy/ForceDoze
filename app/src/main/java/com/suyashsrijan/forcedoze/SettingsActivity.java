@@ -84,10 +84,10 @@ public class SettingsActivity extends AppCompatActivity {
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
             final Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
-            Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
-            Preference enableSensors = (Preference) findPreference("enableSensors");
+            final Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
+            final Preference enableSensors = (Preference) findPreference("enableSensors");
             Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
-            Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
+            final Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
 
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -282,6 +282,13 @@ public class SettingsActivity extends AppCompatActivity {
                                     editor.putBoolean("enableSensors", true);
                                     editor.putBoolean("useNonRootSensorWorkaround", false);
                                     editor.apply();
+                                    enableSensors.setEnabled(false);
+                                    autoRotateBrightnessFix.setEnabled(false);
+                                    nonRootSensorWorkaround.setEnabled(false);
+                                } else {
+                                    enableSensors.setEnabled(true);
+                                    autoRotateBrightnessFix.setEnabled(true);
+                                    nonRootSensorWorkaround.setEnabled(true);
                                 }
                                 Log.i(TAG, "Phone is rooted and SU permission granted");
                                 executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
@@ -331,6 +338,13 @@ public class SettingsActivity extends AppCompatActivity {
                         editor.putBoolean("enableSensors", true);
                         editor.putBoolean("useXposedSensorWorkaround", false);
                         editor.apply();
+                        xposedSensorWorkaround.setEnabled(false);
+                        autoRotateBrightnessFix.setEnabled(false);
+                        enableSensors.setEnabled(false);
+                    } else {
+                        xposedSensorWorkaround.setEnabled(true);
+                        autoRotateBrightnessFix.setEnabled(true);
+                        enableSensors.setEnabled(true);
                     }
                     return true;
                 }
@@ -402,9 +416,12 @@ public class SettingsActivity extends AppCompatActivity {
             isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
 
             if (sharedPreferences.getBoolean("useXposedSensorWorkaround", false)) {
-                mainSettings.removePreference(enableSensors);
-                mainSettings.removePreference(autoRotateBrightnessFix);
-                dozeSettings.removePreference(nonRootSensorWorkaround);
+                enableSensors.setEnabled(false);
+                autoRotateBrightnessFix.setEnabled(false);
+                nonRootSensorWorkaround.setEnabled(false);
+                sharedPreferences.edit().putBoolean("autoRotateAndBrightnessFix", false).apply();
+                sharedPreferences.edit().putBoolean("enableSensors", false).apply();
+                sharedPreferences.edit().putBoolean("useNonRootSensorWorkaround", false).apply();
             }
 
             if (Utils.isXposedInstalled(getContext())) {
@@ -415,14 +432,18 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             if (sharedPreferences.getBoolean("useNonRootSensorWorkaround", false)) {
-                xposedSettings.removePreference(xposedSensorWorkaround);
-                mainSettings.removePreference(autoRotateBrightnessFix);
-                mainSettings.removePreference(enableSensors);
+                xposedSensorWorkaround.setEnabled(false);
+                autoRotateBrightnessFix.setEnabled(false);
+                enableSensors.setEnabled(false);
+                sharedPreferences.edit().putBoolean("autoRotateAndBrightnessFix", false).apply();
+                sharedPreferences.edit().putBoolean("enableSensors", false).apply();
+                sharedPreferences.edit().putBoolean("useXposedSensorWorkaround", false).apply();
             }
 
-            /*if (!isSuAvailable) {
-                dozeSettings.removePreference(turnOffDataInDoze);
-            }*/
+            if (!isSuAvailable) {
+                turnOffDataInDoze.setEnabled(false);
+                turnOffDataInDoze.setSummary("Root required");
+            }
 
         }
 
@@ -456,7 +477,7 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i(TAG, "Enabling sensors, just in case they are disabled");
             executeCommand("dumpsys sensorservice enable");
             Log.i(TAG, "Disabling and re-enabling Doze mode");
-            if (Utils.isDeviceRunningOnNPreview()) {
+            if (Utils.isDeviceRunningOnN()) {
                 executeCommand("dumpsys deviceidle disable all");
                 executeCommand("dumpsys deviceidle enable all");
             } else {
