@@ -29,7 +29,6 @@ import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
-import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     public static String TAG = "ForceDoze";

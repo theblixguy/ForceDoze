@@ -2,6 +2,7 @@ package com.suyashsrijan.forcedoze;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -205,8 +206,31 @@ public class ForceDozeService extends Service {
     }
 
     public void addSelfToDozeWhitelist() {
-        Log.i(TAG, "Adding service to Doze whitelist for stability");
-        executeCommand("dumpsys deviceidle whitelist +com.suyashsrijan.forcedoze");
+        String packageName = getPackageName();
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            if (!Utils.isDeviceRunningOnN()) {
+                Log.i(TAG, "Adding service to Doze whitelist for stability");
+                executeCommand("dumpsys deviceidle whitelist +com.suyashsrijan.forcedoze");
+            } else {
+                Log.i(TAG, "Service cannot be added to Doze whitelist because user is on Nougat. Showing notification...");
+                Intent notificationIntent = new Intent();
+                notificationIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
+                        notificationIntent, 0);
+                Notification n = mBuilder
+                        .setContentTitle("ForceDoze")
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText("ForceDoze needs to be added to the Battery optimisation list in order to work reliably. Please click on this notification to open the battery optimisation view, click on 'ForceDoze' and select 'Don\'t' Optimize'"))
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setPriority(-2)
+                        .setContentIntent(intent)
+                        .setOngoing(false).build();
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(5678, n);
+            }
+        } else {
+            Log.i(TAG, "Service already in Doze whitelist for stability");
+        }
     }
 
     public void enterDoze(Context context) {
@@ -312,8 +336,10 @@ public class ForceDozeService extends Service {
 
         if (useNonRootSensorWorkaround) {
             try {
-                reenterDozePendingIntent.cancel();
-                alarmManager.cancel(reenterDozePendingIntent);
+                if (reenterDozePendingIntent != null) {
+                    reenterDozePendingIntent.cancel();
+                    alarmManager.cancel(reenterDozePendingIntent);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

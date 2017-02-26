@@ -12,7 +12,6 @@ import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.licenses.MITLicense;
 import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
-import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class AboutAppActivity extends AppCompatActivity {
 

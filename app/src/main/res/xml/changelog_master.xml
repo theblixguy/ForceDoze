@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.8" versioncode="49">
+    <release version="1.3.8" versioncode="50">
         <change>New: Android Nougat support. Please grant android.permission.WRITE_SECURE_SETTINGS permission via ADB if you are not rooted.</change>
-        <change>New: QuickTile support on Nougat. You can now add a ForceDoze tile to your Quick Settings to quickly toggle ForceDoze on or off. Long pressing the tile will open ForceDoze</change>
-        <change>Fixed: A bug that could cause ForceDozeService to not reliably enter or exit Doze mode</change>
+        <change>New: QuickTile support on Nougat. You can now add a ForceDoze tile to your Quick Settings to quickly toggle ForceDoze on or off. Long pressing the tile will open ForceDoze.</change>
+        <change>Fixed: A bug that could cause ForceDozeService to not reliably enter or exit Doze mode.</change>
+        <change>Fixed: Crash when clicking on Donate option.</change>
+        <change>Fixed: ForceDoze not adding itself to Doze whitelist on Nougat. Now, it will show you a notification that will take you to the battery optimisation settings to manually add ForceDoze, as it's not possible to add it automatically by ForceDoze on Nougat.</change>
+        <change>Fixed: ForceDoze calling deviceidle to add itself to whitelist, causing an exception because DEVICE_POWER permission wasn't granted. The permission cannot be granted to apps like ForceDoze, hence a workaround has been implemented as described above.</change>
     </release>
 </changelog>
