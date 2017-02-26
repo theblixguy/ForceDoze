@@ -29,7 +29,6 @@ import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
-import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     public static String TAG = "ForceDoze";
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
     CoordinatorLayout coordinatorLayout;
-    CustomTabs.Warmer warmer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0.0f);
         }
-        warmer = CustomTabs.with(getApplicationContext()).warm();
+        CustomTabs.with(getApplicationContext()).warm();
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
         showDonateDevDialog = settings.getBoolean("showDonateDevDialog1", true);
@@ -90,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 } else {
                     Log.i(TAG, "Service already running");
                 }
+                if (isSuAvailable) {
+                    executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
+                    executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
+                }
             } else {
                 textViewStatus.setText(R.string.service_inactive);
                 Log.i(TAG, "Service not enabled");
@@ -102,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     showDonateDevDialog();
                 }
             }
-
         } else {
             progressDialog = new MaterialDialog.Builder(this)
                     .title(R.string.please_wait_text)
@@ -138,9 +139,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                                 executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
                             }
                         }
-                        if (!Utils.isDevicePowerPermissionGranted(getApplicationContext())) {
-                            if (Utils.isDeviceRunningOnNPreview()) {
-                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
+                        if (!Utils.isSecureSettingsPermissionGranted(getApplicationContext())) {
+                            if (Utils.isDeviceRunningOnN()) {
+                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
                             }
                         }
                         if (serviceEnabled) {
@@ -203,12 +204,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         .show();
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        warmer.unwarm();
     }
 
     @Override
@@ -298,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 executeCommand("setprop persist.sys.doze_powersave true");
-                if (Utils.isDeviceRunningOnNPreview()) {
+                if (Utils.isDeviceRunningOnN()) {
                     executeCommand("dumpsys deviceidle disable all");
                     executeCommand("dumpsys deviceidle enable all");
                 } else {

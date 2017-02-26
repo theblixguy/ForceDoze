@@ -31,10 +31,16 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
             XposedBridge.log("ForceDozeXposed: usePermanentDoze: " + usePermanentDoze + ", useXposedSensorWorkaround: " +
                     useXposedSensorWorkaround + ", serviceEnabled: " + serviceEnabled);
             if (useXposedSensorWorkaround && serviceEnabled) {
-                XposedBridge.log("ForceDozeXposed: Hooking AnyMotionDetector");
-                final Class AnyMotionDetector = XposedHelpers.findClass("com.android.server.AnyMotionDetector", loadPackageParam.classLoader);
-                XposedHelpers.findAndHookMethod(AnyMotionDetector, "getStationaryStatus", XC_MethodReplacement.returnConstant(0));
-                XposedBridge.log("ForceDozeXposed: Hooked AnyMotionDetector");
+                XposedBridge.log("ForceDozeXposed: Hooking DeviceIdleController");
+                final Class DeviceIdleController = XposedHelpers.findClass("com.android.server.DeviceIdleController", loadPackageParam.classLoader);
+
+                XposedHelpers.findAndHookMethod(DeviceIdleController, "startMonitoringMotionLocked", XC_MethodReplacement.DO_NOTHING);
+                XposedHelpers.findAndHookMethod(DeviceIdleController, "stopMonitoringMotionLocked", XC_MethodReplacement.DO_NOTHING);
+                XposedHelpers.findAndHookMethod(DeviceIdleController, "startMonitoringSignificantMotion", XC_MethodReplacement.DO_NOTHING);
+                XposedHelpers.findAndHookMethod(DeviceIdleController, "stopMonitoringSignificantMotion", XC_MethodReplacement.DO_NOTHING);
+                XposedHelpers.findAndHookMethod(DeviceIdleController, "motionLocked", XC_MethodReplacement.DO_NOTHING);
+
+                XposedBridge.log("ForceDozeXposed: Hooked DeviceIdleController");
             }
         }
     }
