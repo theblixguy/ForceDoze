@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="tunablesPreferenceScreen">
+    <PreferenceCategory android:title="Light Doze tunables" android:key="lightDozeSettings">
+        <EditTextPreference
+            android:defaultValue="300000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="light_after_inactive_to"
+            android:summary="This is the time, after becoming inactive, that we go in to the first light-weight idle mode"
+            android:title="light_after_inactive_to" />
+    <EditTextPreference
+        android:defaultValue="600000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="light_pre_idle_to"
+        android:summary="This is amount of time we will wait from the point where we decide we would like to go idle until we actually do, while waiting for jobs and other current activity to finish"
+        android:title="light_pre_idle_to" />
+    <EditTextPreference
+        android:defaultValue="300000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="light_idle_to"
+        android:summary="This is the initial time that we will run in idle maintenance mode"
+        android:title="light_idle_to" />
+    <EditTextPreference
+        android:defaultValue="2"
+        android:inputType="numberDecimal"
+        android:dialogMessage="Enter a new value (float)"
+        android:dialogTitle="Modify value"
+        android:key="light_idle_factor"
+        android:summary="Scaling factor to apply to the light idle mode time each time we complete a cycle"
+        android:title="light_idle_factor" />
+    <EditTextPreference
+        android:defaultValue="900000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="light_max_idle_to"
+        android:summary="This is the maximum time we will run in idle maintenence mode"
+        android:title="light_max_idle_to" />
+    <EditTextPreference
+        android:defaultValue="60000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="light_idle_maintenance_min_budget"
+        android:summary="This is the minimum amount of time we want to make available for maintenance mode when lightly idling. That is, we will always have at least this amount of time available maintenance before timing out and cutting off maintenance mode"
+        android:title="light_idle_maintenance_min_budget" />
+    <EditTextPreference
+        android:defaultValue="300000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="light_idle_maintenance_max_budget"
+        android:summary="This is the maximum amount of time we want to make available for maintenance mode when lightly idling. That is, if the system isn't using up its minimum maintenance budget and this time is being added to the budget reserve, this is the maximum reserve size we will allow to grow and thus the maximum amount of time we will allow for the maintenance window"
+        android:title="light_idle_maintenance_max_budget" />
+    <EditTextPreference
+        android:defaultValue="5000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="min_light_maintenance_time"
+        android:summary="This is the minimum amount of time that we will stay in maintenance mode after a light doze. We have this minimum to allow various things to respond to switching in to maintenance mode and scheduling their work -- otherwise we may see there is nothing to do (no jobs pending) and go out of maintenance mode immediately"
+        android:title="min_light_maintenance_time" />
+    <EditTextPreference
+        android:defaultValue="30000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="min_deep_maintenance_time"
+        android:summary="This is the minimum amount of time that we will stay in maintenance mode after a full doze. We have this minimum to allow various things to respond to switching in to maintenance mode and scheduling their work -- otherwise we may see there is nothing to do (no jobs pending) and go out of maintenance mode immediately"
+        android:title="min_deep_maintenance_time" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Deep Doze tunables" android:key="deepDozeSettings">
+    <EditTextPreference
+        android:defaultValue="1800000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="inactive_to"
+        android:summary="This is the time, after becoming inactive, at which we start looking at the motion sensor to determine if the device is being left alone. We don't do this immediately after going inactive just because we don't want to be continually running the motion sensor whenever the screen is off"
+        android:title="inactive_to" />
+    <EditTextPreference
+        android:defaultValue="240000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="sensing_to"
+        android:summary="If we don't receive a callback from AnyMotion in this amount of time + locating_to, we will change from STATE_SENSING to STATE_INACTIVE, and any AnyMotion callbacks while not in STATE_SENSING will be ignored"
+        android:title="sensing_to" />
+    <EditTextPreference
+        android:defaultValue="30000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="locating_to"
+        android:summary="This is how long we will wait to try to get a good location fix before going in to idle mode"
+        android:title="locating_to" />
+    <EditTextPreference
+        android:defaultValue="20"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (meters)"
+        android:dialogTitle="Modify value"
+        android:key="location_accuracy"
+        android:summary="The desired maximum accuracy (in meters) we consider the location to be good enough to go on to idle. We will be trying to get an accuracy fix at least this good or until locating_to expires"
+        android:title="location_accuracy" />
+    <EditTextPreference
+        android:defaultValue="600000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="motion_inactive_to"
+        android:summary="This is the time, after seeing motion, that we wait after becoming inactive from that until we start looking for motion again"
+        android:title="motion_inactive_to" />
+    <EditTextPreference
+        android:defaultValue="1800000"
+        android:inputType="number"
+        android:dialogMessage="Enter a new value (milliseconds)"
+        android:dialogTitle="Modify value"
+        android:key="idle_after_inactive_to"
+        android:summary="This is the time, after the inactive timeout elapses, that we will wait looking for significant motion until we truly consider the device to be idle"
+        android:title="idle_after_inactive_to" />
+        <EditTextPreference
+            android:defaultValue="300000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="idle_pending_to"
+            android:summary="This is the initial time, after being idle, that we will allow ourself to be back in the IDLE_PENDING state allowing the system to run normally until we return to idle"
+            android:title="idle_pending_to" />
+        <EditTextPreference
+            android:defaultValue="600000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="max_idle_pending_to"
+            android:summary="Maximum pending idle timeout (time spent running) we will be allowed to use"
+            android:title="max_idle_pending_to" />
+        <EditTextPreference
+            android:defaultValue="2"
+            android:inputType="numberDecimal"
+            android:dialogMessage="Enter a new value (float)"
+            android:dialogTitle="Modify value"
+            android:key="idle_pending_factor"
+            android:summary="Scaling factor to apply to current pending idle timeout each time we cycle through that state"
+            android:title="idle_pending_factor" />
+        <EditTextPreference
+            android:defaultValue="3600000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="idle_to"
+            android:summary="This is the initial time that we want to sit in the idle state before waking up again to return to pending idle and allowing normal work to run"
+            android:title="idle_to" />
+        <EditTextPreference
+            android:defaultValue="21600000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="max_idle_to"
+            android:summary="Maximum idle duration we will be allowed to use"
+            android:title="max_idle_to" />
+        <EditTextPreference
+            android:defaultValue="2"
+            android:inputType="numberDecimal"
+            android:dialogMessage="Enter a new value (float)"
+            android:dialogTitle="Modify value"
+            android:key="idle_factor"
+            android:summary="Scaling factor to apply to current idle timeout each time we cycle through that state"
+            android:title="idle_factor" />
+        <EditTextPreference
+            android:defaultValue="3600000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="min_time_to_alarm"
+            android:summary="This is the minimum time we will allow until the next upcoming alarm for us to actually go in to idle mode"
+            android:title="min_time_to_alarm" />
+        <EditTextPreference
+            android:defaultValue="300000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="max_temp_app_whitelist_duration"
+            android:summary="Max amount of time to temporarily whitelist an app when it receives a high tickle"
+            android:title="max_temp_app_whitelist_duration" />
+        <EditTextPreference
+            android:defaultValue="60000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="mms_temp_app_whitelist_duration"
+            android:summary="Amount of time we would like to whitelist an app that is receiving an MMS"
+            android:title="mms_temp_app_whitelist_duration" />
+        <EditTextPreference
+            android:defaultValue="20000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="sms_temp_app_whitelist_duration"
+            android:summary="Amount of time we would like to whitelist an app that is receiving an SMS"
+            android:title="sms_temp_app_whitelist_duration" />
+        <EditTextPreference
+            android:defaultValue="20000"
+            android:inputType="number"
+            android:dialogMessage="Enter a new value (milliseconds)"
+            android:dialogTitle="Modify value"
+            android:key="notification_whitelist_duration"
+            android:summary="Amount of time we would like to whitelist an app that is handling a PendingIntent triggered by a Notification"
+            android:title="notification_whitelist_duration" />
+    </PreferenceCategory>
+</PreferenceScreen>

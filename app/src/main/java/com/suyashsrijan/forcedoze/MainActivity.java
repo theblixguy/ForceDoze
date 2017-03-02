@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public boolean onPrepareOptionsMenu(Menu menu) {
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
 
-        if (isDozeEnabledByOEM) {
+        if (isDozeEnabledByOEM || Utils.isDeviceRunningOnN()) {
             menu.getItem(2).setVisible(false);
         }
 
@@ -242,6 +242,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case R.id.action_doze_more_info:
                 showMoreInfoDialog();
                 break;
+            case R.id.action_show_doze_tunables:
+                showDozeTunablesActivity();
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -252,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             editor = settings.edit();
             editor.putBoolean("serviceEnabled", true);
             editor.apply();
+            serviceEnabled = true;
             textViewStatus.setText(R.string.service_active);
             if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                 Log.i(TAG, "Enabling ForceDoze");
@@ -262,11 +267,37 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             editor = settings.edit();
             editor.putBoolean("serviceEnabled", false);
             editor.apply();
+            serviceEnabled = false;
             textViewStatus.setText(R.string.service_inactive);
             if (Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
                 Log.i(TAG, "Disabling ForceDoze");
                 stopService(new Intent(MainActivity.this, ForceDozeService.class));
             }
+        }
+    }
+
+    public void showDozeTunablesActivity() {
+        if (serviceEnabled) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+            builder.setTitle("Warning");
+            builder.setMessage("Modifying Doze tunables will turn off ForceDoze, as ForceDoze overrides Doze tunables by default in order to put your device immediately into Doze mode.\n\nAre you sure you want to continue?");
+            builder.setPositiveButton(getString(R.string.yes_button_text), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    toggleForceDozeSwitch.setChecked(false);
+                    startActivity(new Intent(MainActivity.this, DozeTunablesActivity.class));
+                }
+            });
+            builder.setNegativeButton(getString(R.string.no_button_text), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.show();
+        } else {
+            startActivity(new Intent(MainActivity.this, DozeTunablesActivity.class));
         }
     }
 

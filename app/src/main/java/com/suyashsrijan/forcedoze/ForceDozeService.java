@@ -248,7 +248,7 @@ public class ForceDozeService extends Service {
                 lastDozeEnterBatteryLife = Utils.getBatteryLevel2(getApplicationContext());
                 Log.i(TAG, "Entering Doze");
                 if (Utils.isDeviceRunningOnN()) {
-                    executeCommand("settings put global device_idle_constants inactive_to=600000,light_after_inactive_to=300000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+                    executeCommand("settings put global device_idle_constants inactive_to=1000,light_after_inactive_to=1000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
                 } else {
                     executeCommand("dumpsys deviceidle force-idle");
                 }
@@ -563,7 +563,7 @@ public class ForceDozeService extends Service {
             Log.i(TAG, "Pending intent broadcast received");
             setPendingDozeEnterAlarm = false;
             if (Utils.isDeviceRunningOnN()) {
-                executeCommand("settings put global device_idle_constants inactive_to=600000,light_after_inactive_to=300000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+                executeCommand("settings put global device_idle_constants inactive_to=1000,light_after_inactive_to=1000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
             } else {
                 executeCommand("dumpsys deviceidle force-idle");
             }
