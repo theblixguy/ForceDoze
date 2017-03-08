@@ -34,13 +34,14 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public static String TAG = "ForceDoze";
     SharedPreferences settings;
     SharedPreferences.Editor editor;
-    Boolean isDozeEnabledByOEM = true;
-    Boolean isSuAvailable = false;
-    Boolean isDozeDisabled = false;
-    Boolean serviceEnabled = false;
-    Boolean isDumpPermGranted = false;
-    Boolean ignoreLockscreenTimeout = true;
-    Boolean showDonateDevDialog = true;
+    boolean isDozeEnabledByOEM = true;
+    boolean isSuAvailable = false;
+    boolean isDozeDisabled = false;
+    boolean serviceEnabled = false;
+    boolean isDumpPermGranted = false;
+    boolean isWriteSecureSettingsPermGranted = false;
+    boolean ignoreLockscreenTimeout = true;
+    boolean showDonateDevDialog = true;
     SwitchCompat toggleForceDozeSwitch;
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0.0f);
         }
+
         CustomTabs.with(getApplicationContext()).warm();
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         ignoreLockscreenTimeout = settings.getBoolean("ignoreLockscreenTimeout", true);
         toggleForceDozeSwitch = (SwitchCompat) findViewById(R.id.switch1);
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
+        isWriteSecureSettingsPermGranted = Utils.isSecureSettingsPermissionGranted(getApplicationContext());
         textViewStatus = (TextView) findViewById(R.id.textView2);
 
         toggleForceDozeSwitch.setOnCheckedChangeListener(null);
@@ -77,33 +80,12 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         toggleForceDozeSwitch.setOnCheckedChangeListener(this);
 
-        if (isDumpPermGranted) {
-            Log.i(TAG, "android.permission.DUMP already granted, skipping SU check");
-            if (serviceEnabled) {
-                toggleForceDozeSwitch.setChecked(true);
-                textViewStatus.setText(R.string.service_active);
-                if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
-                    Log.i(TAG, "Starting ForceDozeService");
-                    startService(new Intent(this, ForceDozeService.class));
-                } else {
-                    Log.i(TAG, "Service already running");
-                }
-                if (isSuAvailable) {
-                    executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
-                    executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
-                }
-            } else {
-                textViewStatus.setText(R.string.service_inactive);
-                Log.i(TAG, "Service not enabled");
-            }
-            ChangeLog cl = new ChangeLog(this);
-            if (cl.isFirstRun()) {
-                cl.getFullLogDialog().show();
-            } else {
-                if (showDonateDevDialog) {
-                    showDonateDevDialog();
-                }
-            }
+        if (!Utils.isDeviceRunningOnN() && isDumpPermGranted) {
+            Log.i(TAG, "android.permission.DUMP already granted and user not on Nougat, skipping SU check");
+            doAfterSuCheckSetup();
+        } else if (Utils.isDeviceRunningOnN() && isDumpPermGranted && isWriteSecureSettingsPermGranted) {
+            Log.i(TAG, "android.permission.DUMP & android.permission.WRITE_SECURE_SETTINGS already granted and user on Nougat, skipping SU check");
+            doAfterSuCheckSetup();
         } else {
             progressDialog = new MaterialDialog.Builder(this)
                     .title(R.string.please_wait_text)
@@ -130,19 +112,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         Log.i(TAG, "Phone is rooted and SU permission granted");
                         editor = settings.edit();
                         editor.putBoolean("isSuAvailable", true);
-                        editor.apply();
+                        editor.commit();
                         if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
-                            if (isSuAvailable) {
                                 Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
                                 executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
-                                Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
-                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
-                            }
                         }
-                        if (!Utils.isSecureSettingsPermissionGranted(getApplicationContext())) {
-                            if (Utils.isDeviceRunningOnN()) {
-                                executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
-                            }
+                        if (!Utils.isReadPhoneStatePermissionGranted(getApplicationContext())) {
+                            Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
+                            executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
+                        }
+                        if (!Utils.isSecureSettingsPermissionGranted(getApplicationContext()) && Utils.isDeviceRunningOnN()) {
+                            Log.i(TAG, "Granting android.permission.WRITE_SECURE_SETTINGS to com.suyashsrijan.forcedoze");
+                            executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
                         }
                         if (serviceEnabled) {
                             toggleForceDozeSwitch.setChecked(true);
@@ -202,6 +183,34 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         })
                         .setActionTextColor(Color.RED)
                         .show();
+            }
+        }
+    }
+
+    public void doAfterSuCheckSetup() {
+        if (serviceEnabled) {
+            toggleForceDozeSwitch.setChecked(true);
+            textViewStatus.setText(R.string.service_active);
+            if (!Utils.isMyServiceRunning(ForceDozeService.class, MainActivity.this)) {
+                Log.i(TAG, "Starting ForceDozeService");
+                startService(new Intent(this, ForceDozeService.class));
+            } else {
+                Log.i(TAG, "Service already running");
+            }
+            if (isSuAvailable) {
+                executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
+                executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
+            }
+        } else {
+            textViewStatus.setText(R.string.service_inactive);
+            Log.i(TAG, "Service not enabled");
+        }
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getFullLogDialog().show();
+        } else {
+            if (showDonateDevDialog) {
+                showDonateDevDialog();
             }
         }
     }

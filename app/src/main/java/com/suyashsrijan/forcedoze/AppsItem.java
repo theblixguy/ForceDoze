@@ -2,7 +2,7 @@ package com.suyashsrijan.forcedoze;
 
 import java.io.Serializable;
 
-public class WhitelistAppsItem implements Serializable {
+public class AppsItem implements Serializable {
 
     private String appName;
     private String appPackageName;

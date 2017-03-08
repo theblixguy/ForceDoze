@@ -83,6 +83,8 @@ public class SettingsActivity extends AppCompatActivity {
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
+            Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
+            Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
             final Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
             final Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
             final Preference enableSensors = (Preference) findPreference("enableSensors");
@@ -137,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
             autoRotateFixPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (!Settings.System.canWrite(getActivity())) {
+                    if (!Utils.isWriteSettingsPermissionGranted(getActivity())) {
                         requestWriteSettingsPermission();
                         return false;
                     } else return true;
@@ -442,7 +444,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (!isSuAvailable) {
                 turnOffDataInDoze.setEnabled(false);
-                turnOffDataInDoze.setSummary("Root required");
+                turnOffDataInDoze.setSummary(getString(R.string.root_required_text));
+                dozeNotificationBlocklist.setEnabled(false);
+                dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
+                dozeAppBlocklist.setEnabled(false);
+                dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
             }
 
         }
@@ -489,7 +495,9 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i(TAG, "Trying to revoke android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_LOGS");
-            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.WRITE_SETTINGS");
             Log.i(TAG, "ForceDoze reset procedure complete");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
             builder.setTitle(getString(R.string.reset_complete_dialog_title));

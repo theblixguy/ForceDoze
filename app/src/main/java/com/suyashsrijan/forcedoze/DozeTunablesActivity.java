@@ -176,12 +176,12 @@ public class DozeTunablesActivity extends AppCompatActivity {
         TUNABLE_STRING = getTunableString();
         Log.i(TAG, "Setting device_idle_constants=" + TUNABLE_STRING);
         executeCommand("settings put global device_idle_constants " + TUNABLE_STRING);
-        Toast.makeText(this, "Applied successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.applied_success_text), Toast.LENGTH_SHORT).show();
     }
 
     public void showCopyTunableDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("ADB command");
+        builder.setTitle(getString(R.string.adb_command_text));
         builder.setMessage("You can apply the new values using ADB by running the following command:\n\nadb shell settings put global device_idle_constants " + TUNABLE_STRING);
         builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
             @Override
@@ -189,7 +189,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-        builder.setNegativeButton("Copy to clipboard", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.copy_to_clipboard_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -272,7 +272,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
                             Log.i(TAG, "SU permission denied or not available");
                             AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
                             builder.setTitle(getString(R.string.error_text));
-                            builder.setMessage("SU permission denied or not available. You need root to use this feature! You can continue but you won't be able to save the tunables, only copy it to clipboard.");
+                            builder.setMessage(getString(R.string.tunables_su_not_available_error_text));
                             builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -288,6 +288,8 @@ public class DozeTunablesActivity extends AppCompatActivity {
                         Log.e(TAG, "Error querying SU: " + e.getMessage());
                     }
                 });
+            } else {
+                suAvailable = true;
             }
         }
 
@@ -295,7 +297,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    List<String> output = Shell.SH.run(command);
+                    List<String> output = Shell.SU.run(command);
                     if (output != null) {
                         printShellOutput(output);
                     } else {

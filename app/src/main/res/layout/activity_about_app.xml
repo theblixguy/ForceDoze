@@ -113,6 +113,19 @@
                 android:layout_below="@+id/textView7"
                 android:layout_alignStart="@+id/textView7" />
 
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:text="privacy policy"
+                android:onClick="showPrivacyPolicy"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#9BA0AA"
+                android:textStyle="bold"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8" />
+
         </RelativeLayout>
 
     </android.support.v4.widget.DrawerLayout>

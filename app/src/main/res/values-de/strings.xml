@@ -16,7 +16,7 @@
     <string name="no_root_workaround_dialog_title">No-Root Workaround</string>
     <string name="okay_button_text">OK</string>
     <string name="share_command_button_text">Teile Befehl</string>
-    <string name="no_root_workaround_dialog_text">Wenn dein Gerät nicht gerootet ist, kannst du dieser App die Erlaubnis \'android.permission.DUMP\' manuell erteilen, indem du den folgende ADB Befehl von deinem PC aus ausführst (der Befehl ist einzeilig, nicht getrennt):\n\n \"adb -d shell pm grant com.suyashsrijan.forcedoze android.permission.DUMP\"\n\n Sobald du das gemacht hast, schließe bitte diese App und starte sie neu. Danach kannst du auf die App ordnungsgemäß zugreifen.</string>
+    <string name="no_root_workaround_dialog_text">Wenn dein Gerät nicht gerootet ist, kannst du dieser App die Erlaubnis \'android.permission.DUMP\' (and \'android.permission.WRITE_SECURE_SETTINGS\' on Nougat) manuell erteilen, indem du den folgende ADB Befehl von deinem PC aus ausführst (der Befehl ist einzeilig, nicht getrennt):\n\n \"adb -d shell pm grant com.suyashsrijan.forcedoze android.permission.DUMP\" and the same with WRITE_SECURE_SETTINGS permission (if on Nougat)\n\n Sobald du das gemacht hast, schließe bitte diese App und starte sie neu. Danach kannst du auf die App ordnungsgemäß zugreifen.</string>
     <string name="lockscreen_timeout_dialog_title">Dauer bis zum automatischen Sperren</string>
     <string name="open_security_settings_button_text">Öffne die Sicherheits-Einstellungen</string>
     <string name="lockscreen_timeout_dialog_text_p1">Die Dauer bis zum automatischen Sperren ist auf deinem Gerät zu lang (</string>
@@ -29,7 +29,7 @@
     <string name="error_text">Fehler</string>
     <string name="please_wait_text">Bitte warten</string>
     <string name="requesting_su_access_text">Fordere SU Zugriff an...</string>
-    <string name="doze_stats_su_denied_error_dialog_text">Kann Logcat nicht lesen, da SU Erlaubnis verweigert wurde oder SU nicht verfügbar ist.</string>
+    <string name="read_logcat_su_not_avail_or_denied_error_text">Kann Logcat nicht lesen, da SU Erlaubnis verweigert wurde oder SU nicht verfügbar ist.\n\nPlease grant READ_LOGS permission via ADB to use this feature: \'adb shell pm grant com.suyashsrijan.forcedoze android.permission.READ_LOGS\' (without quotes)</string>
     <string name="loading_installed_apps_text">Lese die installierten Apps...</string>
     <string name="whitelisting_text">Positivliste</string>
     <string name="whitelisted_apps_restrictions_text">"Eine App, die auf der Positivliste ist, kann während Doze Modus und App Standby das Internet benutzen und partielle Wakelocks halten. Dennoch gelten andere Einschränkungen nach wie vor für Apps auf der Positivliste, wie für alle anderen Apps. Zum Beispiel werden Aufgaben und Synchronisierungen zurückgestellt und Alarme des normalen Alarm-Managers nicht ausgeführt. "</string>
@@ -78,7 +78,7 @@
     <string name="donate_dialog_button_text">Ich möchte spenden</string>
     <string name="about_forcedoze_setting_title">Über ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze für Android wurde mit Open Source Software erschaffen:</string>
-    <string name="version_num_text">1.3.8 rev 52</string>
+    <string name="version_num_text">1.4.0 rev 57</string>
     <string name="loading_whitelisted_packages">Lade Paketnamen von der Positivliste...</string>
     <string name="translation_credits_dialog_title">Übersetzer</string>
     <string name="translation_credits_dialog_text">Vielen Dank an folgende Personen für die Übersetzung von ForceDoze in andere Sprachen: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)</string>
@@ -91,11 +91,11 @@
     <string name="cleared_text">Gelöscht</string>
     <string name="doze_battery_stats_clear_msg">Die Doze Akku Statistik wurde erfolgreich gelöscht!</string>
     <string name="reset_complete_dialog_title">Zurücksetzen abgeschlossen</string>
-    <string name="reset_complete_dialog_text">ForceDoze hat sich selbst zurückgesetzt. Folgende Änderungen wurden vorgenommen: \n\n1) Stoppe den ForceDoze Dienst\n2) Reaktiviere die Sensoren, für den Fall, dass sie deaktiviert waren\n3) De- und Reaktiviere den Doze Modus, um sicherzustellen, dass er ordnungsgemäß läuft\n4) Setze die App Voreinstellungen zurück\n5) Wiederrufe die DUMP und READ_LOGS Erlaubnis (falls sie erteilt war)\n\nEs wird empfohlen, das Gerät neu zu starten. Die App startet jetzt neu!</string>
+    <string name="reset_complete_dialog_text">ForceDoze hat sich selbst zurückgesetzt. Folgende Änderungen wurden vorgenommen: \n\n1) Stoppe den ForceDoze Dienst\n2) Reaktiviere die Sensoren, für den Fall, dass sie deaktiviert waren\n3) De- und Reaktiviere den Doze Modus, um sicherzustellen, dass er ordnungsgemäß läuft\n4) Setze die App Voreinstellungen zurück\n5) Wiederrufe die DUMP, WRITE_SECURE_SETTINGS, READ_PHONE_STATE, WRITE_SETTINGS, READ_LOGS Erlaubnis (falls sie erteilt war)\n\nEs wird empfohlen, das Gerät neu zu starten. Die App startet jetzt neu!</string>
     <string name="doze_delay_warning_dialog_title">Warnung</string>
     <string name="doze_delay_warning_dialog_text">Die Doze Verzögerung ist momentag zu hoch eingestellt und kann einen negativen Effekt für den Akkuverbrauch haben. Bitte teste den Einfluss der Verzögerung auf den Akkuverbrauch und verringere die Verzögerung, wenn du einen höheren Akkuverbrauch feststellen solltest.</string>
     <string name="forcedoze_reset_initial_dialog_title">Möchtest du zurücksetzen?</string>
-    <string name="forcedoze_reset_initial_dialog_text">Das Zurücksetzen von ForceDoze bewirkt folgende Änderungen: \n\n1) Stoppe den ForceDoze Dienst\n2) Reaktiviere die Sensoren, für den Fall, dass sie deaktiviert waren\n3) De- und Reaktiviere den Doze Modus, um sicherzustellen, dass er ordnungsgemäß läuft\n4) Setze die App Voreinstellungen zurück\n5) Wiederrufe die DUMP und READ_LOGS Erlaubnis (falls sie erteilt war)\n\nMöchtest du fortfahren?</string>
+    <string name="forcedoze_reset_initial_dialog_text">Das Zurücksetzen von ForceDoze bewirkt folgende Änderungen: \n\n1) Stoppe den ForceDoze Dienst\n2) Reaktiviere die Sensoren, für den Fall, dass sie deaktiviert waren\n3) De- und Reaktiviere den Doze Modus, um sicherzustellen, dass er ordnungsgemäß läuft\n4) Setze die App Voreinstellungen zurück\n5) Wiederrufe die DUMP, WRITE_SECURE_SETTINGS, READ_PHONE_STATE, WRITE_SETTINGS, READ_LOGS Erlaubnis (falls sie erteilt war)\n\nMöchtest du fortfahren?</string>
     <string name="yes_button_text">Ja</string>
     <string name="no_button_text">Nein</string>
     <string name="turn_off_internet_doze_setting_title">Deaktiviere das Internet während Doze</string>
