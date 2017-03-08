@@ -88,7 +88,7 @@
     <string name="authorize_button_text">授權</string>
     <string name="deny_button_text">拒絕</string>
     <string name="device_supports_doze_text">你的裝置支援 Doze</string>
-    <string name="cleared_text">Cleared</string>
+    <string name="cleared_text">已清除</string>
     <string name="doze_battery_stats_clear_msg">成功清除 Doze 電池紀錄！</string>
     <string name="reset_complete_dialog_title">重設完成</string>
     <string name="reset_complete_dialog_text">ForceDoze 完成重設。變更如下\n\n1) 停止 ForceDoze 服務\n2) 重新啟用感測器，確保它們沒有被停用\n3) 停用並重新啟用 Doze 模式，確保 Doze 模式正確啟動\n4) 重設 app 設定\n5) 註銷 DUMP 及 READ_LOGS (若有授權的話) 權限\n\n建議將您的裝置重新開機，app 將會重新開啟！</string>
