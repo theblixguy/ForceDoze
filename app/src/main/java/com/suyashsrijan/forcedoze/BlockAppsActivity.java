@@ -163,7 +163,7 @@ public class BlockAppsActivity extends AppCompatActivity {
 
     public void showManuallyAddPackageDialog() {
         new MaterialDialog.Builder(this)
-                .title("Block app")
+                .title(getString(R.string.block_app_dialog_title))
                 .content(R.string.name_of_package_doze_block)
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .input("com.spotify.music", "", false, new MaterialDialog.InputCallback() {
@@ -176,7 +176,7 @@ public class BlockAppsActivity extends AppCompatActivity {
 
     public void showManuallyRemovePackageDialog() {
         new MaterialDialog.Builder(this)
-                .title("Block app")
+                .title(getString(R.string.block_app_dialog_title))
                 .content(R.string.name_of_package_doze_block_remove)
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .input("com.spotify.music", "", false, new MaterialDialog.InputCallback() {
