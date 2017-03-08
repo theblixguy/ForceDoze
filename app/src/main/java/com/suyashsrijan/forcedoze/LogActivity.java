@@ -154,6 +154,9 @@ public class LogActivity extends AppCompatActivity {
             }, new Completion<Boolean>() {
                 @Override
                 public void onSuccess(Context context, Boolean result) {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
                     isSuAvailable = result;
                     if (isSuAvailable) {
                         if (!Utils.isReadLogsPermissionGranted(context)) {

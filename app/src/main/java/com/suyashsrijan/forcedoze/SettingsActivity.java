@@ -79,7 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
             PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
             PreferenceCategory dozeSettings = (PreferenceCategory) findPreference("dozeSettings");
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
-            Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
@@ -143,57 +142,6 @@ public class SettingsActivity extends AppCompatActivity {
                         requestWriteSettingsPermission();
                         return false;
                     } else return true;
-                }
-            });
-
-            debugLogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    progressDialog1 = new MaterialDialog.Builder(getActivity())
-                            .title(getString(R.string.please_wait_text))
-                            .cancelable(false)
-                            .autoDismiss(false)
-                            .content(getString(R.string.requesting_su_access_text))
-                            .progress(true, 0)
-                            .show();
-                    Log.i(TAG, "Check if SU is available, and request SU permission if it is");
-                    Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
-                        @Override
-                        public Boolean doInBackground() throws Exception {
-                            return Shell.SU.available();
-                        }
-                    }, new Completion<Boolean>() {
-                        @Override
-                        public void onSuccess(Context context, Boolean result) {
-                            if (progressDialog1 != null) {
-                                progressDialog1.dismiss();
-                            }
-                            isSuAvailable = result;
-                            Log.i(TAG, "SU available: " + Boolean.toString(result));
-                            if (isSuAvailable) {
-                                Log.i(TAG, "Phone is rooted and SU permission granted");
-                                startActivity(new Intent(getActivity(), LogActivity.class));
-                            } else {
-                                Log.i(TAG, "SU permission denied or not available");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                builder.setTitle(getString(R.string.error_text));
-                                builder.setMessage(getString(R.string.su_perm_denied_msg));
-                                builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                builder.show();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Context context, Exception e) {
-                            Log.e(TAG, "Error querying SU: " + e.getMessage());
-                        }
-                    });
-                    return true;
                 }
             });
 
