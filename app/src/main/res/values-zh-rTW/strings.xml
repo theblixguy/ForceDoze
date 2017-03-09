@@ -52,7 +52,7 @@
     <string name="doze_delay_setting_title">Doze 延遲</string>
     <string name="whitelist_apps_setting_summary">Doze 模式的白名單</string>
     <string name="whitelist_apps_setting_text">白名單</string>
-    <string name="doze_unsupported_xposed_setting_summary">Enables Doze on an unsupported device</string>
+    <string name="doze_unsupported_xposed_setting_summary">在不支援的裝置上啟用 Doze</string>
     <string name="doze_unsupported_xposed_setting_title">在不支援的裝置上啟用 Doze</string>
     <string name="doze_sensors_xposed_setting_summary">避免讓 Doze 使用動作感測器 （實驗功能）</string>
     <string name="doze_sensors_xposed_setting_title">停用 Doze 的動作偵測(root)</string>
@@ -120,4 +120,26 @@
     <string name="doze_stats_battery_icon_meaning_dialog_text">帶有閃電符號的電池圖示表示 Doze 期間的耗電量在可接受範圍內，帶有驚嘆號的圖示則表示耗電量超過可接受範圍。若耗電量無論何時都超出可接受範圍，您可能需要使用 GSAM 或其他三方電池狀態 app 找出耗電的元兇。</string>
     <string name="clearing_doze_stats_text">正在清除 Doze 狀態...</string>
     <string name="tile_label">ForceDoze</string>
+    <string name="notif_blocklist_setting_summary">避免在 Doze 時接收通知</string>
+    <string name="notif_blocklist_setting_title">Doze 通知黑名單</string>
+    <string name="app_blocklist_setting_summary">避免 app（及所屬背景服務）在 Doze 時執行</string>
+    <string name="app_blocklist_setting_title">Doze app 黑名單</string>
+    <string name="app_doesnt_exist_in_blocklist">欲移除的 app 並不在黑名單中</string>
+    <string name="app_already_in_blocklist">欲新增的 app 已在黑名單中</string>
+    <string name="name_of_package_doze_block">輸入欲要禁止在 Doze 時執行的 app 套件名稱 (Package Name)</string>
+    <string name="name_of_package_doze_block_remove">輸入欲移除黑名單的 app 套件名稱 (Package Name)</string>
+    <string name="loading_blocked_packages">套件黑名單載入中</string>
+    <string name="app_blocklist_dialog_title">app 黑名單</string>
+    <string name="app_blocklist_dialog_text">有些 app 和其背景服務在 Doze 時仍能繼續執行，使得 Doze 無法提升電池續航。你可以用本功能設定 Doze 時不該執行的 app。 注意：被停用的 app 及其背景服務將無法在 Doze 作用時執行，你也無法接收任何來自停用 app 的通知，請不要停用那些在 Doze 時仍需在背景運作的 app，也絕對不要停用像是 SystemUI 之類的系統 app，這會導致裝置異常甚至是無法開機。</string>
+    <string name="name_of_package_notif_block">輸入要加入通知黑名單的 app 套件名稱 (Package Name)</string>
+    <string name="name_of_package_notif_block_remove">輸入從通知黑名單移除的 app 套件名稱 (Package Name)</string>
+    <string name="notif_blocklist_dialog_title">通知黑名單</string>
+    <string name="notif_blocklist_dialog_text">有些 app 會用 FCM 高優先權通知 (FCM high-priority messaging)來傳送通知，在 app 接收大量通知的情況下會降低電池續航。若 app 沒有提供 Doze 時停止接收通知的方法，你可以使用本功能來阻止特定 app 在 Doze 時接收通知。</string>
+    <string name="root_required_text">需要 root</string>
+    <string name="applied_success_text">套用成功！</string>
+    <string name="adb_command_text">ADB 指令</string>
+    <string name="copy_to_clipboard_button_text">複製到剪貼簿</string>
+    <string name="tunables_su_not_available_error_text">存取 SU 權限被拒或無法使用。需要 root 才能使用本功能，你可以繼續操作，但僅能將可調設定 (tunable)複製至剪貼簿而無法儲存。</string>
+    <string name="block_app_dialog_title">阻擋 app</string>
+    <string name="block_app_notif_dialog_title">阻擋 app 通知</string>
 </resources>
