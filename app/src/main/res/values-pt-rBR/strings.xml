@@ -17,7 +17,7 @@
     <string name="no_root_workaround_dialog_title">Modo alternativo sem root</string>
     <string name="okay_button_text">Okay</string>
     <string name="share_command_button_text">Compartilhar comando</string>
-    <string name="no_root_workaround_dialog_text">Se o seu dispositivo não tem o modo root habilitado, você pode conceder uma permissão manualmente \'android.permission.DUMP\' para este aplicativo, executando os seguintes comandos ADB a partir do seu PC (em apenas uma linha, não separado):\n\n \"adb -d shell pm grant com.suyashsrijan.forcedoze android.permission.DUMP\"\n\n uma vez concluído, feche e reinicie este aplicativo novamente para que ele seja executado corretamente</string>
+    <string name="no_root_workaround_dialog_text">Se o seu dispositivo não tem o modo root habilitado, você pode conceder uma permissão manualmente \'android.permission.DUMP\' (and \'android.permission.WRITE_SECURE_SETTINGS\' if you\'re on Nougat) para este aplicativo, executando os seguintes comandos ADB a partir do seu PC (em apenas uma linha, não separado):\n\n \"adb -d shell pm grant com.suyashsrijan.forcedoze android.permission.DUMP\" and the same with WRITE_SECURE_SETTINGS permission (if on Nougat)\n\n uma vez concluído, feche e reinicie este aplicativo novamente para que ele seja executado corretamente</string>
     <string name="lockscreen_timeout_dialog_title">Tempo de espera do bloqueio de tela</string>
     <string name="open_security_settings_button_text">Abrir configurações de segurança</string>
     <string name="lockscreen_timeout_dialog_text_p1">O tempo de espera do bloqueio de tela está muito alto (</string>
@@ -30,7 +30,7 @@
     <string name="error_text">Erro</string>
     <string name="please_wait_text">Por favor aguarde</string>
     <string name="requesting_su_access_text">Solicitando acceso SU...</string>
-    <string name="doze_stats_su_denied_error_dialog_text">Permissão SU negada ou SU não disponível, não é possível ler logcat</string>
+    <string name="read_logcat_su_not_avail_or_denied_error_text">Permissão SU negada ou SU não disponível, não é possível ler logcat.\n\nPlease grant READ_LOGS permission via ADB to use this feature: \'adb shell pm grant com.suyashsrijan.forcedoze android.permission.READ_LOGS\' (without quotes)</string>
     <string name="loading_installed_apps_text">Carregando os aplicativos instalados...</string>
     <string name="whitelisting_text">Lista de exclusão</string>
     <string name="whitelisted_apps_restrictions_text">"Um aplicativo na lista de exclusão pode acessar a rede e ter seus wake locks permitidos durante o modo Doze. Contudo, as outras restrições continuarão para os aplicativos na lista de exclusão, assim como para os demais aplicativos. Por exemplo, as tarefas de sincronização dos aplicativos na lista de excluisão são adiadas e seus alarmes regulares não são ativados. "</string>
@@ -79,7 +79,7 @@
     <string name="donate_dialog_button_text">Quero doar</string>
     <string name="about_forcedoze_setting_title">Sobre ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze para Android foi criado utilizando software de código aberto:</string>
-    <string name="version_num_text">1.3.8 rev 52</string>
+    <string name="version_num_text">1.4.0 rev 57</string>
     <string name="translation_credits_dialog_title">créditos de tradução</string>
     <string name="translation_credits_dialog_text">Agradeço as seguintes pessoas por traduzir ForceDoze para outros idiomas: \n\nEspanhol: monza1412 (XDA)\nPortuguês-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)</string>
     <string name="loading_whitelisted_packages">Carregando a lista branca de pacotes ...</string>
@@ -92,11 +92,11 @@
     <string name="cleared_text">Apagado</string>
     <string name="doze_battery_stats_clear_msg">Estatísticas de bateria em Doze removidas corretamente!</string>
     <string name="reset_complete_dialog_title">Redefinição completa</string>
-    <string name="reset_complete_dialog_text">ForceDoze foi redefinido. As seguintes alterações foram feitas: \n\n1) Interrupção do serviço ForceDoze\n2) Reativação dos sensores, apenas no caso deles estarem desativados\n3) Desativação e ativação do modo Doze, para garantir que o modo Doze está efetivamente ativado\n4) Redefinição das preferências do aplicativo\n5) Cancelamento de permissões de DUMP e READ_LOGS (se estiver concedida)\n\nÉ recomendável reiniciar seu dispositivo. O aplicativo será reiniciado agora!</string>
+    <string name="reset_complete_dialog_text">ForceDoze foi redefinido. As seguintes alterações foram feitas: \n\n1) Interrupção do serviço ForceDoze\n2) Reativação dos sensores, apenas no caso deles estarem desativados\n3) Desativação e ativação do modo Doze, para garantir que o modo Doze está efetivamente ativado\n4) Redefinição das preferências do aplicativo\n5) Cancelamento de permissões de DUMP, WRITE_SECURE_SETTINGS, READ_PHONE_STATE, WRITE_SETTINGS, READ_LOGS (se estiver concedida)\n\nÉ recomendável reiniciar seu dispositivo. O aplicativo será reiniciado agora!</string>
     <string name="doze_delay_warning_dialog_title">Aviso</string>
     <string name="doze_delay_warning_dialog_text">O valor de atraso de Doze está muito alto e pode ter efeitos negativos sobre o consumo de bateria. Certifique-se de testar os efeito desse atraso na vida útil da bateria e considerar a redução do atraso se notar um aumento de consumo de sua bateria.</string>
     <string name="forcedoze_reset_initial_dialog_title">Você deseja redefinir para os valores padrões?</string>
-    <string name="forcedoze_reset_initial_dialog_text">Redefinir ForceDoze acarretará as seguintes alterações: \n\n1) Interrupção do serviço ForceDoze\n2) Reativação dos sensores, apenas no caso deles estarem desativados\n3) Desativação e ativação do modo Doze, para garantir que o modo Doze está efetivamente ativado\n4) Redefinição das preferências do aplicativo\n5) Cancelamento de permissões de DUMP e READ_LOGS (se estiver concedida)\n\nDeseja continuar?</string>
+    <string name="forcedoze_reset_initial_dialog_text">Redefinir ForceDoze acarretará as seguintes alterações: \n\n1) Interrupção do serviço ForceDoze\n2) Reativação dos sensores, apenas no caso deles estarem desativados\n3) Desativação e ativação do modo Doze, para garantir que o modo Doze está efetivamente ativado\n4) Redefinição das preferências do aplicativo\n5) Cancelamento de permissões de DUMP, WRITE_SECURE_SETTINGS, READ_PHONE_STATE, WRITE_SETTINGS, READ_LOGS (se estiver concedida)\n\nDeseja continuar?</string>
     <string name="yes_button_text">Sim</string>
     <string name="no_button_text">Não</string>
     <string name="turn_off_internet_doze_setting_title">Desativar a internet durante Doze</string>

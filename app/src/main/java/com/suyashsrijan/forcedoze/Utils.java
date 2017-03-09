@@ -36,6 +36,12 @@ public class Utils {
         return false;
     }
 
+    public static boolean isWriteSettingsPermissionGranted(Context context) {
+        if (context.checkCallingOrSelfPermission(Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED)
+            return true;
+        else return false;
+    }
+
     public static boolean isDumpPermissionGranted(Context context) {
         if (context.checkCallingOrSelfPermission(Manifest.permission.DUMP) == PackageManager.PERMISSION_GRANTED)
             return true;
@@ -152,7 +158,7 @@ public class Utils {
     }
 
     public static boolean isWiFiEnabled(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
     }
 

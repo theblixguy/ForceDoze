@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class WhitelistAppsAdapter extends BaseAdapter {
-    private ArrayList<WhitelistAppsItem> listData;
+public class AppsAdapter extends BaseAdapter {
+    private ArrayList<AppsItem> listData;
     private LayoutInflater layoutInflater;
 
-    public WhitelistAppsAdapter(Context aContext, ArrayList<WhitelistAppsItem> listData) {
+    public AppsAdapter(Context aContext, ArrayList<AppsItem> listData) {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
     }

@@ -60,6 +60,24 @@
             android:key="dozeEnterDelay"
             android:summary="@string/doze_delay_setting_summary"
             android:title="@string/doze_delay_setting_title" />
+        <Preference
+            android:key="blacklistAppNotifications"
+            android:summary="@string/notif_blocklist_setting_summary"
+            android:title="@string/notif_blocklist_setting_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.suyashsrijan.forcedoze.BlockNotificationsActivity"
+                android:targetPackage="com.suyashsrijan.forcedoze" />
+        </Preference>
+        <Preference
+            android:key="blacklistApps"
+            android:summary="@string/app_blocklist_setting_summary"
+            android:title="@string/app_blocklist_setting_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.suyashsrijan.forcedoze.BlockAppsActivity"
+                android:targetPackage="com.suyashsrijan.forcedoze" />
+        </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="Xposed" android:key="xposedSettings">
         <CheckBoxPreference

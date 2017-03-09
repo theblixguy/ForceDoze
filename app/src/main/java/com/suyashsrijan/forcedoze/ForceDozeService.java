@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
@@ -25,8 +27,10 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,6 +41,8 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class ForceDozeService extends Service {
 
+    private static Shell.Interactive rootSession;
+    private static Shell.Interactive nonRootSession;
     boolean isSuAvailable = false;
     boolean disableWhenCharging = true;
     boolean enableSensors = false;
@@ -58,12 +64,16 @@ public class ForceDozeService extends Service {
     DozeReceiver localDozeReceiver;
     ReloadSettingsReceiver reloadSettingsReceiver;
     PendingIntentDozeReceiver pendingIntentDozeReceiver;
+    ReloadNotificationBlocklistReceiver reloadNotificationBlocklistReceiver;
+    ReloadAppsBlocklistReceiver reloadAppsBlocklistReceiver;
     NotificationCompat.Builder mBuilder;
     PendingIntent reenterDozePendingIntent;
     PowerManager pm;
     AlarmManager alarmManager;
     PowerManager.WakeLock tempWakeLock;
     Set<String> dozeUsageData;
+    Set<String> dozeNotificationBlocklist;
+    Set<String> dozeAppBlocklist;
     String sensorWhitelistPackage = "";
     Long timeEnterDoze = 0L;
     Long timeExitDoze = 0L;
@@ -81,6 +91,8 @@ public class ForceDozeService extends Service {
         super.onCreate();
         localDozeReceiver = new DozeReceiver();
         reloadSettingsReceiver = new ReloadSettingsReceiver();
+        reloadNotificationBlocklistReceiver = new ReloadNotificationBlocklistReceiver();
+        reloadAppsBlocklistReceiver = new ReloadAppsBlocklistReceiver();
         pendingIntentDozeReceiver = new PendingIntentDozeReceiver();
         enterDozeTimer = new Timer();
         enableSensorsTimer = new Timer();
@@ -93,7 +105,12 @@ public class ForceDozeService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
+        if (Utils.isDeviceRunningOnN()) {
+            filter.addAction("android.os.action.LIGHT_DEVICE_IDLE_MODE_CHANGED");
+        }
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(reloadNotificationBlocklistReceiver, new IntentFilter("reload-notification-blocklist"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(reloadAppsBlocklistReceiver, new IntentFilter("reload-app-blocklist"));
         LocalBroadcastManager.getInstance(this).registerReceiver(pendingIntentDozeReceiver, new IntentFilter("reenter-doze"));
         this.registerReceiver(localDozeReceiver, filter);
         turnOffDataInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffDataInDoze", false);
@@ -109,6 +126,8 @@ public class ForceDozeService extends Service {
         isSuAvailable = getDefaultSharedPreferences(getApplicationContext()).getBoolean("isSuAvailable", false);
         showPersistentNotif = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
         dozeUsageData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageDataAdvanced", new LinkedHashSet<String>());
+        dozeNotificationBlocklist = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("notificationBlockList", new LinkedHashSet<String>());
+        dozeAppBlocklist = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeAppBlockList", new LinkedHashSet<String>());
 
         if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
             if (isSuAvailable) {
@@ -128,6 +147,13 @@ public class ForceDozeService extends Service {
             if (isSuAvailable) {
                 grantReadPhoneStatePermission();
             }
+        }
+
+        // To initialize root shell/shell on service start
+        if (isSuAvailable) {
+            executeCommandWithRoot("whoami");
+        } else {
+            executeCommand("whoami");
         }
     }
 
@@ -190,25 +216,42 @@ public class ForceDozeService extends Service {
         Log.i(TAG, "ForceDoze settings reloaded ----------------------------------");
     }
 
+    public void reloadNotificationBlockList() {
+        Log.i(TAG, "Notification blocklist reloaded ----------------------------------");
+        dozeNotificationBlocklist = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("notificationBlockList", new LinkedHashSet<String>());
+        Log.i(TAG, "notificationBlockList: " + dozeNotificationBlocklist.size() + " items");
+        Log.i(TAG, "Notification blocklist reloaded ----------------------------------");
+    }
+
+    public void reloadAppsBlockList() {
+        Log.i(TAG, "Apps blocklist reloaded ----------------------------------");
+        dozeAppBlocklist = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeAppBlockList", new LinkedHashSet<String>());
+        Log.i(TAG, "dozeAppBlockList: " + dozeAppBlocklist.size() + " items");
+        Log.i(TAG, "Apps blocklist reloaded ----------------------------------");
+    }
+
     public void grantDumpPermission() {
         Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
-        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
+        executeCommandWithRoot("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
     }
 
     public void grantSecureSettingsPermission() {
         Log.i(TAG, "Granting android.permission.WRITRE_SECURE_SETTINGS to com.suyashsrijan.forcedoze");
-        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
+        executeCommandWithRoot("pm grant com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
     }
 
     public void grantReadPhoneStatePermission() {
         Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
-        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
+        executeCommandWithRoot("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
     }
 
     public void addSelfToDozeWhitelist() {
         String packageName = getPackageName();
         if (!pm.isIgnoringBatteryOptimizations(packageName)) {
             if (!Utils.isDeviceRunningOnN()) {
+                Log.i(TAG, "Adding service to Doze whitelist for stability");
+                executeCommand("dumpsys deviceidle whitelist +com.suyashsrijan.forcedoze");
+            } else if (Utils.isDeviceRunningOnN() && isSuAvailable) {
                 Log.i(TAG, "Adding service to Doze whitelist for stability");
                 executeCommand("dumpsys deviceidle whitelist +com.suyashsrijan.forcedoze");
             } else {
@@ -244,11 +287,32 @@ public class ForceDozeService extends Service {
                     }
                 }
 
+                if (dozeAppBlocklist.size() != 0) {
+                    Log.i(TAG, "Disabling apps that are in the Doze app blocklist");
+                    for (String pkg : dozeAppBlocklist) {
+                        setPackageState(pkg, false);
+                    }
+                }
+
+                if (dozeNotificationBlocklist.size() != 0) {
+                    Log.i(TAG, "Disabling notifications for apps in the Notification blocklist");
+                    for (String pkg : dozeNotificationBlocklist) {
+                        if (!dozeAppBlocklist.contains(pkg)) {
+                            setNotificationEnabledForPackage(pkg, false);
+                        }
+                    }
+                }
+
+
                 timeEnterDoze = System.currentTimeMillis();
                 lastDozeEnterBatteryLife = Utils.getBatteryLevel2(getApplicationContext());
                 Log.i(TAG, "Entering Doze");
                 if (Utils.isDeviceRunningOnN()) {
-                    executeCommand("settings put global device_idle_constants inactive_to=1000,light_after_inactive_to=1000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+                    if (isSuAvailable) {
+                        executeCommandWithRoot("dumpsys deviceidle force-idle deep");
+                    } else {
+                        Settings.Global.putString(getContentResolver(), "device_idle_constants", "inactive_to=600000,light_after_inactive_to=300000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+                    }
                 } else {
                     executeCommand("dumpsys deviceidle force-idle");
                 }
@@ -312,13 +376,33 @@ public class ForceDozeService extends Service {
         lastDozeExitBatteryLife = Utils.getBatteryLevel2(getApplicationContext());
         lastKnownState = "ACTIVE";
         if (Utils.isDeviceRunningOnN()) {
-            executeCommand("settings put global device_idle_constants null");
+            if (isSuAvailable) {
+                executeCommandWithRoot("dumpsys deviceidle unforce");
+            } else {
+                Settings.Global.putString(getContentResolver(), "device_idle_constants", null);
+            }
         } else {
             executeCommand("dumpsys deviceidle step");
         }
 
         dozeUsageData.add(Long.toString(System.currentTimeMillis()).concat(",").concat(Float.toString(Utils.getBatteryLevel2(getApplicationContext()))).concat(",").concat("EXIT"));
         saveDozeDataStats();
+
+        if (dozeAppBlocklist.size() != 0) {
+            Log.i(TAG, "Re-enabling apps that are in the Doze app blocklist");
+            for (String pkg : dozeAppBlocklist) {
+                setPackageState(pkg, true);
+            }
+        }
+
+        if (dozeNotificationBlocklist.size() != 0) {
+            Log.i(TAG, "Re-enabling notifications for apps in the Notification blocklist");
+            for (String pkg : dozeNotificationBlocklist) {
+                if (!dozeAppBlocklist.contains(pkg)) {
+                    setNotificationEnabledForPackage(pkg, true);
+                }
+            }
+        }
 
         if (!useXposedSensorWorkaround) {
             if (!enableSensors) {
@@ -361,11 +445,64 @@ public class ForceDozeService extends Service {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                List<String> output = Shell.SH.run(command);
-                if (output != null) {
-                    printShellOutput(output);
+                if (nonRootSession != null) {
+                    nonRootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                        @Override
+                        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                            printShellOutput(output);
+                        }
+                    });
                 } else {
-                    Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                    nonRootSession = new Shell.Builder().
+                            useSH().
+                            setWantSTDERR(true).
+                            setWatchdogTimeout(5).
+                            setMinimalLogging(true).
+                            open(new Shell.OnCommandResultListener() {
+                                @Override
+                                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                    if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                        Log.i(TAG, "Error opening shell: exitCode " + exitCode);
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    public void executeCommandWithRoot(final String command) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (rootSession != null) {
+                    rootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                        @Override
+                        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                            printShellOutput(output);
+                        }
+                    });
+                } else {
+                    rootSession = new Shell.Builder().
+                            useSU().
+                            setWantSTDERR(true).
+                            setWatchdogTimeout(5).
+                            setMinimalLogging(true).
+                            open(new Shell.OnCommandResultListener() {
+                                @Override
+                                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                    if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                        Log.i(TAG, "Error opening root shell: exitCode " + exitCode);
+                                    } else {
+                                        rootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                                            @Override
+                                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                                printShellOutput(output);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                 }
             }
         });
@@ -389,7 +526,7 @@ public class ForceDozeService extends Service {
     }
 
     public void autoRotateBrightnessFix() {
-        if (useAutoRotateAndBrightnessFix) {
+        if (useAutoRotateAndBrightnessFix && Utils.isWriteSettingsPermissionGranted(getApplicationContext())) {
             Log.i(TAG, "Executing auto-rotate fix by doing a toggle");
             Log.i(TAG, "Current value: " + Boolean.toString(Utils.isAutoRotateEnabled(getApplicationContext())) + " to " + Boolean.toString(!Utils.isAutoRotateEnabled(getApplicationContext())));
             Utils.setAutoRotateEnabled(getApplicationContext(), !Utils.isAutoRotateEnabled(getApplicationContext()));
@@ -460,19 +597,19 @@ public class ForceDozeService extends Service {
         String command;
         try {
             String transactionCode = getTransactionCode(context);
-                SubscriptionManager mSubscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
-                for (int i = 0; i < mSubscriptionManager.getActiveSubscriptionInfoCountMax(); i++) {
-                    if (transactionCode != null && transactionCode.length() > 0) {
-                        int subscriptionId = mSubscriptionManager.getActiveSubscriptionInfoList().get(i).getSubscriptionId();
-                        command = "service call phone " + transactionCode + " i32 " + subscriptionId + " i32 " + targetState;
-                        List<String> output = Shell.SU.run(command);
-                        if (output != null) {
-                            for (String s : output) {
-                                Log.i(TAG, s);
-                            }
-                        } else {
-                            Log.i(TAG, "Error occurred while executing command (" + command + ")");
+            SubscriptionManager mSubscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            for (int i = 0; i < mSubscriptionManager.getActiveSubscriptionInfoCountMax(); i++) {
+                if (transactionCode != null && transactionCode.length() > 0) {
+                    int subscriptionId = mSubscriptionManager.getActiveSubscriptionInfoList().get(i).getSubscriptionId();
+                    command = "service call phone " + transactionCode + " i32 " + subscriptionId + " i32 " + targetState;
+                    List<String> output = Shell.SU.run(command);
+                    if (output != null) {
+                        for (String s : output) {
+                            Log.i(TAG, s);
                         }
+                    } else {
+                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                    }
                 }
             }
         } catch (Exception e) {
@@ -496,6 +633,36 @@ public class ForceDozeService extends Service {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void setNotificationEnabledForPackage(String packageName, boolean enabled) {
+        int command = 0;
+        try {
+            Field field = Class.forName("android.app.INotificationManager").getDeclaredClasses()[0].getDeclaredField("TRANSACTION_setNotificationsEnabledForPackage");
+            field.setAccessible(true);
+            command = field.getInt(null);
+        } catch (ClassNotFoundException e) {
+            Log.i(TAG, e.toString());
+        } catch (NoSuchFieldException e2) {
+            Log.i(TAG, e2.toString());
+        } catch (IllegalAccessException e3) {
+            Log.i(TAG, e3.toString());
+        }
+
+        ArrayList<PackageInfo> packageInfos = new ArrayList<>(getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA));
+
+        for (PackageInfo p : packageInfos) {
+            if (p.packageName.equals(packageName)) {
+                Log.i(TAG, (enabled ? "Turning on " : "Turning off ") +  "notifications for " + packageName);
+                String exec = String.format(Locale.US, "service call notification %d s16 %s i32 %d i32 %d", command, packageName, p.applicationInfo.uid, enabled ? 1 : 0);
+                executeCommandWithRoot(exec);
+            }
+        }
+    }
+
+    public void setPackageState(String packageName, boolean enabled) {
+        Log.i(TAG, (enabled ? "Enabling " : "Disabling ") + packageName);
+        executeCommandWithRoot("pm " + (enabled ? "enable " : "disable ") + packageName);
     }
 
     public String getDeviceIdleState() {
@@ -557,13 +724,33 @@ public class ForceDozeService extends Service {
         }
     }
 
+    class ReloadNotificationBlocklistReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "User modified Notification blocklist, loading new packages into service");
+            reloadNotificationBlockList();
+        }
+    }
+
+    class ReloadAppsBlocklistReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "User modified Doze app blocklist, loading new packages into service");
+            reloadAppsBlockList();
+        }
+    }
+
     class PendingIntentDozeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Pending intent broadcast received");
             setPendingDozeEnterAlarm = false;
             if (Utils.isDeviceRunningOnN()) {
-                executeCommand("settings put global device_idle_constants inactive_to=1000,light_after_inactive_to=1000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+                if (isSuAvailable) {
+                    executeCommandWithRoot("dumpsys deviceidle force-idle deep");
+                } else {
+                    Settings.Global.putString(getContentResolver(), "device_idle_constants", "inactive_to=600000,light_after_inactive_to=300000,idle_after_inactive_to=5100,sensing_to=5100,locating_to=5100,location_accuracy=10000");
+                }
             } else {
                 executeCommand("dumpsys deviceidle force-idle");
             }
@@ -579,7 +766,6 @@ public class ForceDozeService extends Service {
                 time = 1000;
             }
             int delay = dozeEnterDelay * 60 * 1000;
-            Log.i(TAG, "Doze delay: " + delay + "ms");
             time = time + delay;
 
             if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
@@ -634,6 +820,7 @@ public class ForceDozeService extends Service {
                 } else if (Utils.isUserInCall(context)) {
                     Log.i(TAG, "User is in a phone call, skip entering Doze");
                 } else {
+                    Log.i(TAG, "Doze delay: " + delay + "ms");
                     if (ignoreLockscreenTimeout) {
                         if (dozeEnterDelay == 0) {
                             Log.i(TAG, "Ignoring lockscreen timeout value and entering Doze immediately");
@@ -739,6 +926,8 @@ public class ForceDozeService extends Service {
                         }
                     }
                 }
+            } else if (intent.getAction().equals("android.os.action.LIGHT_DEVICE_IDLE_MODE_CHANGED")) {
+                Log.i(TAG, "LIGHT_DEVICE_IDLE_MODE_CHANGED received");
             }
         }
     }
