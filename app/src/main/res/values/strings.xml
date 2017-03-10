@@ -78,10 +78,10 @@
     <string name="donate_dialog_button_text">I want to donate</string>
     <string name="about_forcedoze_setting_title">About ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze for Android is built using open source software:</string>
-    <string name="version_num_text">1.4.0 rev 57</string>
+    <string name="version_num_text">1.4.0 rev 61</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
     <string name="translation_credits_dialog_title">Translation credits</string>
-    <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)</string>
+    <string name="translation_credits_dialog_text">Thanks to the following people for translating ForceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)</string>
     <string name="su_perm_denied_msg">SU permission denied or not available!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Auto-rotate and auto-brightness fix</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze requires permission to modify the auto-rotate and auto-brightness setting on your phone in order to use this feature. Press \'Authorize\' to grant permission, or press \'Cancel\' to deny</string>

@@ -8,7 +8,7 @@ android {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 57
+        versionCode 62
         versionName "1.4.0"
     }
     buildTypes {

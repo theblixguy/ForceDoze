@@ -78,10 +78,10 @@
     <string name="donate_dialog_button_text">Ich möchte spenden</string>
     <string name="about_forcedoze_setting_title">Über ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze für Android wurde mit Open Source Software erschaffen:</string>
-    <string name="version_num_text">1.4.0 rev 57</string>
+    <string name="version_num_text">1.4.0 rev 62</string>
     <string name="loading_whitelisted_packages">Lade Paketnamen von der Positivliste...</string>
     <string name="translation_credits_dialog_title">Übersetzer</string>
-    <string name="translation_credits_dialog_text">Vielen Dank an folgende Personen für die Übersetzung von ForceDoze in andere Sprachen: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)</string>
+    <string name="translation_credits_dialog_text">Vielen Dank an folgende Personen für die Übersetzung von ForceDoze in andere Sprachen: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)</string>
     <string name="su_perm_denied_msg">SU Erlaubnis verweigert oder SU nicht verfügbar!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Fix für automatisches Drehen und Helligkeit</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze benötigt die Erlaubnis, das automatische Drehen und die automatische Helligkeit auf deinem Telefon zu ändern, um dieses Feature zu benutzen zu können. Drücke \'Genehmigen\' um die Erlaubnis zu erteilen oder \'Abbruch\' um sie zu verweigern.</string>

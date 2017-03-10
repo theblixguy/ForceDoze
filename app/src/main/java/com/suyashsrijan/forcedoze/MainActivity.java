@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -31,6 +33,12 @@ import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+
+    private int mLastExitCode = -1;
+    private boolean mCommandRunning = false;
+    private HandlerThread mCallbackThread = null;
+    private static Shell.Interactive rootSession;
+    private static Shell.Interactive nonRootSession;
     public static String TAG = "ForceDoze";
     SharedPreferences settings;
     SharedPreferences.Editor editor;
@@ -98,7 +106,31 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             Tasks.executeInBackground(MainActivity.this, new BackgroundWork<Boolean>() {
                 @Override
                 public Boolean doInBackground() throws Exception {
-                    return Shell.SU.available();
+                    if (rootSession != null) {
+                        if (rootSession.isRunning()) {
+                            return true;
+                        } else {
+                            dispose();
+                        }
+                    }
+
+                    mCallbackThread = new HandlerThread("SU callback");
+                    mCallbackThread.start();
+
+                    mCommandRunning = true;
+                    rootSession = new Shell.Builder().useSU()
+                            .setHandler(new Handler(mCallbackThread.getLooper()))
+                            .setOnSTDERRLineListener(mStderrListener)
+                            .open(mOpenListener);
+
+                    waitForCommandFinished();
+
+                    if (mLastExitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                        dispose();
+                        return false;
+                    }
+
+                    return true;
                 }
             }, new Completion<Boolean>() {
                 @Override
@@ -112,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         Log.i(TAG, "Phone is rooted and SU permission granted");
                         editor = settings.edit();
                         editor.putBoolean("isSuAvailable", true);
-                        editor.commit();
+                        editor.apply();
                         if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
                                 Log.i(TAG, "Granting android.permission.DUMP to com.suyashsrijan.forcedoze");
                                 executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.DUMP");
@@ -136,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         } else {
                             Log.i(TAG, "Service not enabled");
                         }
+
+                        ChangeLog cl = new ChangeLog(MainActivity.this);
+                        if (cl.isFirstRun()) {
+                            cl.getFullLogDialog().show();
+                        }
                     } else {
                         Log.i(TAG, "SU permission denied or not available");
                         toggleForceDozeSwitch.setChecked(false);
@@ -156,11 +193,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                             }
                         });
                         builder.show();
-                    }
-
-                    ChangeLog cl = new ChangeLog(MainActivity.this);
-                    if (cl.isFirstRun()) {
-                        cl.getFullLogDialog().show();
                     }
                 }
 
@@ -184,6 +216,19 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                         .setActionTextColor(Color.RED)
                         .show();
             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (rootSession != null) {
+            rootSession.close();
+            rootSession = null;
+        }
+        if (nonRootSession != null) {
+            nonRootSession.close();
+            nonRootSession = null;
         }
     }
 
@@ -454,32 +499,159 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         builder.show();
     }
 
+
+
+    private final Shell.OnCommandResultListener mOpenListener = new Shell.OnCommandResultListener() {
+        @Override
+        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+            mStdoutListener.onCommandResult(commandCode, exitCode);
+        }
+    };
+
+    private final Shell.OnCommandLineListener mStdoutListener = new Shell.OnCommandLineListener() {
+        public void onLine(String line) {
+            Log.i(TAG, line);
+        }
+
+        @Override
+        public void onCommandResult(int commandCode, int exitCode) {
+            mLastExitCode = exitCode;
+            synchronized (mCallbackThread) {
+                mCommandRunning = false;
+                mCallbackThread.notifyAll();
+            }
+        }
+    };
+
+    private final Shell.OnCommandLineListener mStderrListener = new Shell.OnCommandLineListener() {
+        @Override
+        public void onLine(String line) {
+            Log.i(TAG, line);
+        }
+
+        @Override
+        public void onCommandResult(int commandCode, int exitCode) {
+
+        }
+    };
+
+    private void waitForCommandFinished() {
+        synchronized (mCallbackThread) {
+            while (mCommandRunning) {
+                try {
+                    mCallbackThread.wait();
+                } catch (Exception e)  {
+                    if (e instanceof InterruptedException) {
+                        Log.i(TAG, "InterruptedException occurred while waiting for command to finish");
+                        e.printStackTrace();
+                    } else if (e instanceof NullPointerException) {
+                        Log.i(TAG, "NPE occurred while waiting for command to finish");
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        if (mLastExitCode == Shell.OnCommandResultListener.WATCHDOG_EXIT || mLastExitCode == Shell.OnCommandResultListener.SHELL_DIED) {
+            dispose();
+        }
+    }
+
+    public synchronized void dispose() {
+        if (rootSession == null) {
+            return;
+        }
+
+        try {
+            rootSession.close();
+        } catch (Exception ignored) {
+        }
+        rootSession = null;
+
+        mCallbackThread.quit();
+        mCallbackThread = null;
+    }
+
     public void executeCommand(final String command) {
         if (isSuAvailable) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<String> output = Shell.SU.run(command);
-                    if (output != null) {
-                        printShellOutput(output);
-                    } else {
-                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
-                    }
-                }
-            });
+            executeCommandWithRoot(command);
         } else {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<String> output = Shell.SH.run(command);
-                    if (output != null) {
-                        printShellOutput(output);
-                    } else {
-                        Log.i(TAG, "Error occurred while executing command (" + command + ")");
-                    }
-                }
-            });
+            executeCommandWithoutRoot(command);
         }
+    }
+
+    public void executeCommandWithRoot(final String command) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (rootSession != null) {
+                    rootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                        @Override
+                        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                            printShellOutput(output);
+                        }
+                    });
+                } else {
+                    rootSession = new Shell.Builder().
+                            useSU().
+                            setWantSTDERR(true).
+                            setWatchdogTimeout(5).
+                            setMinimalLogging(true).
+                            open(new Shell.OnCommandResultListener() {
+                                @Override
+                                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                    if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                        Log.i(TAG, "Error opening root shell: exitCode " + exitCode);
+                                    } else {
+                                        rootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                                            @Override
+                                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                                printShellOutput(output);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    public void executeCommandWithoutRoot(final String command) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (nonRootSession != null) {
+                    nonRootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                        @Override
+                        public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                            printShellOutput(output);
+                        }
+                    });
+                } else {
+                    nonRootSession = new Shell.Builder().
+                            useSH().
+                            setWantSTDERR(true).
+                            setWatchdogTimeout(5).
+                            setMinimalLogging(true).
+                            open(new Shell.OnCommandResultListener() {
+                                @Override
+                                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                    if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                        Log.i(TAG, "Error opening shell: exitCode " + exitCode);
+                                    } else {
+                                        nonRootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                                            @Override
+                                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                                printShellOutput(output);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                }
+            }
+        });
     }
 
     public void printShellOutput(List<String> output) {
