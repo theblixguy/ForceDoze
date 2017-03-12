@@ -38,6 +38,17 @@ public class ForceDozeTileService extends TileService {
         Log.i(TAG, "QuickTile removed");
     }
 
+    @Override
+    public void onStartListening() {
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        serviceEnabled = settings.getBoolean("serviceEnabled", false);
+        if (serviceEnabled) {
+            updateTileState(true);
+        } else {
+            updateTileState(false);
+        }
+    }
+
 
     @Override
     public void onClick() {

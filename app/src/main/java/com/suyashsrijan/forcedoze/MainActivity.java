@@ -1,15 +1,19 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
+import android.service.quicksettings.TileService;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -31,6 +35,8 @@ import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -327,6 +333,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 Log.i(TAG, "Disabling ForceDoze");
                 stopService(new Intent(MainActivity.this, ForceDozeService.class));
             }
+        }
+
+        if (Utils.isDeviceRunningOnN()) {
+            TileService.requestListeningState(this, new ComponentName(this, ForceDozeTileService.class.getSimpleName()));
         }
     }
 
@@ -655,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     public void printShellOutput(List<String> output) {
-        if (!output.isEmpty()) {
+        if (output != null && !output.isEmpty()) {
             for (String s : output) {
                 Log.i(TAG, s);
             }

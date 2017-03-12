@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.4.0" versioncode="62">
+    <release version="1.4.0" versioncode="65">
         <change>New: Android Nougat support. Please grant WRITE_SECURE_SETTINGS permission via ADB if you are not rooted.</change>
         <change>New: QuickTile support on Nougat. You can now add a ForceDoze tile to your Quick Settings to quickly toggle ForceDoze on or off. Long pressing the tile will open ForceDoze.</change>
         <change>New: App Shortcuts support on Nougat 7.1+. You can press and hold the ForceDoze icon on your homescreen to access shortcuts to Settings and Battery stats.</change>
@@ -11,6 +11,9 @@
         <change>New: Chinese (Traditional) translations - Thanks to osk2 on GitHub!</change>
         <change>Changed: You can access the 'Debug logs' option in Settings without root. You will have to grant READ_LOGS permission via ADB.</change>
         <change>Changed: SU detection method. It should work more reliably now</change>
+        <change>Changed: App Shortcuts icon design (Thanks kryzeK on XDA!)</change>
+        <change>Fixed: Rare crashes on some devices</change>
+        <change>Fixed: QuickTile not reflecting new state when turning on/off ForceDoze from the app itself</change>
         <change>Fixed: A bug that could cause ForceDozeService to not reliably enter or exit Doze mode.</change>
         <change>Fixed: Crash when clicking on Donate option.</change>
         <change>Fixed: ForceDoze not adding itself to Doze whitelist on Nougat. Now, it will show you a notification that will take you to the battery optimisation settings to manually add ForceDoze, as it's not possible to add it automatically by ForceDoze on Nougat.</change>

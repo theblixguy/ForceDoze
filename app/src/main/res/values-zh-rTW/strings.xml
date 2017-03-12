@@ -78,7 +78,7 @@
     <string name="donate_dialog_button_text">我想要贊助</string>
     <string name="about_forcedoze_setting_title">關於 ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze for Android 使用了開源軟體開發：</string>
-    <string name="version_num_text">1.4.0 rev 62</string>
+    <string name="version_num_text">1.4.0 rev 65</string>
     <string name="loading_whitelisted_packages">載入白名單 package 中...</string>
     <string name="translation_credits_dialog_title">譯者名單：</string>
     <string name="translation_credits_dialog_text">感謝下列熱心人士將 ForceDoze 翻譯成其他語言： \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)</string>

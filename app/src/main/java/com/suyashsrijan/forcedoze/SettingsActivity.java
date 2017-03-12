@@ -418,29 +418,31 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         public void toggleRootFeatures(final boolean enabled) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
-                    Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
-                    Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
-                    if (enabled) {
-                        turnOffDataInDoze.setEnabled(true);
-                        turnOffDataInDoze.setSummary(getString(R.string.turn_off_internet_doze_setting_summary));
-                        dozeNotificationBlocklist.setEnabled(true);
-                        dozeNotificationBlocklist.setSummary(getString(R.string.notif_blocklist_setting_summary));
-                        dozeAppBlocklist.setEnabled(true);
-                        dozeAppBlocklist.setSummary(getString(R.string.app_blocklist_setting_summary));
-                    } else {
-                        turnOffDataInDoze.setEnabled(false);
-                        turnOffDataInDoze.setSummary(getString(R.string.root_required_text));
-                        dozeNotificationBlocklist.setEnabled(false);
-                        dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
-                        dozeAppBlocklist.setEnabled(false);
-                        dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
+                        Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
+                        Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
+                        if (enabled) {
+                            turnOffDataInDoze.setEnabled(true);
+                            turnOffDataInDoze.setSummary(getString(R.string.disable_data_during_doze_setting_summary));
+                            dozeNotificationBlocklist.setEnabled(true);
+                            dozeNotificationBlocklist.setSummary(getString(R.string.notif_blocklist_setting_summary));
+                            dozeAppBlocklist.setEnabled(true);
+                            dozeAppBlocklist.setSummary(getString(R.string.app_blocklist_setting_summary));
+                        } else {
+                            turnOffDataInDoze.setEnabled(false);
+                            turnOffDataInDoze.setSummary(getString(R.string.root_required_text));
+                            dozeNotificationBlocklist.setEnabled(false);
+                            dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
+                            dozeAppBlocklist.setEnabled(false);
+                            dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         public void executeCommand(final String command) {
