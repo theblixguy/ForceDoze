@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 
@@ -66,6 +67,12 @@ public class ForceDozeTileService extends TileService {
         }
     }
 
+    public void sendBroadcastToApp(boolean active) {
+        Intent intent = new Intent("update-state-from-tile");
+        intent.putExtra("isActive", active);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
     public void updateTileState(final boolean active) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -79,8 +86,11 @@ public class ForceDozeTileService extends TileService {
                 }
                 if (active) {
                     settings.edit().putBoolean("serviceEnabled", true).apply();
+                    sendBroadcastToApp(active);
+
                 } else {
                     settings.edit().putBoolean("serviceEnabled", false).apply();
+                    sendBroadcastToApp(active);
                 }
             }
         }, 1500);

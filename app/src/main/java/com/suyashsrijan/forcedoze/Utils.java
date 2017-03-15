@@ -23,6 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static android.content.Context.BATTERY_SERVICE;
 
 public class Utils {
 
@@ -67,8 +70,11 @@ public class Utils {
     }
 
     public static boolean isConnectedToCharger(Context context) {
-        Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        return (batteryIntent != null && batteryIntent.getIntExtra("plugged", 0) != 0);
+        Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        if (intent != null) {
+            int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            return plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS;
+        } else return false;
     }
 
     public static String getDateCurrentTimeZone(long timestamp) {
@@ -79,25 +85,9 @@ public class Utils {
         return dateFormat.format(cal.getTime());
     }
 
-    public static int getBatteryLevel2(Context context) {
-
-        final Intent batteryIntent = context
-                .registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-
-        if (batteryIntent == null) {
-            return Math.round(50.0f);
-        }
-
-        final int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        final int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-        if (level == -1 || scale == -1) {
-            return Math.round(50.0f);
-        }
-
-        float battery_level = ((float) level / (float) scale) * 100.0f;
-        return Math.round(battery_level);
-
+    public static int getBatteryLevel(Context context) {
+        BatteryManager bm = (BatteryManager)context.getSystemService(BATTERY_SERVICE);
+        return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
     }
 
     public static boolean checkForAutoPowerModesFlag() {
@@ -109,18 +99,32 @@ public class Utils {
     }
 
     public static int diffInMins(long start, long end) {
-        int diff = (int) ((end - start) / 1000) / 60;
-        return diff;
+        return (int) ((end - start) / 1000) / 60;
     }
 
     public static String timeSpentString(long start, long end) {
         long diff = end - start;
-        long diffSeconds = diff / 1000 % 60;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
 
-        String timeSpent = diffHours + " hours, " + diffMinutes + " mins, " + diffSeconds + " secs";
-        return timeSpent;
+        if (diff < 0) {
+            throw new IllegalArgumentException("Duration must be greater than zero!");
+        }
+
+        long days = TimeUnit.MILLISECONDS.toDays(diff);
+        diff -= TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(diff);
+        diff -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+        diff -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
+
+        return String.valueOf(days) +
+                " days, " +
+                hours +
+                " hours, " +
+                minutes +
+                " minutes, " +
+                seconds +
+                " seconds";
     }
 
     public static void setAutoRotateEnabled(Context context, boolean enabled) {
@@ -167,7 +171,7 @@ public class Utils {
     }
 
     public static float getLockscreenTimeoutValue(ContentResolver contentResolver) {
-        return ((float) (Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) / 1000f) / 60f);
+        return ((Settings.Secure.getInt(contentResolver, "lock_screen_lock_after_timeout", 5000) / 1000f) / 60f);
     }
 
     public static boolean doesSettingExist(String settingName) {

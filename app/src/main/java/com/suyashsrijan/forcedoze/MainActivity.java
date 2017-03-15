@@ -1,11 +1,12 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,9 +14,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.service.quicksettings.TileService;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -36,8 +37,6 @@ import java.util.List;
 import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private int mLastExitCode = -1;
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     private HandlerThread mCallbackThread = null;
     private static Shell.Interactive rootSession;
     private static Shell.Interactive nonRootSession;
+    private UpdateForceDozeEnabledState updateStateFromTile;
     public static String TAG = "ForceDoze";
     SharedPreferences settings;
     SharedPreferences.Editor editor;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         CustomTabs.with(getApplicationContext()).warm();
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isDozeEnabledByOEM = Utils.checkForAutoPowerModesFlag();
-        showDonateDevDialog = settings.getBoolean("showDonateDevDialog1", true);
+        showDonateDevDialog = settings.getBoolean("showDonateDevDialog2", true);
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
         isDozeDisabled = settings.getBoolean("isDozeDisabled", false);
         isSuAvailable = settings.getBoolean("isSuAvailable", false);
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
         isWriteSecureSettingsPermGranted = Utils.isSecureSettingsPermissionGranted(getApplicationContext());
         textViewStatus = (TextView) findViewById(R.id.textView2);
+        updateStateFromTile = new UpdateForceDozeEnabledState();
+        LocalBroadcastManager.getInstance(this).registerReceiver(updateStateFromTile, new IntentFilter("update-state-from-tile"));
 
         toggleForceDozeSwitch.setOnCheckedChangeListener(null);
 
@@ -205,6 +207,25 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 @Override
                 public void onError(Context context, Exception e) {
                     Log.e(TAG, "Error querying SU: " + e.getMessage());
+                    Log.i(TAG, "SU permission denied or not available");
+                    toggleForceDozeSwitch.setChecked(false);
+                    toggleForceDozeSwitch.setEnabled(false);
+                    textViewStatus.setText(R.string.service_disabled);
+                    editor = settings.edit();
+                    editor.putBoolean("isSuAvailable", false);
+                    editor.apply();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+                    builder.setTitle(getString(R.string.error_text));
+                    builder.setMessage(getString(R.string.root_workaround_text));
+                    builder.setPositiveButton(getString(R.string.close_button_text), null);
+                    builder.setNegativeButton(getString(R.string.root_workaround_button_text), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            showRootWorkaroundInstructions();
+                        }
+                    });
+                    builder.show();
                 }
             });
         }
@@ -270,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public boolean onPrepareOptionsMenu(Menu menu) {
         isDumpPermGranted = Utils.isDumpPermissionGranted(getApplicationContext());
 
-        if (isDozeEnabledByOEM || Utils.isDeviceRunningOnN()) {
+        if (isDozeEnabledByOEM || (Utils.isDeviceRunningOnN() && !isSuAvailable)) {
             menu.getItem(2).setVisible(false);
         }
 
@@ -336,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
 
         if (Utils.isDeviceRunningOnN()) {
-            TileService.requestListeningState(this, new ComponentName(this, ForceDozeTileService.class.getSimpleName()));
+            TileService.requestListeningState(this, new ComponentName(this, ForceDozeTileService.class.getName()));
         }
     }
 
@@ -388,10 +409,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 executeCommand("setprop persist.sys.doze_powersave true");
-                if (Utils.isDeviceRunningOnN()) {
-                    executeCommand("dumpsys deviceidle disable all");
-                    executeCommand("dumpsys deviceidle enable all");
-                } else {
+                if (Utils.isDeviceRunningOnN() && isSuAvailable) {
+                    executeCommandWithRoot("dumpsys deviceidle disable all");
+                    executeCommandWithRoot("dumpsys deviceidle enable all");
+                } else if (!Utils.isDeviceRunningOnN()) {
                     executeCommand("dumpsys deviceidle disable");
                     executeCommand("dumpsys deviceidle enable");
                 }
@@ -438,7 +459,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     public void showLockScreenTimeoutInfoDialog() {
-        float lockscreenTimeout = Utils.getLockscreenTimeoutValue(getContentResolver());
+        String lockscreenTimeout = Float.toHexString(Utils.getLockscreenTimeoutValue(getContentResolver()));
+        if (Float.valueOf(lockscreenTimeout) < 1.0f) {
+            lockscreenTimeout = Float.toString(Float.valueOf(lockscreenTimeout) * 60.0f) + " seconds & 0";
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(getString(R.string.lockscreen_timeout_dialog_title));
         builder.setMessage(getString(R.string.lockscreen_timeout_dialog_text_p1) + lockscreenTimeout + getString(R.string.lockscreen_timeout_dialog_text_p2) +
@@ -491,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor = settings.edit();
-                editor.putBoolean("showDonateDevDialog1", false);
+                editor.putBoolean("showDonateDevDialog2", false);
                 editor.apply();
                 dialogInterface.dismiss();
                 openDonatePage();
@@ -501,7 +525,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor = settings.edit();
-                editor.putBoolean("showDonateDevDialog1", false);
+                editor.putBoolean("showDonateDevDialog2", false);
                 editor.apply();
                 dialogInterface.dismiss();
             }
@@ -669,6 +693,14 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             for (String s : output) {
                 Log.i(TAG, s);
             }
+        }
+    }
+
+    class UpdateForceDozeEnabledState extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "User toggled the QuickTile, now updating the state in app");
+            toggleForceDozeSwitch.setChecked(intent.getBooleanExtra("isActive", false));
         }
     }
 }

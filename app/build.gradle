@@ -8,7 +8,7 @@ android {
         applicationId "com.suyashsrijan.forcedoze"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 65
+        versionCode 68
         versionName "1.4.0"
     }
     buildTypes {
@@ -24,10 +24,10 @@ dependencies {
     compile ('com.afollestad.material-dialogs:core:0.9.3.0') {
         transitive = true
     }
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:customtabs:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:customtabs:25.3.0'
+    compile 'com.android.support:support-v4:25.3.0'
     compile 'eu.chainfire:libsuperuser:1.0.0.+'
     compile 'com.fabiendevos:nanotasks:1.1.0'
     compile 'com.jakewharton:process-phoenix:1.0.2'

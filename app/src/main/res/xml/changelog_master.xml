@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.4.0" versioncode="65">
-        <change>New: Android Nougat support. Please grant WRITE_SECURE_SETTINGS permission via ADB if you are not rooted.</change>
-        <change>New: QuickTile support on Nougat. You can now add a ForceDoze tile to your Quick Settings to quickly toggle ForceDoze on or off. Long pressing the tile will open ForceDoze.</change>
-        <change>New: App Shortcuts support on Nougat 7.1+. You can press and hold the ForceDoze icon on your homescreen to access shortcuts to Settings and Battery stats.</change>
-        <change>New: Doze Tunables support so you can modify Doze parameters directly. (requires root to apply changes directly)</change>
-        <change>New: Block notifications support. You can disable notifications for apps during Doze so they don't drain battery. Requires root.</change>
-        <change>New: Block apps support. You can disable apps (and its background services) during Doze mode so they don't drain your battery. Requires root.</change>
-        <change>New: Privacy policy. You can view it in Settings About ForceDoze - Privacy policy</change>
-        <change>New: Chinese (Traditional) translations - Thanks to osk2 on GitHub!</change>
-        <change>Changed: You can access the 'Debug logs' option in Settings without root. You will have to grant READ_LOGS permission via ADB.</change>
-        <change>Changed: SU detection method. It should work more reliably now</change>
-        <change>Changed: App Shortcuts icon design (Thanks kryzeK on XDA!)</change>
-        <change>Fixed: Rare crashes on some devices</change>
-        <change>Fixed: QuickTile not reflecting new state when turning on/off ForceDoze from the app itself</change>
-        <change>Fixed: A bug that could cause ForceDozeService to not reliably enter or exit Doze mode.</change>
-        <change>Fixed: Crash when clicking on Donate option.</change>
-        <change>Fixed: ForceDoze not adding itself to Doze whitelist on Nougat. Now, it will show you a notification that will take you to the battery optimisation settings to manually add ForceDoze, as it's not possible to add it automatically by ForceDoze on Nougat.</change>
-        <change>Fixed: ForceDoze calling deviceidle to add itself to whitelist, causing an exception because DEVICE_POWER permission wasn't granted. The permission cannot be granted to apps like ForceDoze, hence a workaround has been implemented as described above.</change>
-        <change>Fixed: Whitelist not loading packages properly or showing white screen.</change>
-        <change>Fixed: Doze stats scrolling down automatically when you open it.</change>
-        <change>Fixed: Crash on certain devices if they turn on Auto-rotate/brightness fix.</change>
+    <release version="1.4.0" versioncode="68">
+        <change>New: You can click on an broadcast item in Tasker broadcasts section to copy the broadcast name</change>
+        <change>Fixed: Rare crash on some devices</change>
+        <change>Fixed: Sometimes negative battery life was displayed in Doze stats and in notification</change>
+        <change>Fixed: Sometimes wrong time spent was displayed in Doze stats and in notification</change>
+        <change>Fixed: Toggling QuickTile doesn't reflect the change on the app when it's open</change>
     </release>
 </changelog>

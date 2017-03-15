@@ -78,10 +78,10 @@
     <string name="donate_dialog_button_text">我想要贊助</string>
     <string name="about_forcedoze_setting_title">關於 ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze for Android 使用了開源軟體開發：</string>
-    <string name="version_num_text">1.4.0 rev 65</string>
+    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">載入白名單 package 中...</string>
     <string name="translation_credits_dialog_title">譯者名單：</string>
-    <string name="translation_credits_dialog_text">感謝下列熱心人士將 ForceDoze 翻譯成其他語言： \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)</string>
+    <string name="translation_credits_dialog_text">感謝下列熱心人士將 ForceDoze 翻譯成其他語言： \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">存取 SU 權限被拒或無法使用</string>
     <string name="auto_rotate_brightness_fix_dialog_title">自動旋轉/自動亮度修復</string>
     <string name="auto_rotate_brightness_fix_dialog_text">欲使用此功能 ForceDoze 需要權限來修改您裝置上的自動旋轉及自動亮度設定，按下 \'授權\' 授與權限，或按下 \'拒絕\' 以取消</string>

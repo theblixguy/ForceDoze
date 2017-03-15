@@ -78,10 +78,10 @@
     <string name="donate_dialog_button_text">Я хочу пожертвовать</string>
     <string name="about_forcedoze_setting_title">Про ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze для Android созан с помощью библиотек с открытим исходным кодом:</string>
-    <string name="version_num_text">1.4.0 rev 65</string>
+    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Загрузка белого списка...</string>
     <string name="translation_credits_dialog_title">О переводах</string>
-    <string name="translation_credits_dialog_text">Спасибо этим людям за перевод ForceDoze на другие языки: \n\nИспанский: monza1412 (XDA)\nПортугальский-BR: GamerVicioX (GitHub)\nРусский: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)</string>
+    <string name="translation_credits_dialog_text">Спасибо этим людям за перевод ForceDoze на другие языки: \n\nИспанский: monza1412 (XDA)\nПортугальский-BR: GamerVicioX (GitHub)\nРусский: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">Рут-доступ отклонён или его нету!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Исправление авто-поворота и авто-яркости</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze требует разрешения чтобы изменять настройки авто-поворота и авто-яркости, чтобы использовать эту функцию. Нажмите \'Авторизовать\', чтобы разрешить, или нажмите \'Отмена\'</string>
