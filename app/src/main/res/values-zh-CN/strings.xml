@@ -139,7 +139,7 @@
     <string name="applied_success_text">应用成功!</string>
     <string name="adb_command_text">ADB 命令</string>
     <string name="copy_to_clipboard_button_text">复制至剪贴板</string>
-    <string name="tunables_su_not_available_error_text">SU 权限被拒绝或不可用. 需要 Root 后才能使用此功能！您可以继续操作，但仅能将可调设定（tunables）复制至剪贴板而无法保存。</string>
+    <string name="tunables_su_not_available_error_text">SU 权限被拒绝或不可用. 需要 Root 后才能使用此功能！您可以继续操作，但仅能将可调参数（tunables）复制至剪贴板而无法保存。</string>
     <string name="block_app_dialog_title">阻止应用程序</string>
     <string name="block_app_notif_dialog_title">阻止应用通知</string>
 </resources>
