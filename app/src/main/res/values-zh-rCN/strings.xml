@@ -2,7 +2,7 @@
     <string name="app_name">ForceDoze</string>
     <string name="service_active">ForceDoze 服务已启用</string>
     <string name="service_inactive">ForceDoze 服务无效</string>
-    <string name="service_disabled">ForceDoze 服务已禁用</string>
+    <string name="service_disabled">ForceDoze 服务已停用</string>
     <string name="root_workaround_text">SU授权被拒绝或不可用！如果您沒有 root 请点击 \'Root 替代方案\' 获取如何启用免 root 模式的相关说明</string>
     <string name="root_workaround_button_text">Root 替代方案</string>
     <string name="close_button_text">关闭</string>
