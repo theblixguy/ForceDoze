@@ -1,0 +1,22 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="launchSettings"
+        android:icon="@drawable/ic_settings_green"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/settings_menu_item">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.suyashsrijan.forcedoze"
+            android:targetClass="com.suyashsrijan.forcedoze.SettingsActivity" />/>
+    </shortcut>
+    <shortcut
+        android:shortcutId="launchBatteryStats"
+        android:icon="@drawable/ic_battery_full_black_18dp"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/doze_stats_menu_item">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.suyashsrijan.forcedoze"
+            android:targetClass="com.suyashsrijan.forcedoze.DozeBatteryStatsActivity" />/>
+    </shortcut>
+</shortcuts>

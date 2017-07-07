@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-    <release version="1.3.7" versioncode="42">
-        <change>New: Option to sign up for ForceDoze Beta testing. Go to Menu - Settings - About ForceDoze and tap on 'Sign up for beta testing'</change>
-        <change>New: Ability to open the Battery optimization system activity from Whitelist</change>
-        <change>Changed: Improvements to Doze Battery stats. New UI and more stats!</change>
-        <change>Changed: Doze Battery stats now only stores the most recent 100 entries (50 sessions) to reduce clutter</change>
+    <release version="1.4.0" versioncode="68">
+        <change>New: You can click on an broadcast item in Tasker broadcasts section to copy the broadcast name</change>
+        <change>Fixed: Rare crash on some devices</change>
+        <change>Fixed: Sometimes negative battery life was displayed in Doze stats and in notification</change>
+        <change>Fixed: Sometimes wrong time spent was displayed in Doze stats and in notification</change>
+        <change>Fixed: Toggling QuickTile doesn't reflect the change on the app when it's open</change>
     </release>
 </changelog>

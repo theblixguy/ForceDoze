@@ -33,7 +33,8 @@ import eu.chainfire.libsuperuser.Shell;
 public class SettingsActivity extends AppCompatActivity {
     public static String TAG = "ForceDoze";
     static MaterialDialog progressDialog1 = null;
-    static boolean isSuAvailable = false;
+    private static Shell.Interactive rootSession;
+    private static Shell.Interactive nonRootSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,14 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (rootSession != null) {
+            rootSession.close();
+            rootSession = null;
+        }
+        if (nonRootSession != null) {
+            nonRootSession.close();
+            nonRootSession = null;
+        }
         if (Utils.isMyServiceRunning(ForceDozeService.class, SettingsActivity.this)) {
             Intent intent = new Intent("reload-settings");
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -70,25 +79,35 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragment {
 
+        boolean isSuAvailable = false;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            // Initialize root and non-root shell
+            executeCommandWithRoot("whoami");
+            executeCommandWithoutRoot("whoami");
+
             addPreferencesFromResource(R.xml.prefs);
             PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
             PreferenceCategory xposedSettings = (PreferenceCategory) findPreference("xposedSettings");
             PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
             PreferenceCategory dozeSettings = (PreferenceCategory) findPreference("dozeSettings");
             Preference resetForceDozePref = (Preference) findPreference("resetForceDoze");
-            Preference debugLogPref = (Preference) findPreference("debugLogs");
             Preference clearDozeStats = (Preference) findPreference("resetDozeStats");
             Preference dozeDelay = (Preference) findPreference("dozeEnterDelay");
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
+            Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
+            Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
             final Preference xposedSensorWorkaround = (Preference) findPreference("useXposedSensorWorkaround");
-            Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
-            Preference enableSensors = (Preference) findPreference("enableSensors");
+            final Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
+            final Preference enableSensors = (Preference) findPreference("enableSensors");
             Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
-            Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
+            final Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
             CheckBoxPreference autoRotateFixPref = (CheckBoxPreference) findPreference("autoRotateAndBrightnessFix");
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
             resetForceDozePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -137,61 +156,10 @@ public class SettingsActivity extends AppCompatActivity {
             autoRotateFixPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (!Settings.System.canWrite(getActivity())) {
+                    if (!Utils.isWriteSettingsPermissionGranted(getActivity())) {
                         requestWriteSettingsPermission();
                         return false;
                     } else return true;
-                }
-            });
-
-            debugLogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    progressDialog1 = new MaterialDialog.Builder(getActivity())
-                            .title(getString(R.string.please_wait_text))
-                            .cancelable(false)
-                            .autoDismiss(false)
-                            .content(getString(R.string.requesting_su_access_text))
-                            .progress(true, 0)
-                            .show();
-                    Log.i(TAG, "Check if SU is available, and request SU permission if it is");
-                    Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
-                        @Override
-                        public Boolean doInBackground() throws Exception {
-                            return Shell.SU.available();
-                        }
-                    }, new Completion<Boolean>() {
-                        @Override
-                        public void onSuccess(Context context, Boolean result) {
-                            if (progressDialog1 != null) {
-                                progressDialog1.dismiss();
-                            }
-                            isSuAvailable = result;
-                            Log.i(TAG, "SU available: " + Boolean.toString(result));
-                            if (isSuAvailable) {
-                                Log.i(TAG, "Phone is rooted and SU permission granted");
-                                startActivity(new Intent(getActivity(), LogActivity.class));
-                            } else {
-                                Log.i(TAG, "SU permission denied or not available");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                builder.setTitle(getString(R.string.error_text));
-                                builder.setMessage(getString(R.string.su_perm_denied_msg));
-                                builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                builder.show();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Context context, Exception e) {
-                            Log.e(TAG, "Error querying SU: " + e.getMessage());
-                        }
-                    });
-                    return true;
                 }
             });
 
@@ -254,70 +222,49 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     final boolean newValue = (boolean) o;
-                    progressDialog1 = new MaterialDialog.Builder(getActivity())
-                            .title(getString(R.string.please_wait_text))
-                            .cancelable(false)
-                            .autoDismiss(false)
-                            .content(getString(R.string.requesting_su_access_text))
-                            .progress(true, 0)
-                            .show();
-                    Log.i(TAG, "Check if SU is available, and request SU permission if it is");
-                    Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
-                        @Override
-                        public Boolean doInBackground() throws Exception {
-                            return Shell.SU.available();
+                    if (isSuAvailable) {
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (newValue) {
+                            editor.putBoolean("enableSensors", true);
+                            editor.putBoolean("useNonRootSensorWorkaround", false);
+                            editor.apply();
+                            enableSensors.setEnabled(false);
+                            autoRotateBrightnessFix.setEnabled(false);
+                            nonRootSensorWorkaround.setEnabled(false);
+                        } else {
+                            enableSensors.setEnabled(true);
+                            autoRotateBrightnessFix.setEnabled(true);
+                            nonRootSensorWorkaround.setEnabled(true);
                         }
-                    }, new Completion<Boolean>() {
-                        @Override
-                        public void onSuccess(Context context, Boolean result) {
-                            if (progressDialog1 != null) {
-                                progressDialog1.dismiss();
+                        Log.i(TAG, "Phone is rooted and SU permission granted");
+                        executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
+                        executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+                        builder.setTitle(getString(R.string.reboot_required_dialog_title));
+                        builder.setMessage(getString(R.string.reboot_required_dialog_text));
+                        builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
                             }
-                            isSuAvailable = result;
-                            Log.i(TAG, "SU available: " + Boolean.toString(result));
-                            if (isSuAvailable) {
-                                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                if (newValue) {
-                                    editor.putBoolean("enableSensors", true);
-                                    editor.putBoolean("useNonRootSensorWorkaround", false);
-                                    editor.apply();
-                                }
-                                Log.i(TAG, "Phone is rooted and SU permission granted");
-                                executeCommand("chmod 664 /data/data/com.suyashsrijan.forcedoze/shared_prefs/com.suyashsrijan.forcedoze_preferences.xml");
-                                executeCommand("chmod 755 /data/data/com.suyashsrijan.forcedoze/shared_prefs");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                builder.setTitle(getString(R.string.reboot_required_dialog_title));
-                                builder.setMessage(getString(R.string.reboot_required_dialog_text));
-                                builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                builder.show();
-
-                            } else {
-                                Log.i(TAG, "SU permission denied or not available");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                builder.setTitle(getString(R.string.error_text));
-                                builder.setMessage(getString(R.string.su_perm_denied_msg));
-                                builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                builder.show();
+                        });
+                        builder.show();
+                        return true;
+                    } else {
+                        Log.i(TAG, "SU permission denied or not available");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+                        builder.setTitle(getString(R.string.error_text));
+                        builder.setMessage(getString(R.string.su_perm_denied_msg));
+                        builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
                             }
-                        }
-
-                        @Override
-                        public void onError(Context context, Exception e) {
-                            Log.e(TAG, "Error querying SU: " + e.getMessage());
-                        }
-                    });
-                    return true;
+                        });
+                        builder.show();
+                        return false;
+                    }
                 }
             });
 
@@ -331,6 +278,13 @@ public class SettingsActivity extends AppCompatActivity {
                         editor.putBoolean("enableSensors", true);
                         editor.putBoolean("useXposedSensorWorkaround", false);
                         editor.apply();
+                        xposedSensorWorkaround.setEnabled(false);
+                        autoRotateBrightnessFix.setEnabled(false);
+                        enableSensors.setEnabled(false);
+                    } else {
+                        xposedSensorWorkaround.setEnabled(true);
+                        autoRotateBrightnessFix.setEnabled(true);
+                        enableSensors.setEnabled(true);
                     }
                     return true;
                 }
@@ -343,53 +297,25 @@ public class SettingsActivity extends AppCompatActivity {
                     if (!newValue) {
                         return true;
                     } else {
-                        progressDialog1 = new MaterialDialog.Builder(getActivity())
-                                .title(getString(R.string.please_wait_text))
-                                .cancelable(false)
-                                .autoDismiss(false)
-                                .content(getString(R.string.requesting_su_access_text))
-                                .progress(true, 0)
-                                .show();
-                        Log.i(TAG, "Check if SU is available, and request SU permission if it is");
-                        Tasks.executeInBackground(getActivity(), new BackgroundWork<Boolean>() {
-                            @Override
-                            public Boolean doInBackground() throws Exception {
-                                return Shell.SU.available();
-                            }
-                        }, new Completion<Boolean>() {
-                            @Override
-                            public void onSuccess(Context context, Boolean result) {
-                                if (progressDialog1 != null) {
-                                    progressDialog1.dismiss();
+                        if (isSuAvailable) {
+                            Log.i(TAG, "Phone is rooted and SU permission granted");
+                            Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
+                            executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
+                            return true;
+                        } else {
+                            Log.i(TAG, "SU permission denied or not available");
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+                            builder.setTitle(getString(R.string.error_text));
+                            builder.setMessage(getString(R.string.su_perm_denied_msg));
+                            builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
                                 }
-                                isSuAvailable = result;
-                                Log.i(TAG, "SU available: " + Boolean.toString(result));
-                                if (isSuAvailable) {
-                                    Log.i(TAG, "Phone is rooted and SU permission granted");
-                                    Log.i(TAG, "Granting android.permission.READ_PHONE_STATE to com.suyashsrijan.forcedoze");
-                                    executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
-                                } else {
-                                    Log.i(TAG, "SU permission denied or not available");
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
-                                    builder.setTitle(getString(R.string.error_text));
-                                    builder.setMessage(getString(R.string.su_perm_denied_msg));
-                                    builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-                                    builder.show();
-                                }
-                            }
-
-                            @Override
-                            public void onError(Context context, Exception e) {
-                                Log.e(TAG, "Error querying SU: " + e.getMessage());
-                            }
-                        });
-
-                        return true;
+                            });
+                            builder.show();
+                            return false;
+                        }
                     }
                 }
             });
@@ -398,13 +324,13 @@ public class SettingsActivity extends AppCompatActivity {
                 preferenceScreen.removePreference(xposedSettings);
             }
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            isSuAvailable = sharedPreferences.getBoolean("isSuAvailable", false);
-
             if (sharedPreferences.getBoolean("useXposedSensorWorkaround", false)) {
-                mainSettings.removePreference(enableSensors);
-                mainSettings.removePreference(autoRotateBrightnessFix);
-                dozeSettings.removePreference(nonRootSensorWorkaround);
+                enableSensors.setEnabled(false);
+                autoRotateBrightnessFix.setEnabled(false);
+                nonRootSensorWorkaround.setEnabled(false);
+                sharedPreferences.edit().putBoolean("autoRotateAndBrightnessFix", false).apply();
+                sharedPreferences.edit().putBoolean("enableSensors", false).apply();
+                sharedPreferences.edit().putBoolean("useNonRootSensorWorkaround", false).apply();
             }
 
             if (Utils.isXposedInstalled(getContext())) {
@@ -415,14 +341,20 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             if (sharedPreferences.getBoolean("useNonRootSensorWorkaround", false)) {
-                xposedSettings.removePreference(xposedSensorWorkaround);
-                mainSettings.removePreference(autoRotateBrightnessFix);
-                mainSettings.removePreference(enableSensors);
+                xposedSensorWorkaround.setEnabled(false);
+                autoRotateBrightnessFix.setEnabled(false);
+                enableSensors.setEnabled(false);
+                sharedPreferences.edit().putBoolean("autoRotateAndBrightnessFix", false).apply();
+                sharedPreferences.edit().putBoolean("enableSensors", false).apply();
+                sharedPreferences.edit().putBoolean("useXposedSensorWorkaround", false).apply();
             }
 
-            if (!isSuAvailable) {
-                dozeSettings.removePreference(turnOffDataInDoze);
-            }
+            turnOffDataInDoze.setEnabled(false);
+            turnOffDataInDoze.setSummary(getString(R.string.root_required_text));
+            dozeNotificationBlocklist.setEnabled(false);
+            dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
+            dozeAppBlocklist.setEnabled(false);
+            dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
 
         }
 
@@ -456,7 +388,7 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i(TAG, "Enabling sensors, just in case they are disabled");
             executeCommand("dumpsys sensorservice enable");
             Log.i(TAG, "Disabling and re-enabling Doze mode");
-            if (Utils.isDeviceRunningOnNPreview()) {
+            if (Utils.isDeviceRunningOnN()) {
                 executeCommand("dumpsys deviceidle disable all");
                 executeCommand("dumpsys deviceidle enable all");
             } else {
@@ -468,7 +400,9 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i(TAG, "Trying to revoke android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DUMP");
             executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_LOGS");
-            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.DEVICE_POWER");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.READ_PHONE_STATE");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.WRITE_SECURE_SETTINGS");
+            executeCommand("pm revoke com.suyashsrijan.forcedoze android.permission.WRITE_SETTINGS");
             Log.i(TAG, "ForceDoze reset procedure complete");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
             builder.setTitle(getString(R.string.reset_complete_dialog_title));
@@ -483,32 +417,120 @@ public class SettingsActivity extends AppCompatActivity {
             builder.show();
         }
 
-        public void executeCommand(final String command) {
-            if (isSuAvailable) {
-                AsyncTask.execute(new Runnable() {
+        public void toggleRootFeatures(final boolean enabled) {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        List<String> output = Shell.SU.run(command);
-                        if (output != null) {
-                            printShellOutput(output);
+                        Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
+                        Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
+                        Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
+                        if (enabled) {
+                            turnOffDataInDoze.setEnabled(true);
+                            turnOffDataInDoze.setSummary(getString(R.string.disable_data_during_doze_setting_summary));
+                            dozeNotificationBlocklist.setEnabled(true);
+                            dozeNotificationBlocklist.setSummary(getString(R.string.notif_blocklist_setting_summary));
+                            dozeAppBlocklist.setEnabled(true);
+                            dozeAppBlocklist.setSummary(getString(R.string.app_blocklist_setting_summary));
                         } else {
-                            Log.i(TAG, "Error occurred while executing command (" + command + ")");
-                        }
-                    }
-                });
-            } else {
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<String> output = Shell.SH.run(command);
-                        if (output != null) {
-                            printShellOutput(output);
-                        } else {
-                            Log.i(TAG, "Error occurred while executing command (" + command + ")");
+                            turnOffDataInDoze.setEnabled(false);
+                            turnOffDataInDoze.setSummary(getString(R.string.root_required_text));
+                            dozeNotificationBlocklist.setEnabled(false);
+                            dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
+                            dozeAppBlocklist.setEnabled(false);
+                            dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
                         }
                     }
                 });
             }
+        }
+
+        public void executeCommand(final String command) {
+            if (isSuAvailable) {
+                executeCommandWithRoot(command);
+            } else {
+                executeCommandWithoutRoot(command);
+            }
+        }
+
+        public void executeCommandWithRoot(final String command) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (rootSession != null) {
+                        rootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                            @Override
+                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                printShellOutput(output);
+                            }
+                        });
+                    } else {
+                        rootSession = new Shell.Builder().
+                                useSU().
+                                setWantSTDERR(true).
+                                setWatchdogTimeout(5).
+                                setMinimalLogging(true).
+                                open(new Shell.OnCommandResultListener() {
+                                    @Override
+                                    public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                        if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                            Log.i(TAG, "Error opening root shell: exitCode " + exitCode);
+                                            isSuAvailable = false;
+                                            toggleRootFeatures(false);
+                                        } else {
+                                            rootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                                                @Override
+                                                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                                    isSuAvailable = true;
+                                                    toggleRootFeatures(true);
+                                                    printShellOutput(output);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                    }
+                }
+            });
+        }
+
+        public void executeCommandWithoutRoot(final String command) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (nonRootSession != null) {
+                        nonRootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                            @Override
+                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                printShellOutput(output);
+                            }
+                        });
+                    } else {
+                        nonRootSession = new Shell.Builder().
+                                useSH().
+                                setWantSTDERR(true).
+                                setWatchdogTimeout(5).
+                                setMinimalLogging(true).
+                                open(new Shell.OnCommandResultListener() {
+                                    @Override
+                                    public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                        if (exitCode != Shell.OnCommandResultListener.SHELL_RUNNING) {
+                                            Log.i(TAG, "Error opening shell: exitCode " + exitCode);
+                                            isSuAvailable = false;
+                                        } else {
+                                            nonRootSession.addCommand(command, 0, new Shell.OnCommandResultListener() {
+                                                @Override
+                                                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                                    printShellOutput(output);
+                                                    isSuAvailable = false;
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                    }
+                }
+            });
         }
 
         public void printShellOutput(List<String> output) {

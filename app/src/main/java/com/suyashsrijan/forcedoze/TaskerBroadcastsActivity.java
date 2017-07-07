@@ -1,9 +1,15 @@
 package com.suyashsrijan.forcedoze;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,6 +49,16 @@ public class TaskerBroadcastsActivity extends AppCompatActivity {
                         "following:\n1) true\n2) false\n3) an integer value (ONLY in case of dozeEnterDelay)"));
         taskerBroadcastsAdapter = new TaskerBroadcastsAdapter(this, items);
         listView.setAdapter(taskerBroadcastsAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                ClipData broadcastData = ClipData.newPlainText("fd_broadcast", ((TextView)view.findViewById(R.id.broadcastName)).getText());
+                clipboard.setPrimaryClip(broadcastData);
+                Toast.makeText(getApplicationContext(), "Copied broadcast!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

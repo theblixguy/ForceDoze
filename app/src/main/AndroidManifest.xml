@@ -14,7 +14,7 @@
         android:name="android.permission.DUMP"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
-        android:name="android.permission.DEVICE_POWER"
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -27,12 +27,15 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
-
         <receiver android:name=".BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -80,23 +83,41 @@
                 <action android:name="com.suyashsrijan.forcedoze.CHANGE_SETTING" />
             </intent-filter>
         </receiver>
-
+        <receiver
+            android:name=".ReenterDoze"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".ForceDozeService"
             android:enabled="true"
             android:exported="false" />
-
+        <service
+            android:name=".ForceDozeTileService"
+            android:icon="@drawable/ic_power_settings_new_white_24dp"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
+        </service>
         <activity
             android:name=".DozeStatsActivity"
             android:label="Doze battery stats (old)" />
-
         <activity
             android:name=".DozeBatteryStatsActivity"
             android:label="Doze battery stats" />
-
         <activity
             android:name=".WhitelistAppsActivity"
             android:label="Whitelist" />
+        <activity
+            android:name=".BlockNotificationsActivity"
+            android:label="Doze Notifications blocklist" />
+        <activity
+            android:name=".BlockAppsActivity"
+            android:label="Doze App blocklist" />
         <activity
             android:name=".SettingsActivity"
             android:label="Settings" />
@@ -112,7 +133,9 @@
         <activity
             android:name=".TaskerBroadcastsActivity"
             android:label="Tasker broadcasts" />
-
+        <activity
+            android:name=".DozeTunablesActivity"
+            android:label="Doze Tunables" />
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -122,11 +145,6 @@
         <meta-data
             android:name="xposedminversion"
             android:value="72" />
-
-        <receiver
-            android:name=".ReenterDoze"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
 </manifest>

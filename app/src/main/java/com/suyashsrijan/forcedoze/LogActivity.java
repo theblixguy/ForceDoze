@@ -84,7 +84,7 @@ public class LogActivity extends AppCompatActivity {
         Tasks.executeInBackground(LogActivity.this, new BackgroundWork<List<String>>() {
             @Override
             public List<String> doInBackground() throws Exception {
-                List<String> output = Shell.SU.run("logcat -d -s \"ForceDozeService\",\"ForceDoze\"");
+                List<String> output = Shell.SH.run("logcat -d -s \"ForceDozeService\",\"ForceDoze\"");
                 return output;
             }
         }, new Completion<List<String>>() {
@@ -120,7 +120,7 @@ public class LogActivity extends AppCompatActivity {
         Tasks.executeInBackground(LogActivity.this, new BackgroundWork<List<String>>() {
             @Override
             public List<String> doInBackground() throws Exception {
-                List<String> output = Shell.SU.run("logcat -d");
+                List<String> output = Shell.SH.run("logcat -d");
                 return output;
             }
         }, new Completion<List<String>>() {
@@ -145,39 +145,46 @@ public class LogActivity extends AppCompatActivity {
     }
 
     public void grantLogsPermissionAndPrintLog() {
-        Tasks.executeInBackground(LogActivity.this, new BackgroundWork<Boolean>() {
-            @Override
-            public Boolean doInBackground() throws Exception {
-                return Shell.SU.available();
-            }
-        }, new Completion<Boolean>() {
-            @Override
-            public void onSuccess(Context context, Boolean result) {
-                isSuAvailable = result;
-                if (isSuAvailable) {
-                    if (!Utils.isReadLogsPermissionGranted(context)) {
-                        executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_LOGS");
-                    }
-                    getAndPrintLogcat();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this, R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle(getString(R.string.error_text));
-                    builder.setMessage(getString(R.string.doze_stats_su_denied_error_dialog_text));
-                    builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    builder.show();
+        if (!Utils.isReadLogsPermissionGranted(getApplicationContext())) {
+            Tasks.executeInBackground(LogActivity.this, new BackgroundWork<Boolean>() {
+                @Override
+                public Boolean doInBackground() throws Exception {
+                    return Shell.SU.available();
                 }
-            }
+            }, new Completion<Boolean>() {
+                @Override
+                public void onSuccess(Context context, Boolean result) {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                    isSuAvailable = result;
+                    if (isSuAvailable) {
+                        if (!Utils.isReadLogsPermissionGranted(context)) {
+                            executeCommand("pm grant com.suyashsrijan.forcedoze android.permission.READ_LOGS");
+                        }
+                        getAndPrintLogcat();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this, R.style.AppCompatAlertDialogStyle);
+                        builder.setTitle(getString(R.string.error_text));
+                        builder.setMessage(getString(R.string.read_logcat_su_not_avail_or_denied_error_text));
+                        builder.setPositiveButton(getString(R.string.okay_button_text), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
 
-            @Override
-            public void onError(Context context, Exception e) {
-                Log.e(TAG, "Error querying SU: " + e.getMessage());
-            }
-        });
+                @Override
+                public void onError(Context context, Exception e) {
+                    Log.e(TAG, "Error querying SU: " + e.getMessage());
+                }
+            });
+        } else {
+            getAndPrintLogcat();
+        }
     }
 
     public void executeCommand(final String command) {

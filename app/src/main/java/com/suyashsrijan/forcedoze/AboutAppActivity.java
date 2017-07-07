@@ -12,17 +12,15 @@ import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.licenses.MITLicense;
 import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
-import io.github.eliseomartelli.simplecustomtabs.CustomTabs;
 
 public class AboutAppActivity extends AppCompatActivity {
 
-    CustomTabs.Warmer warmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
 
-        warmer = CustomTabs.with(getApplicationContext()).warm();
+        CustomTabs.with(getApplicationContext()).warm();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0f);
@@ -41,12 +39,6 @@ public class AboutAppActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        warmer.unwarm();
-    }
-
     public void showLicences(View v) {
         final Notices notices = new Notices();
         notices.addNotice(new Notice("Material Dialogs", "https://github.com/afollestad/material-dialogs", "Aidan Michael Follestad", new MITLicense()));
@@ -57,6 +49,15 @@ public class AboutAppActivity extends AppCompatActivity {
         notices.addNotice(new Notice("SimpleCustomTabs", "https://github.com/eliseomartelli/SimpleCustomTabs", "Eliseo Martelli", new MITLicense()));
         notices.addNotice(new Notice("MaterialList", "https://github.com/dexafree/MaterialList", "Dexafree", new MITLicense()));
         new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
+    }
+
+    public void signUpBeta(View v) {
+        CustomTabs.with(getApplicationContext())
+                .setStyle(new CustomTabs.Style(getApplicationContext())
+                        .setShowTitle(true)
+                        .setExitAnimation(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        .setToolbarColor(R.color.colorPrimary))
+                .openUrl("https://play.google.com/apps/testing/com.suyashsrijan.forcedoze", this);
     }
 
     public void showTranslationCreditsDialog(View v) {
@@ -72,12 +73,12 @@ public class AboutAppActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void signUpBeta(View v) {
+    public void showPrivacyPolicy(View v) {
         CustomTabs.with(getApplicationContext())
                 .setStyle(new CustomTabs.Style(getApplicationContext())
                         .setShowTitle(true)
                         .setExitAnimation(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .setToolbarColor(R.color.colorPrimary))
-                .openUrl("https://play.google.com/apps/testing/com.suyashsrijan.forcedoze", this);
+                .openUrl("http://suyashsrijan.com/forcedoze/privacy/", this);
     }
 }

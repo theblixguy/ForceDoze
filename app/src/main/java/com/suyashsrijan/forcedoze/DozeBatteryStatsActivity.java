@@ -83,9 +83,9 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
 
                 for (int i = 0; i < sortedDozeUsageStats.size(); ) {
                     String[] exit_data = sortedDozeUsageStats.get(i).split(",");
-                    Log.i(TAG, Arrays.toString(exit_data));
+                    Log.i(TAG, "Exit data : [" + Arrays.toString(exit_data) + "]");
                     String[] enter_data = sortedDozeUsageStats.get(i + 1).split(",");
-                    Log.i(TAG, Arrays.toString(enter_data));
+                    Log.i(TAG, "Enter data: [" + Arrays.toString(enter_data) + "]");
 
                     if (enter_data[2].equals("ENTER") && exit_data[2].equals("EXIT")) {
                         Card card = new Card.Builder(this)
@@ -124,6 +124,7 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                 startActivity(new Intent(this, DozeStatsActivity.class));
                 finish();
             }
+            mListView.scrollToPosition(0);
         }
     }
 

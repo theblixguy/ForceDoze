@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_apply_tunables"
+        android:icon="@drawable/ic_check"
+        android:orderInCategory="100"
+        android:title="Apply"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_copy_tunables"
+        android:icon="@drawable/ic_content_copy_white_24dp"
+        android:orderInCategory="100"
+        android:title="Copy tunable string"
+        app:showAsAction="always"/>
+</menu>
