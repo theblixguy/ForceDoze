@@ -2,6 +2,7 @@ package com.suyashsrijan.forcedoze;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -14,6 +15,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -41,6 +43,9 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class ForceDozeService extends Service {
 
+    private static String CHANNEL_STATS = "CHANNEL_STATS";
+    private static String CHANNEL_TIPS = "CHANNEL_STATS";
+
     private static Shell.Interactive rootSession;
     private static Shell.Interactive nonRootSession;
     boolean isSuAvailable = false;
@@ -66,7 +71,7 @@ public class ForceDozeService extends Service {
     PendingIntentDozeReceiver pendingIntentDozeReceiver;
     ReloadNotificationBlocklistReceiver reloadNotificationBlocklistReceiver;
     ReloadAppsBlocklistReceiver reloadAppsBlocklistReceiver;
-    NotificationCompat.Builder mBuilder;
+    NotificationCompat.Builder mStatsBuilder;
     PendingIntent reenterDozePendingIntent;
     PowerManager pm;
     AlarmManager alarmManager;
@@ -98,7 +103,20 @@ public class ForceDozeService extends Service {
         enterDozeTimer = new Timer();
         enableSensorsTimer = new Timer();
         disableSensorsTimer = new Timer();
-        mBuilder = new NotificationCompat.Builder(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.notification_channel_stats_name);
+            String description = getString(R.string.notification_channel_stats_description);
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_STATS, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        mStatsBuilder = new NotificationCompat.Builder(this, CHANNEL_STATS);
         pm = (PowerManager) getSystemService(POWER_SERVICE);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         IntentFilter filter = new IntentFilter();
@@ -272,7 +290,7 @@ public class ForceDozeService extends Service {
                 notificationIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
                 PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
                         notificationIntent, 0);
-                Notification n = mBuilder
+                Notification n = new NotificationCompat.Builder(this, CHANNEL_TIPS)
                         .setContentTitle("ForceDoze")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText("ForceDoze needs to be added to the Doze whitelist in order to work reliably. Please click on this notification to open the battery optimisation view, click on 'ForceDoze' and select 'Don\'t' Optimize'"))
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -591,13 +609,15 @@ public class ForceDozeService extends Service {
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
                 notificationIntent, 0);
-        Notification n = mBuilder
-                .setContentTitle("ForceDoze")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Last Screen off: " + "No data" + "\nTime spent dozing: " + "No data" + "\nBattery usage in last Doze session: " + "No data"))
-                .setSmallIcon(R.mipmap.ic_launcher)
+        Notification n = mStatsBuilder
+                .setStyle(
+                        new NotificationCompat.BigTextStyle()
+                                .bigText(getString(R.string.stats_no_data)))
+                .setSmallIcon(R.drawable.ic_battery_health)
                 .setPriority(-2)
                 .setContentIntent(intent)
-                .setOngoing(true).build();
+                .setOngoing(true)
+                .build();
         startForeground(1234, n);
     }
 
@@ -606,13 +626,16 @@ public class ForceDozeService extends Service {
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
                 notificationIntent, 0);
-        Notification n = mBuilder
-                .setContentTitle("ForceDoze")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Last Screen off: " + lastScreenOff + "\nTime spent dozing: " + Integer.toString(timeSpentDozing) + "mins" + "\nBattery usage in last Doze session: " + batteryUsage + "%"))
-                .setSmallIcon(R.mipmap.ic_launcher)
+        Notification n = mStatsBuilder
+                .setStyle(
+                        new NotificationCompat.BigTextStyle()
+                                .bigText(getString(R.string.stats_long_text, lastScreenOff, timeSpentDozing, batteryUsage))
+                                .setSummaryText(getString(R.string.stats_summary_text, batteryUsage)))
+                .setSmallIcon(R.drawable.ic_battery_health)
                 .setPriority(-2)
                 .setContentIntent(intent)
-                .setOngoing(true).build();
+                .setOngoing(true)
+                .build();
         startForeground(1234, n);
     }
 

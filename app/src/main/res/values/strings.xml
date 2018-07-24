@@ -142,4 +142,13 @@
     <string name="tunables_su_not_available_error_text">SU permission denied or not available. You need root to use this feature! You can continue but you won\'t be able to save the tunables, only copy it to clipboard.</string>
     <string name="block_app_dialog_title">Block app</string>
     <string name="block_app_notif_dialog_title">Block app notification</string>
+    
+    <string name="stats_long_text" formatted="false">Last Screen off: %1$s\nTime spent dozing: %2$d mins\nBattery usage in last Doze session: %3$d%%</string>
+
+    <string name="stats_summary_text" formatted="false">Last Doze drain: %1$d%%</string>
+
+    <string name="stats_no_data">No Doze stats available</string>
+
+    <string name="notification_channel_stats_name">Doze Stats</string>
+    <string name="notification_channel_stats_description">Doze Battery stats</string>
 </resources>
