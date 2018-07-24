@@ -300,7 +300,7 @@ public class ForceDozeService extends Service {
                 Notification n = new NotificationCompat.Builder(this, CHANNEL_TIPS)
                         .setContentTitle("ForceDoze")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText("ForceDoze needs to be added to the Doze whitelist in order to work reliably. Please click on this notification to open the battery optimisation view, click on 'ForceDoze' and select 'Don\'t' Optimize'"))
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_battery_health)
                         .setPriority(1)
                         .setContentIntent(intent)
                         .setOngoing(false).build();
