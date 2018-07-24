@@ -105,15 +105,22 @@ public class ForceDozeService extends Service {
         disableSensorsTimer = new Timer();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.notification_channel_stats_name);
-            String description = getString(R.string.notification_channel_stats_description);
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_STATS, name, importance);
-            channel.setDescription(description);
+            CharSequence statsName = getString(R.string.notification_channel_stats_name);
+            String statsDescription = getString(R.string.notification_channel_stats_description);
+            int statsImportance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel statsChannel = new NotificationChannel(CHANNEL_STATS, statsName, statsImportance);
+            statsChannel.setDescription(statsDescription);
+
+            CharSequence tipsName = getString(R.string.notification_channel_tips_name);
+            String tipsDescription = getString(R.string.notification_channel_tips_description);
+            int tipsImportance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel tipsChannel = new NotificationChannel(CHANNEL_TIPS, tipsName, tipsImportance);
+            tipsChannel.setDescription(tipsDescription);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannel(statsChannel);
+            notificationManager.createNotificationChannel(tipsChannel);
         }
 
         mStatsBuilder = new NotificationCompat.Builder(this, CHANNEL_STATS);

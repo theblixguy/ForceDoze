@@ -151,4 +151,7 @@
 
     <string name="notification_channel_stats_name">Doze Stats</string>
     <string name="notification_channel_stats_description">Doze Battery stats</string>
+
+    <string name="notification_channel_tips_name">Informations</string>
+    <string name="notification_channel_tips_description">Informations about compatibility problems</string>
 </resources>
