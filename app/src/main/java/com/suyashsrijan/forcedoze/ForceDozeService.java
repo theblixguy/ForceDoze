@@ -107,7 +107,7 @@ public class ForceDozeService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence statsName = getString(R.string.notification_channel_stats_name);
             String statsDescription = getString(R.string.notification_channel_stats_description);
-            int statsImportance = NotificationManager.IMPORTANCE_LOW;
+            int statsImportance = NotificationManager.IMPORTANCE_MIN;
             NotificationChannel statsChannel = new NotificationChannel(CHANNEL_STATS, statsName, statsImportance);
             statsChannel.setDescription(statsDescription);
 
