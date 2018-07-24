@@ -44,7 +44,7 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 public class ForceDozeService extends Service {
 
     private static String CHANNEL_STATS = "CHANNEL_STATS";
-    private static String CHANNEL_TIPS = "CHANNEL_STATS";
+    private static String CHANNEL_TIPS = "CHANNEL_TIPS";
 
     private static Shell.Interactive rootSession;
     private static Shell.Interactive nonRootSession;
@@ -52,7 +52,7 @@ public class ForceDozeService extends Service {
     boolean disableWhenCharging = true;
     boolean enableSensors = false;
     boolean useAutoRotateAndBrightnessFix = false;
-    boolean showPersistentNotif = false;
+    boolean showPersistentNotif = true;
     boolean ignoreLockscreenTimeout = false;
     boolean useXposedSensorWorkaround = false;
     boolean useNonRootSensorWorkaround = false;
@@ -150,7 +150,7 @@ public class ForceDozeService extends Service {
         enableSensors = getDefaultSharedPreferences(getApplicationContext()).getBoolean("enableSensors", false);
         disableWhenCharging = getDefaultSharedPreferences(getApplicationContext()).getBoolean("disableWhenCharging", true);
         isSuAvailable = getDefaultSharedPreferences(getApplicationContext()).getBoolean("isSuAvailable", false);
-        showPersistentNotif = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
+        showPersistentNotif = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", true);
         dozeUsageData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageDataAdvanced", new LinkedHashSet<String>());
         dozeNotificationBlocklist = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("notificationBlockList", new LinkedHashSet<String>());
         dozeAppBlocklist = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeAppBlockList", new LinkedHashSet<String>());
@@ -638,6 +638,7 @@ public class ForceDozeService extends Service {
                         new NotificationCompat.BigTextStyle()
                                 .bigText(getString(R.string.stats_long_text, lastScreenOff, timeSpentDozing, batteryUsage))
                                 .setSummaryText(getString(R.string.stats_summary_text, batteryUsage)))
+                .setShowWhen(false)
                 .setSmallIcon(R.drawable.ic_battery_health)
                 .setPriority(-2)
                 .setContentIntent(intent)
