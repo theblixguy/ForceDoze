@@ -1,7 +1,7 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:shortcutId="launchSettings"
-        android:icon="@drawable/ic_settings_green"
+        android:icon="@mipmap/ic_settings_green"
         android:enabled="true"
         android:shortcutShortLabel="@string/settings_menu_item">
         <intent
@@ -11,7 +11,7 @@
     </shortcut>
     <shortcut
         android:shortcutId="launchBatteryStats"
-        android:icon="@drawable/ic_battery_full_black_18dp"
+        android:icon="@mipmap/ic_battery_full_black"
         android:enabled="true"
         android:shortcutShortLabel="@string/doze_stats_menu_item">
         <intent
