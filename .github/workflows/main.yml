@@ -24,6 +24,11 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
+          
+      - name: Setup Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          java-version: 10
 
       - name: Save APK file
         run: |
