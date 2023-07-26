@@ -24,6 +24,7 @@ jobs:
         uses: actions/setup-java@v3.12.0
         with:
           java-version: 10
+          distribution: jdk
 
       - name: Build the app
         run: |
