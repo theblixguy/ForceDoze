@@ -22,8 +22,8 @@ jobs:
 
       - name: Build the app
         run: |
-          chmod +x gradlew --scan
-          ./gradlew assembleDebug
+          chmod +x gradlew
+          ./gradlew assembleDebug --scan
 
       - name: Save APK file
         run: |
