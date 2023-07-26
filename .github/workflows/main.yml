@@ -22,7 +22,7 @@ jobs:
 
       - name: Build the app
         run: |
-          chmod +x gradlew
+          chmod +x gradlew --scan
           ./gradlew assembleDebug
 
       - name: Save APK file
