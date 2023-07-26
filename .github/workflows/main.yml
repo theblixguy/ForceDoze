@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v3.12.0
         with:
           java-version: 10
-          distribution: oracle
+          distribution: liberica
 
       - name: Build the app
         run: |
