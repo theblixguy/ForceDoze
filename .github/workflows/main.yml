@@ -1,0 +1,42 @@
+name: Build Android App
+on:
+  push:
+    branches: ['*']
+
+  pull_request:
+
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to build app on
+        required: true
+        default: 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        
+      - name: Setup Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          java-version: 10
+          distribution: liberica
+
+      - name: Build the app
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Save APK file
+        run: |
+          mkdir -p apk_artifacts
+          cp app/build/outputs/apk/debug/*.apk apk_artifacts/
+      - name: Upload APK file as artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: apk-file
+          path: apk_artifacts/
