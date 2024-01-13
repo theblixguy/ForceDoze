@@ -13,11 +13,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        // Bypass SSL certificate verification for Google Maven repository
-        maven {
-            url "https://dl.google.com/dl/android/maven2"
-            name "Google"
-            allowInsecureProtocol true
-        }
+        google()
     }
 }
